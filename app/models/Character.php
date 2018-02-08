@@ -547,6 +547,9 @@ class Character{
 			case "Elf":
 				$array = array(0,2,-2,0,0,0);
 				break;
+			case "Gnome":
+				$array = array(-2,0,2,0,0,0);
+				break;
 			case "Half-orc":
 				$array = array(2,0,0,-2,0,-2);
 				break;
@@ -573,12 +576,12 @@ class Character{
 				return "<ul><li>+2 Dexterity, -2 Constitution</li><li>Medium Size</li><li>30 foot base land speed</li><li>Immunity to magic sleep effects</li><li>+2 saving throw against enchantment spells or effects</li><li>Low-Light Vision</li><li>Weapon Proficiency: Longsword, Rapier, Longbow (including Composite Longbow), and Shortbow (including Composite Shortbow)</li><li>+2 bonus on Listen Search and Spot checks</li><li>Free Search check when passing within 5ft. of a secret door</li></ul>";
 				break;
 			case "Gnome":
-				$racialTraits =  "<ul><li>+2 Constitution, -2 Strength</li><li>Small Size: +1 bonus to Armor Class and Attack rolls, and +4 bonus to Hide Checks</li><li>20 foot base land speed</li><li>Low-light Vision</li><li>Weapon Familiarity: Gnome Hooked Hammer</li><li>+2 bonus against illusions</li><li>+1 to the Difficulty Class for all saving throws against illusion spells cast by gnomes</li><li>+1 bonus on attack rolls against kobolds and goblinoids</li><li>+4 dodge bonus to Armor Class against monsters of the giant type</li><li>+2 bonus on Listen checks</li><li>+2 bonus on Craft(alchemy) checks</li><li>Spell-Like Abilities: 1/day - speak with burrowing mammal (1 minute)";
+				$racials = "<ul><li>+2 Constitution, -2 Strength</li><li>Small Size: +1 bonus to Armor Class and Attack rolls, and +4 bonus to Hide Checks</li><li>20 foot base land speed</li><li>Low-light Vision</li><li>Weapon Familiarity: Gnome Hooked Hammer</li><li>+2 bonus against illusions</li><li>+1 to the Difficulty Class for all saving throws against illusion spells cast by gnomes</li><li>+1 bonus on attack rolls against kobolds and goblinoids</li><li>+4 dodge bonus to Armor Class against monsters of the giant type</li><li>+2 bonus on Listen checks</li><li>+2 bonus on Craft(alchemy) checks</li><li>Spell-Like Abilities: 1/day - speak with burrowing mammal (1 minute)";
 				if ($this->getCharisma() >= 10){
-					$racialTraits += ", dancing lights, ghost sound, prestidigitation</li></ul>";
+					$racials = $racials . ", dancing lights, ghost sound, prestidigitation</li></ul>";
 				}
-				else $racialTraits += "</li></ul>";
-				return $racialTraits;
+				else $racials =  $racials . "</li></ul>";
+				return $racials;
 				break;
 			case "Half-elf":
 				return "<ul><li>Medium Size</li><li>30 foot base land speed</li><li>Immunity to magic sleep effects</li><li>+2 saving throw against enchantment spells or effects</li><li>Low-Light Vision</li><li>+1 bonus on Listen, Search, and Spot checks</li><li>+2 bonus on Diplomacy and Gather Information checks</li><li>Elven Blood</li></ul>";

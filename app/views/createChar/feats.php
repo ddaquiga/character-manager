@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html>
+<head>
+<script type="text/javascript" src="/mvc/app/controllers/createCharJs/feats.js"></script>
+</head>
 <body onload=loadFeats('<?=$data['class']?>','<?=$data['race']?>',[<?=$data['str']?>,<?=$data['dex']?>,<?=$data['con']?>,<?=$data['int']?>,<?=$data['wis']?>,<?=$data['cha']?>],<?=$data['level']?><?=$data['hiddenRide']?>)>
 <h1>Feat Selection</h1>
 <h3>Bonus Feats</h3>
@@ -14,7 +17,5 @@
 	<input type="submit" value="Submit">
 </form>
 <hr>
-<h3>Progress</h3>
-<?php echo json_encode($data);?>;
 </body>
 </html>

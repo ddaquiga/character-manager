@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html>
+<head>
+<script type="text/javascript" src="/mvc/app/controllers/createCharJs/charSheet.js"></script>
+</head>
 <body onload=loadCharSheet('<?=$data['class']?>','<?=$data['race']?>',<?=$data['level']?>,<?=$data['strength']?>,<?=$data['dexterity']?>,<?=$data['constitution']?>,<?=$data['intelligence']?>,<?=$data['wisdom']?>,<?=$data['charisma']?>,'<?=$data['skillModArray']?>','<?=$data['ranksArray']?>','<?=$data['keyAbilModArray']?>','<?=$data['bonusArray']?>','<?=$data['chosenFeats']?>')>
 <h1>Character Sheet</h1>
 <hr>

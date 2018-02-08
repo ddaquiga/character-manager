@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html>
+<head>
+<script type="text/javascript" src="/mvc/app/controllers/createCharJS/skills.js"></script>
+</head>
 <body onload=loadSkills([<?=$data['str']?>,<?=$data['dex']?>,<?=$data['con']?>,<?=$data['int']?>,<?=$data['wis']?>,<?=$data['cha']?>],'<?=$data['class']?>','<?=$data['race']?>')>
 <h1>Skills Selection</h1>
 <h1 id="test"></h1>
@@ -31,7 +34,4 @@
 	<input id="finished" type="submit" value="Continue to Feat Selection" style="display:none">
 </form>
 <hr>
-<h3>Progress</h3>
-<?php echo json_encode($data);?>
-</body>
 </html>

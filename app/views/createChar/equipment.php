@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html>
+<head>
+<script type="text/javascript" src="/mvc/app/controllers/createCharJs/equipment.js"></script>
+</head>
 <body onload=loadEquipment('<?=$data['str']?>','<?=$data['class']?>') >
 
 <h1>Equipment</h1>
@@ -70,7 +73,5 @@
 	<input type="submit" value="Continue to Confirmation Page">
 </form>
 <hr>
-<h3>Progress</h3>
-<?php echo json_encode($data);?>
 </body>
 </html>

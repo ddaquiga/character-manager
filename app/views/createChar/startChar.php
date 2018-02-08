@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html>
+<head>
+</head>
 <body>
 
 <h1>Creating a New Level 1 Character</h1>
+<h1 id="test"></h1>
 
 <form action="rollAbilities" method="POST">
 	<input type="hidden" name="id" value="<?=$data['id']?>">

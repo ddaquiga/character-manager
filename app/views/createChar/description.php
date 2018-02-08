@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html>
+<head>
+<script type="text/javascript" src="/mvc/app/controllers/createCharJs/description.js"></script>
+</head>
 <body onload=loadDescription('<?=$data['race']?>')>
 
 
@@ -64,7 +67,5 @@
 	<input type="submit" value="Submit">
 </form>
 <hr>
-<h3>Progress</h3>
-<?php echo json_encode($data);?>
 </body>
 </html>

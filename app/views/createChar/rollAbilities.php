@@ -1,5 +1,7 @@
 <!DOCTYPE html>
+<html>
 <head>
+<script type="text/javascript" src="/mvc/app/controllers/createCharJs/rollAbilities.js"></script>
 </head>
 <body onload=setRacialMod()>
 
@@ -41,10 +43,6 @@
 
 </form>
 <hr>
-
-<h3>Progress</h3>
-<?php echo json_encode($data);?>;
-
 </body>
 </html>
 
