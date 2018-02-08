@@ -13,11 +13,13 @@ class Character{
 		$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	}
 
-	public function newChar(){
+	public function newChar($user){
 		if($this->id == null){
-			$sql = "INSERT INTO characters () VALUES ()";
-			$this->conn->exec($sql);
+			$stmt = $this->conn->prepare("INSERT INTO characters (user) VALUES (:user)");
+			$stmt->bindParam(':user',$user);
+			$stmt->execute();
 			$this->id = $this->conn->lastInsertId();
+
 		}
 	}
 
@@ -25,6 +27,16 @@ class Character{
 		$this->id = $val;
 	}
 	public function getId(){return $this->id;}
+
+	public function getUser(){
+		$stmt = $this->conn->prepare("SELECT username FROM Characters WHERE ID = :ID");
+		$stmt->bindParam(':ID', $this->id);
+		$stmt->execute();    
+		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC); 
+	    foreach(new RecursiveArrayIterator($stmt->fetchAll()) as $k=>$v) {
+	        return $v['username'];
+	    }
+	}
 
 	public function getName(){
 		$stmt = $this->conn->prepare("SELECT name FROM Characters WHERE ID = :ID");

@@ -6,7 +6,7 @@ class createChar extends Controller{
 	public function startChar(){
 		$this->character = $this->model("Character");
 		$this->character->connect();
-		$this->character->newChar();
+		$this->character->newChar($_POST['username']);
 		$this->view('createChar/startChar', ['id' => $this->character->getId()]);
 	}
 
