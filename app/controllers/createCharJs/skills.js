@@ -148,7 +148,54 @@ function decrement(skill,charClass){
 }
 
 function max(skill,charClass,level){
-	console.log("Max");
+	var rank = parseFloat(document.getElementById(skill + "Rank").value);
+	var pointsLeft = parseFloat(document.getElementById("pointsLeft").innerHTML);
+	var classSkill = isClassSkill(skill,charClass);
+	if (classSkill)
+		var maxRank = level + 3;
+	else
+		var maxRank = (level + 3)/2;
+
+	console.log("rank " + rank + ", pointsLeft " + pointsLeft + ", rankGap " + (maxRank - rank));
+
+
+	if (pointsLeft > 0 && rank < maxRank){
+		console.log("case A");
+		if (classSkill){
+			console.log("classSkill");
+			if (pointsLeft >= maxRank - rank){
+				console.log("case 1");
+				document.getElementById(skill + "Rank").value = maxRank;
+				document.getElementById("pointsLeft").innerHTML = pointsLeft - (maxRank - rank);
+			}
+			else{
+				console.log("case 2");
+				document.getElementById(skill + "Rank").value = rank + pointsLeft;
+				document.getElementById("pointsLeft").innerHTML = 0;
+			}
+		}
+		else{
+			console.log("cross-class");
+			if (pointsLeft >= 2*(maxRank - rank)){
+				console.log("case 1");
+				document.getElementById(skill + "Rank").value = maxRank;
+				document.getElementById("pointsLeft").innerHTML = pointsLeft - 2*(maxRank - rank);
+			}
+			else{
+				console.log("case 2");
+				document.getElementById(skill + "Rank").value = rank + pointsLeft/2;
+				document.getElementById("pointsLeft").innerHTML = 0;
+			}
+		}
+
+	}
+	else if (pointsLeft <= 0){
+		console.log("case B");
+		window.alert("No more skill points to spend");
+	}
+
+	updateSkillMod(skill);
+
 }
 
 

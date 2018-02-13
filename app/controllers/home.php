@@ -27,10 +27,13 @@ class Home extends Controller{
 
 		$characterIds = $this->login->getUserCharacterId($username);
 		$characterNames = $this->login->getUserCharacterNames($username);
+		$characterRaces = $this->login->getUserCharacterRaces($username);
+		$characterClasses = $this->login->getUserCharacterClasses($username);
+		$characterLevels = $this->login->getUserCharacterLevels($username);
 		$characterCreationStep = $this->login->getCreationSteps($username);
 		$characterButtons = "";
 		for ($i=0;$i<sizeof($characterIds);$i++){
-			$characterButtons = $characterButtons . "<form action='/mvc/public/createChar/" . $characterCreationStep[$i] . "' method='POST'><input type='hidden' name='id' value='" . $characterIds[$i] . "'><input type='submit' value='" . $characterNames[$i] . "'></form><form action='/mvc/public/home/deleteConfirmation' method='POST'><input type='hidden' name='username' value='" . $username . "'><input type='hidden' name='id' value='" . $characterIds[$i] . "'><input type='hidden' name='characterName' value='" . $characterNames[$i] . "'><input type='submit' value='Delete ". $characterNames[$i] . "'></form>";
+			$characterButtons = $characterButtons . "<form action='/mvc/public/createChar/" . $characterCreationStep[$i] . "' method='POST'><input type='hidden' name='id' value='" . $characterIds[$i] . "'><input type='submit' value='" . $characterNames[$i] . " - " . $characterRaces[$i] . " " . $characterClasses[$i] . " "  . $characterLevels[$i] . " current step: " . $characterCreationStep[$i] . "'></form><form action='/mvc/public/home/deleteConfirmation' method='POST'><input type='hidden' name='username' value='" . $username . "'><input type='hidden' name='id' value='" . $characterIds[$i] . "'><input type='hidden' name='characterName' value='" . $characterNames[$i] . "'><input type='submit' value='Delete ". $characterNames[$i] . "'></form>";
 		}
 
 

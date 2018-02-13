@@ -55,6 +55,39 @@ class Login{
 	    return $idList;
 	}
 
+	public function getUserCharacterRaces($user){
+		$stmt = $this->conn->prepare("SELECT race FROM Characters WHERE user = :user");
+		$stmt->bindParam(':user',$user);
+		$stmt->execute();
+		$racesList = array();
+		foreach(new RecursiveArrayIterator($stmt->fetchAll()) as $k=>$v) {
+	        array_push($racesList, $v['race']);
+	    }
+	    return $racesList;
+	}
+
+	public function getUserCharacterClasses($user){
+		$stmt = $this->conn->prepare("SELECT class FROM Characters WHERE user = :user");
+		$stmt->bindParam(':user',$user);
+		$stmt->execute();
+		$classesList = array();
+		foreach(new RecursiveArrayIterator($stmt->fetchAll()) as $k=>$v) {
+	        array_push($classesList, $v['class']);
+	    }
+	    return $classesList;
+	}
+
+	public function getUserCharacterLevels($user){
+		$stmt = $this->conn->prepare("SELECT level FROM Characters WHERE user = :user");
+		$stmt->bindParam(':user',$user);
+		$stmt->execute();
+		$levelsList = array();
+		foreach(new RecursiveArrayIterator($stmt->fetchAll()) as $k=>$v) {
+	        array_push($levelsList, $v['level']);
+	    }
+	    return $levelsList;
+	}
+
 	public function getCreationSteps($user){
 		$stmt = $this->conn->prepare("SELECT creationStep FROM Characters WHERE user = :user");
 		$stmt->bindParam(':user',$user);

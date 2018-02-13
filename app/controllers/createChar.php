@@ -79,7 +79,7 @@ class createChar extends Controller{
 			$hd = 12;
 		else
 			$hd = 8;
-		$this->character->setHitPoints($hd + floor(($constitution-10)/2));
+		$this->character->setHitPoints($hd + floor(($this->character->getConstitution()-10)/2));
 
 		$totalPoints = 4 * ($this->character->getClassSkillPoints() + floor(($this->character->getIntelligence() - 10)/2));
 		if ($this->character->getRace() == "Human")
