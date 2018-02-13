@@ -74,7 +74,7 @@ function randomAge(race,charClass){
 	ageMod["Human"] = [];
 	ageMod["Human"]["Barbarian"] = [1,4];
 	ageMod["Human"]["Rogue"] = [1,4];
-	ageMod["Human"]["Sorceror"] = [1,4];
+	ageMod["Human"]["Sorcerer"] = [1,4];
 
 	ageMod["Human"]["Bard"] = [1,6];
 	ageMod["Human"]["Fighter"] = [1,6];
@@ -89,7 +89,7 @@ function randomAge(race,charClass){
 	ageMod["Dwarf"] = [];
 	ageMod["Dwarf"]["Barbarian"] = [3,6];
 	ageMod["Dwarf"]["Rogue"] = [3,6];
-	ageMod["Dwarf"]["Sorceror"] = [3,6];
+	ageMod["Dwarf"]["Sorcerer"] = [3,6];
 
 	ageMod["Dwarf"]["Bard"] = [5,6];
 	ageMod["Dwarf"]["Fighter"] = [5,6];
@@ -104,7 +104,7 @@ function randomAge(race,charClass){
 	ageMod["Elf"] = [];
 	ageMod["Elf"]["Barbarian"] = [4,6];
 	ageMod["Elf"]["Rogue"] = [4,6];
-	ageMod["Elf"]["Sorceror"] = [4,6];
+	ageMod["Elf"]["Sorcerer"] = [4,6];
 
 	ageMod["Elf"]["Bard"] = [6,6];
 	ageMod["Elf"]["Fighter"] = [6,6];
@@ -119,7 +119,7 @@ function randomAge(race,charClass){
 	ageMod["Gnome"] = [];
 	ageMod["Gnome"]["Barbarian"] = [4,6];
 	ageMod["Gnome"]["Rogue"] = [4,6];
-	ageMod["Gnome"]["Sorceror"] = [4,6];
+	ageMod["Gnome"]["Sorcerer"] = [4,6];
 
 	ageMod["Gnome"]["Bard"] = [6,6];
 	ageMod["Gnome"]["Fighter"] = [6,6];
@@ -134,7 +134,7 @@ function randomAge(race,charClass){
 	ageMod["Half-elf"] = [];
 	ageMod["Half-elf"]["Barbarian"] = [1,6];
 	ageMod["Half-elf"]["Rogue"] = [1,6];
-	ageMod["Half-elf"]["Sorceror"] = [1,6];
+	ageMod["Half-elf"]["Sorcerer"] = [1,6];
 
 	ageMod["Half-elf"]["Bard"] = [2,6];
 	ageMod["Half-elf"]["Fighter"] = [2,6];
@@ -149,7 +149,7 @@ function randomAge(race,charClass){
 	ageMod["Half-orc"] = [];
 	ageMod["Half-orc"]["Barbarian"] = [1,4];
 	ageMod["Half-orc"]["Rogue"] = [1,4];
-	ageMod["Half-orc"]["Sorceror"] = [1,4];
+	ageMod["Half-orc"]["Sorcerer"] = [1,4];
 
 	ageMod["Half-orc"]["Bard"] = [1,6];
 	ageMod["Half-orc"]["Fighter"] = [1,6];
@@ -164,7 +164,7 @@ function randomAge(race,charClass){
 	ageMod["Halfling"] = [];
 	ageMod["Halfling"]["Barbarian"] = [2,4];
 	ageMod["Halfling"]["Rogue"] = [2,4];
-	ageMod["Halfling"]["Sorceror"] = [2,4];
+	ageMod["Halfling"]["Sorcerer"] = [2,4];
 
 	ageMod["Halfling"]["Bard"] = [3,6];
 	ageMod["Halfling"]["Fighter"] = [3,6];

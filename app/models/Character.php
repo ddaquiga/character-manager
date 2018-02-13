@@ -29,12 +29,22 @@ class Character{
 	public function getId(){return $this->id;}
 
 	public function getUser(){
-		$stmt = $this->conn->prepare("SELECT username FROM Characters WHERE ID = :ID");
+		$stmt = $this->conn->prepare("SELECT user FROM Characters WHERE ID = :ID");
 		$stmt->bindParam(':ID', $this->id);
 		$stmt->execute();    
 		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC); 
 	    foreach(new RecursiveArrayIterator($stmt->fetchAll()) as $k=>$v) {
-	        return $v['username'];
+	        return $v['user'];
+	    }
+	}
+
+	public function getCreationStep(){
+		$stmt = $this->conn->prepare("SELECT creationStep FROM Characters WHERE ID = :ID");
+		$stmt->bindParam(':ID', $this->id);
+		$stmt->execute();    
+		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC); 
+	    foreach(new RecursiveArrayIterator($stmt->fetchAll()) as $k=>$v) {
+	        return $v['creationStep'];
 	    }
 	}
 
@@ -308,6 +318,13 @@ class Character{
         }
 	}
 
+	public function setCreationStep($val){
+		$stmt = $this->conn->prepare("UPDATE Characters SET creationStep = :val WHERE ID = :ID");
+		$stmt->bindParam(':val', $val);
+		$stmt->bindParam(':ID', $this->id);
+		$stmt->execute();
+	}
+
 	public function setName($val){
 		$stmt = $this->conn->prepare("UPDATE Characters SET name = :val WHERE ID = :ID");
 		$stmt->bindParam(':val', $val);
@@ -541,8 +558,8 @@ class Character{
 			case "Rogue":
 				return "Dexterity provides extra protection for the lightly armored rogue. Dexterity, Intelligence and Wisdom are important for many of the rogue’s skills. A high Intelligence score also gives the rogue extra skill points, which can be used to expand her repertoire.";
 				break;
-			case "Sorceror":
-				return "Charisma determines how powerful a spell a sorcerer can cast, how many spells he can cast per day, and how hard those spells are to resist. A high Dexterity score is helpful for a sorceror, who typically wears little or no armor, because it provides her with a bonus to Armor Class. A good Constitution score gives a sorceror extra hit points, a resource that she is otherwise very low on.";
+			case "Sorcerer":
+				return "Charisma determines how powerful a spell a sorcerer can cast, how many spells he can cast per day, and how hard those spells are to resist. A high Dexterity score is helpful for a sorcerer, who typically wears little or no armor, because it provides her with a bonus to Armor Class. A good Constitution score gives a sorcerer extra hit points, a resource that she is otherwise very low on.";
 				break;
 			case "Wizard":
 				return "Intelligence determines how powerful a spell a wizard can cast, how many spells she can cast, and how hard those spells are to resist. A high Dexterity score is helpful for a wizard, who typically wears little or no armor, because it provides her with a bonus to Armor Class. A good Constitution score gives a wizard extra hit points, a resource that she is otherwise very low on.";
@@ -637,7 +654,7 @@ class Character{
 			case "Rogue":
 				return "<ul><li>Weapon and Armor Proficiency: Rogues are proficient with all simple weapons, plus the hand crossbow, rapier, shortbow, and short sword. Rogues are proficient with light armor, but not with shields.</li><li>Sneak Attack +1d6</li><li>Trapfinding</li></ul>";
 				break;
-			case "Sorceror":
+			case "Sorcerer":
 				return "<ul><li>Weapon and Armor Proficiency: Sorcerers are proficient with all simple weapons. They are not proficient with any type of armor or shield. Armor of any type interferes with a sorcerer’s arcane gestures, which can cause his spells with somatic components to fail.</li><li>Arcane Spells</li><li>Summon Familiar</li></ul>";
 				break;
 			case "Wizard":

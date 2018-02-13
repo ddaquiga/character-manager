@@ -17,7 +17,7 @@ function getBaseAttack(charClass,level){
 
 	if (charClass == "Barbarian" || charClass == "Fighter" || charClass == "Paladin" || charClass == "Ranger")
 		return good[level-1];
-	else if (charClass == "Sorceror" || charClass == "Wizard")
+	else if (charClass == "Sorcerer" || charClass == "Wizard")
 		return poor[level-1];
 	else return average[level-1];
 }
@@ -206,7 +206,7 @@ function isClassSkill(skill, charClass){
 			skill == "useMagicDevice" ||
 			skill == "useRope")
 			break;
-		case "Sorceror":
+		case "Sorcerer":
 			return (skill == "bluff" ||
 			skill == "concentration" ||
 			skill == "craft" ||

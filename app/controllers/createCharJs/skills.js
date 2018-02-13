@@ -2,7 +2,9 @@ var script = document.createElement('script');
 script.src = '/mvc/app/controllers/createCharJs/createChar.js';
 document.head.appendChild(script);
 
-function loadSkills(abils,charClass,race){
+function loadSkills(abils,charClass,race,level){
+	document.getElementById("maxRanks").innerHTML = level + 3;
+	document.getElementById("maxRanksCC").innerHTML = (level + 3)/2;
 	skillId = getSkillId();
 	skillName = getSkillName();
 	skillKeyAbil = getSkillKeyAbil();
@@ -27,10 +29,11 @@ function loadSkills(abils,charClass,race){
 				var abilMod = getMod(abils[5]);
 				break;
 		}
-		document.getElementById("skillEntries").innerHTML += "<tr><td id=" + (skillId[i] + "ClassSkill") + "></td><td><button type=button id=" + (skillId[i] + "Dec") + ">-</button><button type=button id=" + (skillId[i] + "Inc") + ">+</button><input type=text id=" + (skillId[i] + "Rank") + " name=" + (skillId[i] + "Rank") + " value=0 readonly></td><td>" + skillName[i] + "<span id=" + (skillId[i] + "ArmorCheck") + "></span></td><td><input id=" + (skillId[i] + "Mod") + " type=text name=" + skillId[i] + " readonly></td><td id=" + (skillId[i] + "Abil") + ">" + skillKeyAbil[i] + "</td><td><input type=text id=" + (skillId[i] + "AbilMod") + " name=" + (skillId[i] + "AbilMod") + " value=" + abilMod + " readonly></td><td><input type=text id=" + (skillId[i] + "Bonus") + " name=" + (skillId[i] + "Bonus") + " value=0 readonly ><br></td></tr>";
+		document.getElementById("skillEntries").innerHTML += "<tr><td id=" + (skillId[i] + "ClassSkill") + "></td><td><button type=button id=" + (skillId[i] + "Dec") + ">-</button><button type=button id=" + (skillId[i] + "Inc") + ">+</button><button type=button id=" + (skillId[i] + "Max") + ">Max</button><input type=text id=" + (skillId[i] + "Rank") + " name=" + (skillId[i] + "Rank") + " value=0 readonly></td><td>" + skillName[i] + "<span id=" + (skillId[i] + "ArmorCheck") + "></span></td><td><input id=" + (skillId[i] + "Mod") + " type=text name=" + skillId[i] + " readonly></td><td id=" + (skillId[i] + "Abil") + ">" + skillKeyAbil[i] + "</td><td><input type=text id=" + (skillId[i] + "AbilMod") + " name=" + (skillId[i] + "AbilMod") + " value=" + abilMod + " readonly></td><td><input type=text id=" + (skillId[i] + "Bonus") + " name=" + (skillId[i] + "Bonus") + " value=0 readonly ><br></td></tr>";
 
-		document.getElementById(skillId[i] + "Inc").setAttribute("onclick","increment('" + skillId[i] + "','" + charClass + "')");
+		document.getElementById(skillId[i] + "Inc").setAttribute("onclick","increment('" + skillId[i] + "','" + charClass + "'," + level + ")");
 		document.getElementById(skillId[i] + "Dec").setAttribute("onclick","decrement('" + skillId[i] + "','" + charClass + "')");
+		document.getElementById(skillId[i] + "Max").setAttribute("onclick","max('" + skillId[i] + "','" + charClass + "'," + level + ")");
 		if (isClassSkill(skillId[i],charClass))
 			document.getElementById(skillId[i] + "ClassSkill").innerHTML = "X";
 		if (["balance","climb","escapeArtist","hide","jump","moveSilently","sleightOfHand","tumble"].indexOf(skillId[i]) >= 0)
@@ -110,15 +113,15 @@ function updateSkillMod(skill){
 
 }
 
-function increment(skill,charClass){
+function increment(skill,charClass,level){
 	var rank = parseFloat(document.getElementById(skill + "Rank").value);
 	var pointsLeft = parseFloat(document.getElementById("pointsLeft").innerHTML);
 	if (pointsLeft == 1){
 		document.getElementById("unfinished").style.display = "none";
 		document.getElementById("finished").style.display = "block";
 	}
-	if (isClassSkill(skill,charClass)) var maxRank = 4;
-	else var maxRank = 2;
+	if (isClassSkill(skill,charClass)) var maxRank = level + 3;
+	else var maxRank = (level + 3)/2;
 	if (pointsLeft > 0 && rank < maxRank){
 		if (isClassSkill(skill,charClass))
 			document.getElementById(skill + "Rank").value = rank + 1;
@@ -143,6 +146,11 @@ function decrement(skill,charClass){
 	document.getElementById("finished").style.display= "none";
 	updateSkillMod(skill);
 }
+
+function max(skill,charClass,level){
+	console.log("Max");
+}
+
 
 function unspentPoints(){
 	window.alert("You still have " + document.getElementById("pointsLeft").innerHTML + " unspent skill points. Spend all of your skill points before continuing.");

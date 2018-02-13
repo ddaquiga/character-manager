@@ -43,7 +43,7 @@ function loadEquipment(str, charClass){
 			startingGold = 125;
 			break;
 			
-		case "Sorceror":
+		case "Sorcerer":
 			startingGold = 75;
 			break;
 			

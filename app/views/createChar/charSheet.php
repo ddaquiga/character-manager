@@ -113,5 +113,11 @@
 	<h3>Special Abilities</h3>
 	<span id="specialAbilities"><?=$data['racialSpecials']?><?=$data['classSpecials']?></span>
 </ul>
+
+<form action="../home/index" method="POST">
+	<input type="hidden" name="username" value='<?=$data['username']?>' >
+	<input type="hidden" name="loggedIn" value=true>
+	<input type="submit" value="Go to Index">
+</form>
 </body>
 </html>

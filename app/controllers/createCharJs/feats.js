@@ -114,7 +114,7 @@ function bonusFeats(charClass,race,chosenFeats){
 			chosenFeats[featName.indexOf("Simple Weapon Proficiency")] = true;
 			chosenFeats[featName.indexOf("Armor Proficiency (light)")] = true;
 			break;
-		case "Sorceror":
+		case "Sorcerer":
 			chosenFeats[featName.indexOf("Simple Weapon Proficiency")] = true;
 			break;
 		case "Wizard":
@@ -332,7 +332,7 @@ function updatePrereqs(chosenFeats, prereqsMet, charClass, abilArray, level, rid
 
 function notSpellcaster(charClass){
 
-	return (charClass != "Bard" &&  charClass != "Cleric" &&  charClass != "Druid" &&  charClass != "Sorceror" &&  charClass != "Wizard");
+	return (charClass != "Bard" &&  charClass != "Cleric" &&  charClass != "Druid" &&  charClass != "Sorcerer" &&  charClass != "Wizard");
 }
 
 function displayFeats(prereqsMet,chosenFeats){

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
+<html>
 <head>
 	<script type="text/javascript" src="/mvc/app/controllers/home.js"></script>
 </head>
-<html>
 <body onload=loadLogin('<?=$data['username']?>','<?=$data['loggedIn']?>')>
 
 <h1>Dungeon and Dragons Character Manager (3.5 edition)</h1>
@@ -22,8 +22,12 @@
 <h3>Welcome <?=$data['username']?></h3>
 <form action="/mvc/public/createChar/startChar" method="POST">
 	<input type="hidden" name="username" value="<?=$data['username']?>">
-	<input type="submit" value="Create Character">
+	<input type="submit" value="Create New Character">
 </form>
+<hr>
+<h3>Character List</h3>
+<?=$data['characterButtons']?>
+
 </div>
 
 </body>

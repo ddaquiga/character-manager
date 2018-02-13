@@ -7,6 +7,7 @@ class createChar extends Controller{
 		$this->character = $this->model("Character");
 		$this->character->connect();
 		$this->character->newChar($_POST['username']);
+		$this->character->setCreationStep('startChar');
 		$this->view('createChar/startChar', ['id' => $this->character->getId()]);
 	}
 
@@ -14,10 +15,15 @@ class createChar extends Controller{
 		$this->character = $this->model("Character");
 		$this->character->connect();
 		$this->character->setID($_POST['id']);
-		$this->character->setName($_POST['name']);
-		$this->character->setClass($_POST['class']);
-		$this->character->setRace($_POST['race']);
-		$this->character->setLevel(1);
+		$this->character->setCreationStep('rollAbilities');
+		if (isset($_POST['name']))
+			$this->character->setName($_POST['name']);
+		if (isset($_POST['class']))
+			$this->character->setClass($_POST['class']);
+		if (isset($_POST['race']))
+			$this->character->setRace($_POST['race']);
+		if (isset($_POST['level']))
+			$this->character->setLevel($_POST['level']);
 
 
 
@@ -42,6 +48,9 @@ class createChar extends Controller{
 		$this->character = $this->model("Character");
 		$this->character->connect();
 		$this->character->setID($_POST['id']);
+		$this->character->setCreationStep('skills');
+
+		if (isset($_POST['str'])){
 		$strength = $_POST['str'] + $this->character->racialAbilMods(0);
 		$dexterity = $_POST['dex'] + $this->character->racialAbilMods(1);
 		$constitution = $_POST['con'] + $this->character->racialAbilMods(2);
@@ -56,9 +65,11 @@ class createChar extends Controller{
 		$this->character->setWisdom($wisdom);
 		$this->character->setCharisma($charisma);
 
+		}
+
 		$class = $this->character->getClass();
 
-		if ($class == "Sorceror" || $class == "Wizard")
+		if ($class == "Sorcerer" || $class == "Wizard")
 			$hd = 4;
 		else if ($class == "Bard" || $class == "Rogue")
 			$hd = 6;
@@ -98,25 +109,28 @@ class createChar extends Controller{
 		$this->character = $this->model("Character");
 		$this->character->connect();
 		$this->character->setID($_POST['id']);
-		$skillModArray = array();
-		$ranksArray = array();
-		$keyAbilModArray = array();
-		$bonusArray = array();
+		$this->character->setCreationStep('feats');
 
-		$skillId = array("appraise","balance","bluff","climb","concentration","craft","decipherScript","diplomacy","disableDevice","disguise","escapeArtist","forgery","gatherInformation","handleAnimal","heal","hide","intimidate","jump","arcana","architecture","dungeoneering","geography","history","local","nature","nobility","religion","planes","listen","moveSilently","openLock","perform","profession","ride","search","senseMotive","sleightOfHand","speakLanguage","spellcraft","spot","survival","swim","tumble","useMagicDevice","useRope");
+		if (isset($_POST['appraise'])){
+			$skillModArray = array();
+			$ranksArray = array();
+			$keyAbilModArray = array();
+			$bonusArray = array();
 
-		foreach ($skillId as $i){
-			array_push($skillModArray,$_POST[$i]);
-			array_push($ranksArray,$_POST[$i . "Rank"]);
-			array_push($keyAbilModArray,$_POST[$i . "AbilMod"]);
-			array_push($bonusArray,$_POST[$i . "Bonus"]);
+			$skillId = array("appraise","balance","bluff","climb","concentration","craft","decipherScript","diplomacy","disableDevice","disguise","escapeArtist","forgery","gatherInformation","handleAnimal","heal","hide","intimidate","jump","arcana","architecture","dungeoneering","geography","history","local","nature","nobility","religion","planes","listen","moveSilently","openLock","perform","profession","ride","search","senseMotive","sleightOfHand","speakLanguage","spellcraft","spot","survival","swim","tumble","useMagicDevice","useRope");
+
+			foreach ($skillId as $i){
+				array_push($skillModArray,$_POST[$i]);
+				array_push($ranksArray,$_POST[$i . "Rank"]);
+				array_push($keyAbilModArray,$_POST[$i . "AbilMod"]);
+				array_push($bonusArray,$_POST[$i . "Bonus"]);
+			}
+
+			$this->character->setSkillModArray(json_encode($skillModArray));
+			$this->character->setRanksArray(json_encode($ranksArray));
+			$this->character->setKeyAbilModArray(json_encode($keyAbilModArray));
+			$this->character->setBonusArray(json_encode($bonusArray));
 		}
-
-		$this->character->setSkillModArray(json_encode($skillModArray));
-		$this->character->setRanksArray(json_encode($ranksArray));
-		$this->character->setKeyAbilModArray(json_encode($keyAbilModArray));
-		$this->character->setBonusArray(json_encode($bonusArray));
-
 
 		$this->view('createChar/feats',[
 			'id' => $this->character->getId(),
@@ -144,19 +158,23 @@ class createChar extends Controller{
 		$this->character = $this->model("Character");
 		$this->character->connect();
 		$this->character->setID($_POST['id']);
-		
-		$chosenFeats = explode(",",$_POST['chosenFeats']);
-		$newFeat = $_POST['feat'];
-		$chosenFeatNames = array();
+		$this->character->setCreationStep('description');
 
-		$featId = array("acrobatic","agile","alertness","animalAffinity","lightArmor","mediumArmor","heavyArmor","athletic","augmentSummoning","blindFight","combatCasting","combatExpertise","impDisarm","impFeint","impTrip","whirlwindAttack","combatReflexes","deceitful","deftHands","diligent","dodge","mobility","springAttack","endurance","diehad","eschewMaterials","exoticWeapon","extraTurning","greatFortitude","impCounterspell","impCritical","impTurning","impUnarmedStike","impGrapple","deflectArrows","snatchArrows","stunningFist","investigator","ironWill","leadership","lightningReflexes","magicalAptitude","martialWeapon","mountedCombat","mountedArchery","rideByAttack","spiritedCharge","trample","naturalSpell","negotiator","nimbleFingers","persuasive","pointBlankShot","farShot","preciseShot","rapidShot","manyshot","shotOntheRun","impPreciseShot","powerAttack","cleave","greatCleave","impBullRush","impOverrun","impSunder","quickDraw","rapidReload","run","selfSufficient","shield","impShieldBash","towerShield","simpleWeapon","skillFocus","spellFocus","greaterSpellFocus","spellMastery","spellPenetration","greaterSpellPenetration","stealthy","toughness","track","twoWeaponFighting","twoWeaponDefense","impTwoWeaponFighting","greaterTwoWeaponFighting","weaponFinesse","weaponFocus","weaponSpecialization","greaterWeaponFocus","greaterWeaponSpecialization","brewPotion","craftMagicArmsandArmor","craftRod","craftStaff","craftWand","craftWondrousItem","ForgeRing","scribeScroll","empowerSpell","enlargeSpell","extendSpell","heightenSpell","maximizeSpell","quickenSpell","silentSpell","stillSpell","widenSpell","longsword","rapier","sap","shortSword","shortbow","whip","longsword","rapier","sap","shortSword","shortbow","whip","club","dagger","dart","quarterstaff","scimitar","sickle","shortspear","sling","spear","naturalWeapon","lightCrossbow","heavyCrossbow","handaxe","javelin","Kama","nunchaku","sai","shuriken","siangham","handCrossbow");
 
-		for ($i=0; $i<sizeof($featId); $i++){
-			if ($newFeat == $featId[$i]){
-				$chosenFeats[$i] = true;
+		if (isset($_POST['chosenFeats'])){
+			$chosenFeats = explode(",",$_POST['chosenFeats']);
+			$newFeat = $_POST['feat'];
+			$chosenFeatNames = array();
+
+			$featId = array("acrobatic","agile","alertness","animalAffinity","lightArmor","mediumArmor","heavyArmor","athletic","augmentSummoning","blindFight","combatCasting","combatExpertise","impDisarm","impFeint","impTrip","whirlwindAttack","combatReflexes","deceitful","deftHands","diligent","dodge","mobility","springAttack","endurance","diehad","eschewMaterials","exoticWeapon","extraTurning","greatFortitude","impCounterspell","impCritical","impTurning","impUnarmedStike","impGrapple","deflectArrows","snatchArrows","stunningFist","investigator","ironWill","leadership","lightningReflexes","magicalAptitude","martialWeapon","mountedCombat","mountedArchery","rideByAttack","spiritedCharge","trample","naturalSpell","negotiator","nimbleFingers","persuasive","pointBlankShot","farShot","preciseShot","rapidShot","manyshot","shotOntheRun","impPreciseShot","powerAttack","cleave","greatCleave","impBullRush","impOverrun","impSunder","quickDraw","rapidReload","run","selfSufficient","shield","impShieldBash","towerShield","simpleWeapon","skillFocus","spellFocus","greaterSpellFocus","spellMastery","spellPenetration","greaterSpellPenetration","stealthy","toughness","track","twoWeaponFighting","twoWeaponDefense","impTwoWeaponFighting","greaterTwoWeaponFighting","weaponFinesse","weaponFocus","weaponSpecialization","greaterWeaponFocus","greaterWeaponSpecialization","brewPotion","craftMagicArmsandArmor","craftRod","craftStaff","craftWand","craftWondrousItem","ForgeRing","scribeScroll","empowerSpell","enlargeSpell","extendSpell","heightenSpell","maximizeSpell","quickenSpell","silentSpell","stillSpell","widenSpell","longsword","rapier","sap","shortSword","shortbow","whip","longsword","rapier","sap","shortSword","shortbow","whip","club","dagger","dart","quarterstaff","scimitar","sickle","shortspear","sling","spear","naturalWeapon","lightCrossbow","heavyCrossbow","handaxe","javelin","Kama","nunchaku","sai","shuriken","siangham","handCrossbow");
+
+			for ($i=0; $i<sizeof($featId); $i++){
+				if ($newFeat == $featId[$i]){
+					$chosenFeats[$i] = true;
+				}
 			}
+			$this->character->setChosenFeats(json_encode($chosenFeats));
 		}
-		$this->character->setChosenFeats(json_encode($chosenFeats));
 
 		$this->view('createChar/description',[
 			'id' => $this->character->getId(),
@@ -181,16 +199,20 @@ class createChar extends Controller{
 		$this->character = $this->model("Character");
 		$this->character->connect();
 		$this->character->setID($_POST['id']);
-		$this->character->setLVC($_POST['lvc']);
-		$this->character->setGVE($_POST['gve']);
-		$this->character->setDiety($_POST['diety']);
-		$this->character->setGender($_POST['gender']);
-		$this->character->setHeight($_POST['height']);
-		$this->character->setWeight($_POST['weight']);
-		$this->character->setAge($_POST['age']);
-		$this->character->setSkin($_POST['skin']);
-		$this->character->setHair($_POST['hair']);
-		$this->character->setEyes($_POST['eyes']);
+		$this->character->setCreationStep('equipment');
+
+		if (isset($_POST['lvc'])){
+			$this->character->setLVC($_POST['lvc']);
+			$this->character->setGVE($_POST['gve']);
+			$this->character->setDiety($_POST['diety']);
+			$this->character->setGender($_POST['gender']);
+			$this->character->setHeight($_POST['height']);
+			$this->character->setWeight($_POST['weight']);
+			$this->character->setAge($_POST['age']);
+			$this->character->setSkin($_POST['skin']);
+			$this->character->setHair($_POST['hair']);
+			$this->character->setEyes($_POST['eyes']);
+		}
 
 		$this->view('createChar/equipment',[
 			'id' => $this->character->getId(),
@@ -224,11 +246,15 @@ class createChar extends Controller{
 		$this->character = $this->model("Character");
 		$this->character->connect();
 		$this->character->setID($_POST['id']);
-		$this->character->setOutfit(json_encode($_POST['outfit']));
-		$this->character->setWeapons(json_encode($_POST['weapons']));
-		$this->character->setArmor(json_encode($_POST['armor']));
-
+		$this->character->setCreationStep('charSheet');
+		if (isset($_POST['outfit'])){
+			$this->character->setOutfit(json_encode($_POST['outfit']));
+			$this->character->setWeapons(json_encode($_POST['weapons']));
+			$this->character->setArmor(json_encode($_POST['armor']));
+		}
+		
 		$this->view('createChar/charSheet',[
+			'username' => $this->character->getUser(),
 			'id' => $this->character->getID(),
 			'name' => $this->character->getName(),
 			'race' => $this->character->getRace(),
