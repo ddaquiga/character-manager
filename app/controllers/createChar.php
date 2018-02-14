@@ -111,13 +111,13 @@ class createChar extends Controller{
 		$this->character->setID($_POST['id']);
 		$this->character->setCreationStep('feats');
 
+		$skillId = array("appraise","balance","bluff","climb","concentration","craft","decipherScript","diplomacy","disableDevice","disguise","escapeArtist","forgery","gatherInformation","handleAnimal","heal","hide","intimidate","jump","arcana","architecture","dungeoneering","geography","history","local","nature","nobility","religion","planes","listen","moveSilently","openLock","perform","profession","ride","search","senseMotive","sleightOfHand","speakLanguage","spellcraft","spot","survival","swim","tumble","useMagicDevice","useRope");
+
 		if (isset($_POST['appraise'])){
 			$skillModArray = array();
 			$ranksArray = array();
 			$keyAbilModArray = array();
 			$bonusArray = array();
-
-			$skillId = array("appraise","balance","bluff","climb","concentration","craft","decipherScript","diplomacy","disableDevice","disguise","escapeArtist","forgery","gatherInformation","handleAnimal","heal","hide","intimidate","jump","arcana","architecture","dungeoneering","geography","history","local","nature","nobility","religion","planes","listen","moveSilently","openLock","perform","profession","ride","search","senseMotive","sleightOfHand","speakLanguage","spellcraft","spot","survival","swim","tumble","useMagicDevice","useRope");
 
 			foreach ($skillId as $i){
 				array_push($skillModArray,$_POST[$i]);
@@ -130,6 +130,12 @@ class createChar extends Controller{
 			$this->character->setRanksArray(json_encode($ranksArray));
 			$this->character->setKeyAbilModArray(json_encode($keyAbilModArray));
 			$this->character->setBonusArray(json_encode($bonusArray));
+			$rideRank = $_POST["rideRank"];
+		}
+		else{
+			$ranks = $this->character->getRanksArray();
+			$rideIndex = array_search("ride",$skillId);
+			$rideRank = $ranks[$rideIndex];
 		}
 
 		$this->view('createChar/feats',[
@@ -150,7 +156,7 @@ class createChar extends Controller{
 			'ranksArray' => json_decode($this->character->getRanksArray()),
 			'keyAbilModArray' => json_decode($this->character->getKeyAbilModArray()),
 			'bonusArray' => json_decode($this->character->getBonusArray()),
-			'hiddenRide' => $_POST['rideRank']
+			'hiddenRide' => $rideRank
 		]);
 	}
 

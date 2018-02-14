@@ -17,8 +17,15 @@ function loadFeats(charClass, race,abilArray, level, rideRank){
 	bonusFeats(charClass,race,chosenFeats);
 	updatePrereqs(chosenFeats, prereqsMet, charClass, abilArray, level, rideRank);
 	displayFeats(prereqsMet, chosenFeats);
-
 	document.getElementById("chosenFeats").value = chosenFeats;
+	document.getElementById("prereqsMet").value = prereqsMet;
+	if (charClass == "Monk")
+		loadMonkFeat();
+	if (charClass == "Fighter")
+		loadFighterFeat();
+	if (race == "Human")
+		loadHumanFeat();
+
 }
 
 function bonusFeats(charClass,race,chosenFeats){
@@ -110,7 +117,7 @@ function bonusFeats(charClass,race,chosenFeats){
 			chosenFeats[featName.indexOf("Hand Crossbow Proficiency")] = true;
 			chosenFeats[featName.indexOf("Rapier Proficiency")] = true;
 			chosenFeats[featName.indexOf("Shortbow Proficiency")] = true;
-			chosenFeats[featName.indexOf("Short Sword")] = true;
+			chosenFeats[featName.indexOf("Short Sword Proficiency")] = true;
 			chosenFeats[featName.indexOf("Simple Weapon Proficiency")] = true;
 			chosenFeats[featName.indexOf("Armor Proficiency (light)")] = true;
 			break;
@@ -127,11 +134,20 @@ function bonusFeats(charClass,race,chosenFeats){
 			break;
 	}
 
-	if (race == "Elf"){
+	if (race == "Dwarf" && chosenFeats[featName.indexOf("Martial Weapon Proficiency")]){
+		chosenFeats[featName.indexOf("Dwarven Waraxe Proficiency")] = true;
+		chosenFeats[featName.indexOf("Dwarven Urgosh Proficiency")] = true;
+	}
+
+	if (race == "Elf" && !chosenFeats[featName.indexOf("Martial Weapon Proficiency")]){
 		chosenFeats[featName.indexOf("Longsword Proficiency")];
 		chosenFeats[featName.indexOf("Rapier Proficiency")];
-		chosenFeats[featName.indexOf("Shortbow")];
-		chosenFeats[featName.indexOf("Longbow")];
+		chosenFeats[featName.indexOf("Shortbow Proficiency")];
+		chosenFeats[featName.indexOf("Longbow Proficiency")];
+	}
+
+	if (race == "Gnome" && chosenFeats[featName.indexOf("Martial Weapon Proficiency")]){
+		chosenFeats[featName.indexOf("Gnome Hooked Hammer Proficiency")] = true;
 	}
 
 	for(i=0;i<chosenFeats.length;i++ ){
@@ -149,8 +165,47 @@ function updatePrereqs(chosenFeats, prereqsMet, charClass, abilArray, level, rid
 	var wis = abilArray[4];
 	var cha = abilArray[5];
 
-	featName = getFeatName();
-	baseAttack = getBaseAttack(charClass,level);
+	var featName = getFeatName();
+	var baseAttack = getBaseAttack(charClass,level);
+
+	var weaponId = getWeaponId();
+	var weaponName = getWeaponName();
+	var weaponClass = getWeaponClass();
+
+	var simpleId = [];
+	var simpleName = [];
+	var martialId = [];
+	var martialName = [];
+	var exoticId = [];
+	var exoticName = [];
+
+	for (i=0;i<weaponId.length;i++){
+		if (weaponClass[i] == "simple"){
+			simpleId[simpleId.length] = weaponId[i];
+			simpleName[simpleName.length] = weaponName[i];
+		}
+		if (weaponClass[i] == "martial"){
+			martialId[martialId.length] = weaponId[i];
+			martialName[martialName.length] = weaponName[i];
+		}
+		if (weaponClass[i] == "exotic"){
+			exoticId[exoticId.length] = weaponId[i];
+			exoticName[exoticName.length] = weaponName[i];
+		}
+	}
+
+	if (chosenFeats[featName.indexOf("Simple Weapon Proficiency")]){
+		for (i=0; i<simpleId.length;i++){
+			prereqsMet[featName.indexOf(simpleName[i] + " Proficiency")] = false;
+		}
+	}
+
+	if (chosenFeats[featName.indexOf("Martial Weapon Proficiency")]){
+		for (i=0; i<martialId.length;i++){
+			prereqsMet[featName.indexOf(martialName[i] + " Proficiency")] = false;
+		}
+	}
+
 
 	if (!chosenFeats[featName.indexOf("Armor Proficiency (light)")])
 			prereqsMet[featName.indexOf("Armor Proficiency (medium)")] = false;
@@ -186,10 +241,12 @@ function updatePrereqs(chosenFeats, prereqsMet, charClass, abilArray, level, rid
 		prereqsMet[featName.indexOf("Diehard")] = false;
 
 	if (baseAttack < 1){
-		prereqsMet[featName.indexOf("Exotic Weapon Proficiency")] = false;
 		prereqsMet[featName.indexOf("Quick Draw")] = false;
 		prereqsMet[featName.indexOf("Weapon Finesse")] = false;
 		prereqsMet[featName.indexOf("Weapon Focus")] = false;
+		for (i=0; i<exoticName.length;i++){
+			prereqsMet[featName.indexOf(exoticName[i] + " Proficiency")] = false;
+		}
 	}
 
 	if (charClass != "Cleric"){
@@ -336,11 +393,95 @@ function notSpellcaster(charClass){
 }
 
 function displayFeats(prereqsMet,chosenFeats){
+	console.log(prereqsMet);
+	console.log(chosenFeats);
 	featId = getFeatId();
 	featNames = getFeatName();
+	document.getElementById("featList").innerHTML = "";
 	for (i=0; i<featNames.length; i++){
-		if (prereqsMet[i] && !chosenFeats[i]) document.getElementById("featList").innerHTML += "<input id=" + featId[i] + " type=radio name=feat value=" + featId[i] + "><span>" + featNames[i] + "<br></span>";
+		if (prereqsMet[i] && !chosenFeats[i]){
+			document.getElementById("featList").innerHTML += "<input id=" + featId[i] + " type=radio name=feat value=" + featId[i] + "><span>" + featNames[i] + "<br></span>";
+		}
 	}
+}
+
+function loadMonkFeat(){
+	document.getElementById("monkBonus").style.display = "";
+}
+
+function loadFighterFeat(){
+	document.getElementById("fighterBonus").style.display = "";
+	var feats=["blindFight","combatExpertise","impDisarm","impFeint","impTrip","whirlwindAttack","combatReflexes","dodge","mobility","springAttack","impCritical","impUnarmedStrike","impGrapple","deflectArrows","snatchArrows","stunningFist","mountedCombat","mountedArchery","rideByAttack","spiritedCharge","trample","pointBlankShot","farShot","preciseShot","rapidShot","manyshot","shotOnTheRun","impPreciseShot","powerAttack","cleave","greatCleave","impBullRush","impOverrun","impSunder","quickDraw","rapidReload","impShieldBash","twoWeaponFighting","twoWeaponDefense","impTwoWeaponDefense","impTwoWeaponFighting","weaponFinesse","weaponFocus","weaponSpecialization","greaterWeaponFocus","greaterWeaponSpecialization"];
+	var featId = getFeatId();
+	var featName = getFeatName();
+
+	for (i=0;i<feats.length;i++){
+		var index = featId.indexOf(feats[i]);
+		document.getElementById("fighterFeats").innerHTML += "<input type=radio id=" + (feats[i] + "FighterBonus") + " name=fighterBonusInput value=" + feats[i] + ">" + featName[index] + "<br>";
+	}
+	document.getElementById("blindFightFighterBonus").checked = true;
+}
+
+function loadHumanFeat(){
+	document.getElementById("humanBonus").style.display = "";
+}
+
+function submitMonkBonus(){
+	var chosenFeats = document.getElementById("chosenFeats").value.split(",");
+	for (i=0;i<chosenFeats.length;i++){
+		chosenFeats[i] = (chosenFeats[i] == "true");
+	}
+	var featId = getFeatId();
+	if (document.getElementById("impGrappleMonkBonus").checked){
+		chosenFeats[featId.indexOf("impGrapple")] = true;
+		document.getElementById("bonusFeats").innerHTML += "<li>Improved Grapple</li>";
+	}
+	else{
+		chosenFeats[featId.indexOf("stunningFist")] = true;
+		document.getElementById("bonusFeats").innerHTML += "<li>Stunning Fist</li>";
+	}
+	document.getElementById("impGrappleMonkBonus").disabled = true;
+	document.getElementById("stunningFistMonkBonus").disabled = true;
+	document.getElementById("monkFeatSubmit").innerHTML = "Applied";
+	document.getElementById("monkFeatSubmit").disabled = true;
+
+	document.getElementById("chosenFeats").value = chosenFeats;
+	var prereqsMet = document.getElementById("prereqsMet").value.split(",");
+	for (i=0;i<prereqsMet.length;i++){
+		prereqsMet[i] = (prereqsMet[i] == "true");
+	}
+	displayFeats(prereqsMet,chosenFeats);
+
+}
+
+function submitFighterBonus(charClass, abilArray, level, rideRank){
+	var feats=["blindFight","combatExpertise","impDisarm","impFeint","impTrip","whirlwindAttack","combatReflexes","dodge","mobility","springAttack","impCritical","impUnarmedStrike","impGrapple","deflectArrows","snatchArrows","stunningFist","mountedCombat","mountedArchery","rideByAttack","spiritedCharge","trample","pointBlankShot","farShot","preciseShot","rapidShot","manyshot","shotOnTheRun","impPreciseShot","powerAttack","cleave","greatCleave","impBullRush","impOverrun","impSunder","quickDraw","rapidReload","impShieldBash","twoWeaponFighting","twoWeaponDefense","impTwoWeaponFighting","weaponFinesse","weaponFocus","weaponSpecialization","greaterWeaponFocus","greaterWeaponSpecialization"];
+
+	var chosenFeats = document.getElementById("chosenFeats").value.split(",");
+	for (i=0;i<chosenFeats.length;i++){
+		chosenFeats[i] = (chosenFeats[i] == "true");
+	}
+	var featId = getFeatId();
+	for (i=0;i<feats.length;i++){
+		if (document.getElementById((feats[i] + "FighterBonus")).checked){
+			chosenFeats[featId.indexOf(feats[i])] = true;
+		}
+		document.getElementById(feats[i] + "FighterBonus").disabled = true;
+	}
+	document.getElementById("fighterFeatSubmit").innerHTML = "Applied";
+	document.getElementById("fighterFeatSubmit").disabled = true;
+
+	document.getElementById("chosenFeats").value = chosenFeats;
+	var prereqsMet = document.getElementById("prereqsMet").value.split(",");
+	for (i=0;i<prereqsMet.length;i++){
+		prereqsMet[i] = (prereqsMet[i] == "true");
+	}
+
+	updatePrereqs(chosenFeats, prereqsMet, charClass, abilArray, level, rideRank);
+	displayFeats(prereqsMet,chosenFeats);
+}
+
+function submitHumanBonus(charClass, abilArray, level, rideRank){
 }
 
 
