@@ -2,9 +2,13 @@ var script = document.createElement('script');
 script.src = '/mvc/app/controllers/createCharJs/createChar.js';
 document.head.appendChild(script);
 
-function loadSkills(abils,charClass,race,level){
+function loadSkills(abils,charClass,race,level,totalPoints){
 	document.getElementById("maxRanks").innerHTML = level + 3;
 	document.getElementById("maxRanksCC").innerHTML = (level + 3)/2;
+	if (totalPoints <= 0){
+		document.getElementById("unfinished").style.display = "none";
+		document.getElementById("finished").style.display = "";
+	}
 	skillId = getSkillId();
 	skillName = getSkillName();
 	skillKeyAbil = getSkillKeyAbil();

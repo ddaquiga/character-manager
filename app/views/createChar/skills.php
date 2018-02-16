@@ -3,7 +3,7 @@
 <head>
 <script type="text/javascript" src="/mvc/app/controllers/createCharJs/skills.js"></script>
 </head>
-<body onload=loadSkills([<?=$data['str']?>,<?=$data['dex']?>,<?=$data['con']?>,<?=$data['int']?>,<?=$data['wis']?>,<?=$data['cha']?>],'<?=$data['class']?>','<?=$data['race']?>',<?=$data['level']?>)>
+<body onload=loadSkills([<?=$data['str']?>,<?=$data['dex']?>,<?=$data['con']?>,<?=$data['int']?>,<?=$data['wis']?>,<?=$data['cha']?>],'<?=$data['class']?>','<?=$data['race']?>',<?=$data['level']?>,<?=$data['totalPoints']?>)>
 <h1>Skills Selection</h1>
 <h1 id="test"></h1>
 

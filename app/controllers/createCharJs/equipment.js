@@ -2,7 +2,7 @@ var script = document.createElement('script');
 script.src = '/mvc/app/controllers/createCharJs/createChar.js';
 document.head.appendChild(script);
 
-function loadEquipment(str, charClass){
+function loadEquipment(str, charClass,chosenFeats){
 	loadArray = [0,3,6,10,13,16,20,23,26,30,33,38,43,50,58,66,76,86,100,116,133,153,173,200,233,266,306,346,400,466];
 	document.getElementById("lightLoad").innerHTML = loadArray[str];
 
@@ -68,9 +68,34 @@ function loadEquipment(str, charClass){
 	wpnWeight = getWeaponWeight();
 	wpnDmgType = getWeaponDamageType();
 
+	chosenFeats = chosenFeats.replace(/["\[\]]+/g, '');
+	chosenFeats = chosenFeats.split(',');
+	for (i=0;i<chosenFeats.length;i++){
+		chosenFeats[i] = (chosenFeats[i] == "true");
+	}
+	featId = getFeatId();
+
+	simpleWeapon = chosenFeats[featId.indexOf("simpleWeapon")];
+	martialWeapon = chosenFeats[featId.indexOf("martialWeapon")];
+
+	wpnProf = [];
+	for (i=0;i<wpnId.length;i++){
+		wpnProf[i] = ((wpnClass[i] == "simple" && simpleWeapon) ||
+			(wpnClass[i] == "martial" && martialWeapon) ||
+			(chosenFeats[featId.indexOf(wpnId[i])]));
+	}
+	
+
+
+
+
 
 	for (i=0;i<wpnId.length;i++){
-		document.getElementById("weapons").innerHTML += "<tr><td><button type=button onclick=buy('weapon','" + wpnId[i] + "'," + wpnCost[i] + "," + wpnWeight[i] + ")>Buy</button><button type=button id=" + (wpnId[i] + "Sell") + " onclick=sell('weapon','" + wpnId[i] + "'," + wpnCost[i] + "," + wpnWeight[i] + ") style='display: none;'' >Sell</button></td><td>" + wpnName[i] + "</td><td>" + wpnClass[i] + "</td><td>" + wpnType[i] + "</td><td>" + wpnCost[i] + "</td><td>" + wpnSDmg[i] + "</td><td>" + wpnMDmg[i] + "</td><td>" + wpnCrit[i] + "</td><td>" + wpnRange[i] + "</td><td>" + wpnWeight[i] + "</td><td>" + wpnDmgType[i] + "</td></tr>";
+		if (wpnProf[i])
+			proficient = "X";
+		else
+			proficient = "";
+		document.getElementById("weapons").innerHTML += "<tr><td>" + proficient + " <button type=button onclick=buy('weapon','" + wpnId[i] + "'," + wpnCost[i] + "," + wpnWeight[i] + ")>Buy</button><button type=button id=" + (wpnId[i] + "Sell") + " onclick=sell('weapon','" + wpnId[i] + "'," + wpnCost[i] + "," + wpnWeight[i] + ") style='display: none;'' >Sell</button></td><td>" + wpnName[i] + "</td><td>" + wpnClass[i] + "</td><td>" + wpnType[i] + "</td><td>" + wpnCost[i] + "</td><td>" + wpnSDmg[i] + "</td><td>" + wpnMDmg[i] + "</td><td>" + wpnCrit[i] + "</td><td>" + wpnRange[i] + "</td><td>" + wpnWeight[i] + "</td><td>" + wpnDmgType[i] + "</td></tr>";
 	}
 
 	armId = getArmorId();
@@ -82,6 +107,24 @@ function loadEquipment(str, charClass){
 	armCheckPenalty = getArmorCheckPenalty();
 	armArcaneFail = getArmorArcaneFail();
 	armWeight = getArmorArcaneFail();
+
+	armProf = [];
+
+	lightArmor = chosenFeats[featId.indexOf("lightArmor")];
+	mediumArmor = chosenFeats[featId.indexOf("mediumArmor")];
+	heavyArmor = chosenFeats[featId.indexOf("heavyArmor")];
+	shield = chosenFeats[featId.indexOf("shield")];
+	tower = chosenFeats[featId.indexOf("towerShield")];
+
+	console.log(armType.length + " " + armId.length + " " + armName.length);
+	for (i=0;i<armId.length;i++){
+		armProf[i] = ((armType[i] == "light" && lightArmor) ||
+			(armType[i] == "medium" && mediumArmor) ||
+			(armType[i] == "heavy" && heavyArmor) ||
+			(armType[i] == "shield" && shield));
+		if (armId[i] == "towerShield")
+			armProf[i] = tower;
+	}
 
 	for (i=0;i<armId.length;i++){
 		switch(armType[i]){
@@ -102,8 +145,12 @@ function loadEquipment(str, charClass){
 				speed20 = null;
 				break;
 		}
+		if (armProf[i])
+			proficient = "X";
+		else
+			proficient = "";
 
-		document.getElementById("armor").innerHTML += "<tr><td><button type=button onclick=buy('armor','" + armId[i] + "'," + armCost[i] + "," + armWeight[i] + ")>Buy</button><button type=button id=" + (armId[i] + "Sell") + " onclick=sell('armor','" + armId[i] + "'," + armCost[i] + "," + armWeight[i] + ") style='display: none;'' >Sell</button></td><td>" + armName[i] + "</td><td>" + armType[i] + "</td><td>" + armCost[i] + "</td><td>" + armBonus[i] + "</td><td>" + armMaxDex[i] + "</td><td>" + armCheckPenalty[i] + "</td><td>" + armArcaneFail[i] + "</td><td>" + speed30 + "</td><td>" + speed20 + "<td>" + armWeight[i] + "</td></tr>";
+		document.getElementById("armor").innerHTML += "<tr><td>" + proficient + " <button type=button onclick=buy('armor','" + armId[i] + "'," + armCost[i] + "," + armWeight[i] + ")>Buy</button><button type=button id=" + (armId[i] + "Sell") + " onclick=sell('armor','" + armId[i] + "'," + armCost[i] + "," + armWeight[i] + ") style='display: none;'' >Sell</button></td><td>" + armName[i] + "</td><td>" + armType[i] + "</td><td>" + armCost[i] + "</td><td>" + armBonus[i] + "</td><td>" + armMaxDex[i] + "</td><td>" + armCheckPenalty[i] + "</td><td>" + armArcaneFail[i] + "</td><td>" + speed30 + "</td><td>" + speed20 + "<td>" + armWeight[i] + "</td></tr>";
 	}
 
 }

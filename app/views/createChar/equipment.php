@@ -3,7 +3,7 @@
 <head>
 <script type="text/javascript" src="/mvc/app/controllers/createCharJs/equipment.js"></script>
 </head>
-<body onload=loadEquipment('<?=$data['str']?>','<?=$data['class']?>') >
+<body onload=loadEquipment('<?=$data['str']?>','<?=$data['class']?>','<?=$data['chosenFeats']?>') >
 
 <h1>Equipment</h1>
 <p><b>Starting Gold:</b> <span id="startingGold"></span> gp</p>
@@ -35,7 +35,7 @@
 		<h3>Weapons</h3>
 		<table id="weapons">
 			<tr>
-				<th></th>
+				<th>Proficient</th>
 				<th>Weapon Name</th>
 				<th>Weapon Class</th>
 				<th>Weapon Type</th>
@@ -53,7 +53,7 @@
 		<h3>Armor and Shields</h3>
 		<table id="armor">
 			<tr>
-				<th></th>
+				<th>Proficient</th>
 				<th>Name</th>
 				<th>Type</th>
 				<th>Cost</th>

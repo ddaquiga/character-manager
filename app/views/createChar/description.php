@@ -3,45 +3,44 @@
 <head>
 <script type="text/javascript" src="/mvc/app/controllers/createCharJs/description.js"></script>
 </head>
-<body onload=loadDescription('<?=$data['race']?>')>
+<body onload=loadDescription('<?=$data['race']?>','<?=$data['class']?>')>
 
 
 <h1>Description</h1>
-
 <form action="equipment" method="POST">
 	<input type="hidden" name="id" value=<?=$data['id']?>>
 	<h3>Choose an Alignment</h3>
+	<p id="alignmentRule"></p>
 	<label>Lawful vs. Chaotic</label><br>
-	<input type="radio" name="lvc" value="lawful">Lawful<br>
-	<input type="radio" name="lvc" value="neutral">Neutral<br>
-	<input type="radio" name="lvc" value="chaotic">Chaotic<br><br>
+	<input type="radio" id="lawful" name="lvc" value="lawful">Lawful<br>
+	<input type="radio" id="lvcNeutral" name="lvc" value="neutral" checked>Neutral<br>
+	<input type="radio" id="chaotic" name="lvc" value="chaotic">Chaotic<br><br>
 	<label>Good vs. Evil</label><br>
-	<input type="radio" name="gve" value="good">Good<br>
-	<input type="radio" name="gve" value="neutral">Neutral<br>
-	<input type="radio" name="gve" value="evil">Evil<br><br>
+	<input type="radio" id="good" name="gve" value="good">Good<br>
+	<input type="radio" id="gveNeutral" name="gve" value="neutral" checked>Neutral<br>
+	<input type="radio" id="evil" name="gve" value="evil">Evil<br><br>
+	<button type="button" id="alignmentSubmit" onclick=submitAlignment('<?=$data['class']?>')>Apply</button>
 	<hr>
 	<h3>Choose a Diety</h3>
-	<input type="radio" name="diety" value="none" checked>None<br>
-	<input type="radio" name="diety" value="boccob">Boccob - god of magic<br>
-	<input type="radio" name="diety" value="corellon">Corellon Larethian - god of elves<br>
-	<input type="radio" name="diety" value="ehlonna">Ehlonna - goddess of the woodlands<br>
-	<input type="radio" name="diety" value="erythnul">Erythnul - god of slaughter<br>
-	<input type="radio" name="diety" value="fharlanghn">Farlanghn - god of roads<br>
-	<input type="radio" name="diety" value="garl">Garl Glittergold - god of gnomes<br>
-	<input type="radio" name="diety" value="gruumsh">Gruumsh - god of the orcs<br>
-	<input type="radio" name="diety" value="heironeous">Heironeous - god of valor<br>
-	<input type="radio" name="diety" value="hextor">Hextor - god of tyranny<br>
-	<input type="radio" name="diety" value="kord">Kord - god of strength<br>
-	<input type="radio" name="diety" value="moradin">Moradin - god of dwarves<br>
-	<input type="radio" name="diety" value="nerull">Nerull - god of death<br>
-	<input type="radio" name="diety" value="obad">Obad-Hai - god of nature<br>
-	<input type="radio" name="diety" value="olidammara">Olidammara - god of rogues<br>
-	<input type="radio" name="diety" value="pelor">Pelor - god of the sun<br>
-	<input type="radio" name="diety" value="cuthbert">St. Cuthbert - god of retribution<br>
-	<input type="radio" name="diety" value="vecna">Vecna - god of secrets<br>
-	<input type="radio" name="diety" value="wee">Wee Jas - goddess of death and magic<br>
-	<input type="radio" name="diety" value="yondalla">Yondalla - goddess of halflings<br>
+	<table>
+		<thead>
+			<tr>
+				<th></th>
+				<th>Diety</th>
+				<th>Alignment</th>
+				<th id="domainHead"></th>
+			</tr>
+		</thead>
+		<tbody id="dietyTable"></tbody>
+	</table>
+	<button type="button" id="dietySubmit" onclick=submitDiety('<?=$data['class']?>')>Apply</button>
 	<hr>
+	<div id="domainDiv" style="display: none;">
+		<h3>Choose Two Domains</h3>
+		<div id="domainInputs"></div>
+		<input type="hidden" id="domainPost" name="domains">
+		<hr>
+	</div>
 	<h3>Vitals</h3>
 	<label>Gender</label>
 	<fieldset>
