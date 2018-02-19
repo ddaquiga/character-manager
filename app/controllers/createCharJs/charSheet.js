@@ -2,7 +2,7 @@ var script = document.createElement('script');
 script.src = '/mvc/app/controllers/createCharJs/createChar.js';
 document.head.appendChild(script);
 
-function loadCharSheet(charClass,race,level,strength,dexterity,constitution,intelligence,wisdom,charisma,skillMods,ranks,keyAbilMods,bonus,chosenFeats){
+function loadCharSheet(charClass,race,level,strength,dexterity,constitution,intelligence,wisdom,charisma,skillMods,ranks,keyAbilMods,bonus,chosenFeats,knownSpells,preparedSpells){
 
 	sizeMod = 0;
 	if (race == "Gnome" || race == "Halfling"){
@@ -39,6 +39,9 @@ function loadCharSheet(charClass,race,level,strength,dexterity,constitution,inte
 
 	ranks = ranks.replace(/["\[\]]+/g, '');
 	ranks = ranks.split(',');
+
+
+
 
 
 	for (i=0;i<skillName.length;i++){
@@ -84,14 +87,20 @@ function loadCharSheet(charClass,race,level,strength,dexterity,constitution,inte
 		if (range == null)
 			range = '-';
 
-		weaponDisplay = "<tr><td>" + weapon[i] + "</td><td>+" + attackBonus + "</td><td>" + weaponDamage[index];
+		if (attackBonus >= 0)
+			attackBonus = "+" + attackBonus;
 
-		if (strMod != 0){
+		weaponDisplay = "<tr><td>" + weapon[i] + "</td><td>" + attackBonus + "</td><td>" + weaponDamage[index];
+
+		if (strMod > 0){
+			weaponDisplay += " + " + strMod;
 			if (weaponType[index] == "twoHanded")
-				weaponDisplay += " + " + Math.floor(strMod * 1.5);
-			else if (weaponType[index] != "ranged")
-				weaponDisplay += " + " + strMod;
+				weaponDisplay += " (" + (Math.floor(strMod * 1.5)) + ")";
 		}
+		if (strMod < 0){
+			weaponDisplay += " - " + (-strMod);
+		}
+
 		weaponDisplay += " " + weaponDamageType[index] + " Damage</td><td>" + weaponCrit[index] + "</td><td>" + range + "</td></tr>";
 
 		document.getElementById("weaponTable").innerHTML += weaponDisplay;
@@ -115,20 +124,21 @@ function loadCharSheet(charClass,race,level,strength,dexterity,constitution,inte
 	armType = "noArmor";
 
 
+	if (armor[0] != ""){
+		for (i=0; i<armor.length; i++){
+			index = armorName.indexOf(armor[i]);
+			if (armorType[index] == "shield")
+				shieldAC += armorBonus[index];
+			else if (armorType[index] != "extra"){
+				armorAC += armorBonus[index];
+				armType = armorType[index];
+			}
+			armorCheck += armorCheckPenalty[index];
 
-	for (i=0; i<armor.length; i++){
-		index = armorName.indexOf(armor[i]);
-		if (armorType[index] == "shield")
-			shieldAC += armorBonus[index];
-		else if (armorType[index] != "extra"){
-			armorAC += armorBonus[index];
-			armType = armorType[index];
+			maxDexAC += armorMaxDex[index];
+			document.getElementById("armorTable").innerHTML += "<tr><td>" + armor[i] + "</td><td>" + armorBonus[index] + "</td><td>" + armorMaxDex[index] + "</td><td>" + armorCheckPenalty[index] + "</td></tr>";
+
 		}
-		armorCheck += armorCheckPenalty[index];
-
-		maxDexAC += armorMaxDex[index];
-		document.getElementById("armorTable").innerHTML += "<tr><td>" + armor[i] + "</td><td>" + armorBonus[index] + "</td><td>" + armorMaxDex[index] + "</td><td>" + armorCheckPenalty[index] + "</td></tr>";
-
 	}
 
 	if (maxDexAC < dexMod)
@@ -136,6 +146,7 @@ function loadCharSheet(charClass,race,level,strength,dexterity,constitution,inte
 	else
 		dexAC = dexMod;
 	totalAC= 10 + armorAC + shieldAC + dexAC + sizeMod;
+
 	displayAC = totalAC + " (";
 	if (armorAC > 0){
 		displayAC += armorAC + " armor";
@@ -162,7 +173,7 @@ function loadCharSheet(charClass,race,level,strength,dexterity,constitution,inte
 	document.getElementById("flatFooted").innerHTML = 10 + armorAC + sizeMod;
 	document.getElementById("initiative").innerHTML = dexMod;
 
-	if (race == "Dwarf" || race == "Gnome" || "Halfling")
+	if (race == "Dwarf" || race == "Gnome" || race == "Halfling")
 		baseSpeed = 20;
 	else baseSpeed = 30;
 
@@ -189,9 +200,104 @@ function loadCharSheet(charClass,race,level,strength,dexterity,constitution,inte
 			document.getElementById("feats").innerHTML += "<li>" + featName[i] + "</li>";
 	}
 
+	if (knownSpells != "" || preparedSpells != ""){
+		spellId = getSpellId();
+		spellName = getSpellName();
+		spellLevel = getSpellLevel(charClass);
+		spellsPerDay = getSpellsPerDay(level,charClass);
+		document.getElementById("spells").style.display = "";
+	
+		knownSpellsArray = [];
+		preparedSpellsArray = [];
+		maxSpellLevel = 0;
+
+		knownSpells = knownSpells.replace(/["\[\]]+/g, '');
+		preparedSpells = preparedSpells.replace(/["\[\]]+/g, '');
 
 
+		if (knownSpells != ""){
+			knownSpells = knownSpells.split(',');
+			for (i=0;i<spellsPerDay.length;i++){
+				knownSpellsArray[i] = "";
 
+			}
+			for (i=0;i<knownSpells.length;i++){
+				knownSpells[i] = (knownSpells[i] == "true");
+				if(knownSpells[i]){
+					if (spellLevel[i] > maxSpellLevel){
+						maxSpellLevel = spellLevel[i];
+					} 
+					knownSpellsArray[spellLevel[i]] += "<li>" + spellName[i] + "</li>";
+				}
+			}
+
+		}
+		if (preparedSpells != ""){
+			preparedSpells = preparedSpells.split(',');
+			for (i=0;i<spellsPerDay.length;i++){
+				preparedSpellsArray[i] = "";
+			}
+			for (i=0;i<preparedSpells.length;i++){
+				preparedSpells[i] = parseInt(preparedSpells[i]);
+				if(preparedSpells[i] > 0){
+					quantity = "";
+					if (preparedSpells[i] > 1){
+						quantity = " x" + preparedSpells[i];
+					}
+					if (spellLevel[i] > maxSpellLevel)
+						maxSpellLevel = spellLevel[i];
+
+					preparedSpellsArray[spellLevel[i]] += "<li>" + spellName[i] + quantity + "</li>";
+				}
+			}
+		}
+
+
+		spellDisplay = "";
+
+		switch(charClass){
+			case "Bard":
+				keyAbil = chaMod;
+				break;
+			case "Cleric":
+				keyAbil = wisMod;
+				break;
+			case "Druid":
+				keyAbil = wisMod;
+				break;
+			case "Paladin":
+				keyAbil = wisMod;
+				break;
+			case "Ranger":
+				keyAbil = wisMod;
+				break;
+			case "Sorcerer":
+				keyAbil = chaMod;
+				break;
+			case "Wizard":
+				keyAbil = intMod;
+				break;
+		}
+
+
+		for (i=0;i<maxSpellLevel + 1;i++){
+			if (knownSpellsArray.length != 0 || preparedSpellsArray.length != 0){
+				spellDisplay += "<p><b>" + i + " Level</b><br>Difficulty Class " + (10 + keyAbil + i) + "<br>" + spellsPerDay[i] + " Spell";
+				if (spellsPerDay[i] > 1)
+					spellDisplay += "s";
+				spellDisplay += " per Day</p>";
+				if (knownSpellsArray.length != 0){
+
+					spellDisplay += "<ul><b>Spells Known</b>:" + knownSpellsArray[i] + "</ul>";
+				}
+				if (preparedSpells.length != 0){
+					spellDisplay += "<ul><b>Spells Prepared</b>:" + preparedSpellsArray[i] + "</ul>";
+				}
+				spellDisplay += "<hr>";
+			}
+		}
+		document.getElementById("spellList").innerHTML = spellDisplay;
+	}
 }
 
 function getFortitudeBase(charClass,level){

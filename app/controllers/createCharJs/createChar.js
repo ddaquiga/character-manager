@@ -22,6 +22,18 @@ function getBaseAttack(charClass,level){
 	else return average[level-1];
 }
 
+function getKeyAbilityMod(modifier){
+	array = [0];
+
+	for (i=0;i<9;i++){
+		score = Math.ceil((modifier-i)/4);
+		if (score < 0)
+			score = 0;
+		array[array.length] = score;
+	} 
+	return array;
+}
+
 //skills------------------------------------------------------------------
 
 
@@ -317,7 +329,7 @@ function getArmorType(){
 	return ["light","light","light","light","medium","medium","medium","medium","heavy","heavy","heavy","heavy","shield","shield","shield","shield","shield","shield","extra","extra","extra"];
 }
 function getArmorCost(){
-	return [5,10,25,100,15,50,150,200,20,250,600,1500,15,3,9,7,20,30,50,8,10];
+	return [5,10,25,100,15,50,150,200,200,250,600,1500,15,3,9,7,20,30,50,8,10];
 }
 
 function getArmorBonus(){
@@ -338,4 +350,511 @@ function getArmorArcaneFail(){
 
 function getArmorWeight(){
 	return [10,15,20,25,15,30,40,30,45,35,50,50,5,5,6,10,15,45,10,5,5];
+}
+
+//spells-------------------------------------------------------------------
+
+function getSpellId(){
+	return ["acidFog","acidSplash","aid","airWalk","alarm","alignWeapon","alterSelf","analyzeDweomer","animalGrowth","animalMessenger","animalShapes","animalTrance","animateDead","animateObjects","animatePlants","animateRope","antilifeShell","antimagicField","antipathy","antiplantShell","arcaneEye","arcaneLock","arcaneMark","arcaneSight","greaterArcaneSight","astralProjection","atonement","augury","awaken","balefulPolymorph","bane","banishment","barkskin","bearsEndurance","massBearsEndurance","bestowCurse","bigbysClenchedFist","bigbysCrushingHand","bigbysForcefulHand","bigbysGraspingHand","bigbysInterposingHand","binding","bladeBarrier","blasphemy","bless","blessWater","blessWeapon","blight","blindnessDeafness","blink","blur","breakEnchantment","bullsStrength","massBullsStrength","burningHands","callLightning","callLightningStorm","calmAnimals","calmEmotions","catsGrace","massCatsGrace","causeFear","chainLightning","changestaff","chaosHammer","charmAnimal","charmMonster","massCharmMonster","charmPerson","chillMetal","chillTouch","circleOfDeath","clairaudienceClairvoyance","cloakOfChaos","clone","cloudkill","colorSpray","command","greaterCommand","commandPlants","commandUndead","commune","communeWithNature","comprehendLanguages","coneOfCold","confusion","lesserConfusion","consecrate","contactOtherPlane","contagion","contingency","continualFlame","controlPlants","controlUndead","controlWater","controlWeather","controlWinds","createFoodAndWater","createGreaterUndead","createUndead","createWater","creepingDoom","crushingDespair","cureCriticalWounds","massCureCriticalWounds","cureLightWounds","massCureLightWounds","cureMinorWounds","cureModerateWounds","massCureModerateWounds","cureSeriousWounds","massCureSeriousWounds","curseWater","dancingLights","darkness","darkvision","daylight","daze","dazeMonster","deathKnell","deathWard","deathWatch","deepSlumber","deeperDarkness","delayPoison","delayedBlastFireball","demand","desecrate","destruction","detectAnimalsOrPlants","detectChaos","detectEvil","detectGood","detectLaw","detectMagic","detectPoison","detectScrying","detectSecretDoors","detectSnaresAndPits","detectThoughts","detectUndead","dictum","dimensionDoor","dimensionalAnchor","dimensionalLock","diminishPlants","discernLies","discernLocation","disguiseSelf","disintegrate","dismissal","dispelChaos","dispelEvil","dispelGood","dispelLaw","dispelMagic","greaterDispelMagic","displacement","disruptUndead","disruptingWeapon","divination","divineFavor","divinePower","dominateAnimal","dominateMonster","dominatePerson","doom","drawmijsInstantSummons","dream","eaglesSplendor","massEaglesSplendor","earthquake","elementalSwarm","endureElements","energyDrain","enervation","enlargePerson","massEnlargePerson","entangle","enthrall","entropicShield","erase","etherealJaunt","etherealness","evardsBlackTentacles","expeditiousRetreat","explosiveRunes","eyebite","fabricate","faerieFire","falseLife","falseVision","fear","featherFall","feeblemind","findThePath","findTraps","fingerofDeath","fireSeeds","fireShield","fireStorm","fireTrap","fireball","flameArrow","flameBlade","flameStrike","flamingSphere","flare","fleshToStone","fly","fogCloud","forbiddance","forcecage","foresight","foxsCunning","massFoxsCunning","freedom","freedomOfMovement","gaseousForm","gate","geasQuest","lesserGeas","gentleRepose","ghostSound","ghoulTouch","giantVermin","glibness","glitterdust","globeOfInvulnerability","lesserGlobeOfInvulnerability","glyphOfWarding","greaterGlyphOfWarding","goodberry","goodHope","grease","guardsAndWards","guidance","gustOfWind","hallow","hallucinatoryTerrain","haltUndead","harm","haste","heal","massHeal","healMount","heatMetal","helpingHand","heroesFeast","heroism","greaterHeroism","hidefromAnimals","hidefromUndead","holdAnimal","holdMonster","massHoldMonster","holdPerson","massHoldPerson","holdPortal","holyAura","holySmite","holySword","holyWord","horridWilting","hypnoticPattern","hypnotism","iceStorm","identify","illusoryScript","illusoryWall","imbueWithSpellAbility","implosion","imprisonment","incendiaryCloud","inflictCriticalWounds","massInflictCriticalWounds","inflictLightWounds","massInflictLightWounds","inflictMinorWounds","inflictModerateWounds","massInflictModerateWounds","inflictSeriousWounds","massInflictSeriousWounds","insanity","insectPlague","invisibility","greaterInvsibility","massInvisibility","invisibilityPurge","invisibilitySphere","ironBody","ironwood","jump","keenEdge","knock","knowDirection","legendLore","leomundsSecretChest","leomundsSecureShelter","leomundsTinyHut","leomundsTrap","levitate","light","lightningBolt","limitedWish","liveoak","locateCreature","locateObject","longstrider","lullaby","mageArmor","mageHand","magicCircleAgainstChaos","magicCircleAgainstEvil","magicCircleAgainstGood","magicCircleAgainstLaw","magicFang","greaterMagicFang","magicJar","magicMissile","magicMouth","magicStone","magicVestment","magicWeapon","greaterMagicWeapon","majorCreation","majorImage","makeWhole","markOfJustice","maze","meldIntoStone","melfsAcidArrow","mending","message","meteorSwarm","mindBlank","mindFog","minorCreation","minorImage","miracle","mirageArcana","mirrorImage","misdirection","mislead","modifyMemory","momentOfPrescience","mordenkainensDisjunction","mordenkainensFaithfulHound","mordenkainensLucubration","mordenkainensMagnificentMansion","mordenkainensPrivateSanctum","mordenkainensSword","mount","moveEarth","neutralizePoison","nightmare","nondetection","nystulsMagicAura","ObscureObject","ObscuringMist","OpenClose","OrdersWrath","OtilukesFreezingSphere","OtilukesResilientSphere","OtilukesTelekineticSphere","OttosIrresistableDance","OverlandFlight","OwlsWisdom","MassOwlsWisdom","passwall","passWithoutTrace","permanency","permanentImage","persistentImage","phantasmalKiller","phantomSteed","phaseDoor","planarAlly","greaterPlanarAlly","lesserPlanarAlly","planarBinding","greaterPlanarBinding","lesserPlanarBinding","planeShift","plantGrowth","poison","polarRay","polymorph","polymorphAnyObject","powerWordBlind","powerWordKill","powerWordStun","prayer","prestidigitation","prismaticSphere","prismaticSpray","prismaticWall","produceFlame","programmedImage","projectImage","protectionFromArrows","protectionFromChaos","protectionFromEnergy","protectionFromEvil","protectionFromGood","protectionFromLaw","protectionFromSpells","pryingEyes","greaterPryingEyes","purifyFoodandDrink","pyrotechnics","quench","rage","rainbowPattern","raiseDead","rarysMnemonicEnhancer","rarysTelepathicBond","rayofEnfeeblement","rayofExhaustion","rayofFrost","readMagic","reduceAnimal","reducePerson","massReducePerson","refuge","regenerate","reincarnate","removeBlindnessDeafness","removeCurse","removeDisease","removeFear","removeParalysis","repelMetalOrStone","repelVermin","repelWood","repulsion","resistance","resistEnergy","restoration","greaterRestoration","lesserRestoration","resurrection","reverseGravity","righteousMight","ropeTrick","rustingGrasp","sanctuary","scare","scintillatingPattern","scorchingRay","screen","scrying","greaterScrying","sculptSound","searingLight","secretPage","seeInvisibility","seeming","sending","sepiaSnakeSigil","sequester","shades","shadowConjuration","greaterShadowConjuration","shadowEvocation","greaterShadowEvocation","shadowWalk","shambler","shapechange","shatter","shield","shieldOfFaith","shieldOfLaw","shieldOther","shillelagh","shockingGrasp","shout","greaterShout","shrinkItem","silence","silentImage","simulacrum","slayLiving","sleep","sleetStorm","slow","snare","softenEarthAndStone","solidFog","songOfDiscord","soulBind","soundBurst","speakWithAnimals","speakWithDead","speakWithPlants","spectralHand","spellImmunity","greaterSpellImmunity","spellResistance","spellstaff","spellTurning","spiderClimb","spikeGrowth","spikeStones","spiritualWeapon","statue","status","stinkingCloud","stoneShape","stoneskin","stoneTell","stonetoFlesh","stormOfVengeance","suggestion","massSuggestion","summonInstrument","summonMonsterI","summonMonsterII","summonMonsterIII","summonMonsterIV","summonMonsterV","summonMonsterVI","summonMonsterVII","summonMonsterVIII","summonMonsterIX","summonNaturesAllyI","summonNaturesAllyII","summonNaturesAllyIII","summonNaturesAllyIV","summonNaturesAllyV","summonNaturesAllyVI","summonNaturesAllyVII","summonNaturesAllyVIII","summonNaturesAllyIX","summonSwarm","sunbeam","sunburst","symbolOfDeath","symbolOfFear","symbolOfInsanity","symbolOfPain","symbolOfPersuasion","symbolOfSleep","symbolOfStunning","symbolOfWeakness","sympatheticVibration","sympathy","tashasHideousLaughter","telekinesis","teleport","teleportObject","GreaterTeleport","teleportationCircle","temporalStasis","tensersFloatingDisk","tesnsersTransformation","timeStop","tongues","touchOfFatigue","touchOfIdiocy","transmuteMetalToWood","transmuteMudToRock","transmuteRockToMud","transportViaPlants","trapTheSoul","treeShape","treeStride","trueResurrection","trueSeeing","trueStrike","undeathToDeath","undetectableAlignment","unhallow","unholyAura","unholyBlight","unseenServant","vampiricTouch","veil","ventriloquism","virtue","vision","wailOfTheBanshee","wallOfFire","wallOfForce","wallOfIce","wallOfIron","wallOfStone","wallOfThorns","warpWood","waterBreathing","waterWalk","wavesOfExhaustion","wavesOfFatigue","web","weird","whirlwind","whisperingWind","windWalk","windWall","wish","woodShape","wordOfChaos","wordOfRecall","zoneOfSilence","zoneOfTruth"];
+}
+
+function getSpellName(){
+	return ["Acid Fog","Acid Splash","Aid","Air Walk","Alarm","Align Weapon","Alter Self","Analyze Dweomer","Animal Growth","Animal Messenger","Animal Shapes","Animal Trance","Animate Dead","Animate Objects","Animate Plants","Animate Rope","Antilife Shell","Antimagic Field","Antipathy","AntiplantShell","Arcane Eye","Arcane Lock","Arcane Mark","Arcane Sight","Greater Arcane Sight","Astral Projection","Atonement","Augury","Awaken","Baleful Polymorph","Bane","Banishment","Barkskin","Bear's Endurance","Mass Bear's Endurance","Bestow Curse","Bigby's Clenched Fist","Bigby's Crushing Hand","Bigby's Forceful Hand","Bigby's Grasping Hand","Bigby's Interposing Hand","Binding","Blade Barrier","Blasphemy","Bless","Bless Water","Bless Weapon","Blight","Blindness/Deafness","Blink","Blur","Break Enchantment","Bull's Strength","Mass Bull's Strength","Burning Hands","Call Lightning","Call Lightning Storm","Calm Animals","Calm Emotions","Cat's Grace","Mass Cat's Grace","Cause Fear","Chain Lightning","Changestaff","Chaos Hammer","Charm Animal","Charm Monster","Mass Charm Monster","Charm Person","Chill Metal","Chill Touch","Circle of Death","Clairaudience/Clairvoyance","Cloak of Chaos","Clone","Cloudkill","Color Spray","Command","Greater Command","Command Plants","Command Undead","Commune","Commune with Nature","Comprehend Languages","Cone of Cold","Confusion","Lesser Confusion","Consecrate","Contact Other Plane","Contagion","Contingency","Continual Flame","Control Plants","Control Undead","Control Water","Control Weather","Control Winds","Create Food and Water","Create Greater Undead","Create Undead","Create Water","Creeping Doom","Crushing Despair","Cure Critical Wounds","Mass Cure Critical Wounds","Cure Light Wounds","Mass Cure Light Wounds","Cure Minor Wounds","Cure Moderate Wounds","Mass Cure Moderate Wounds","Cure Serious Wounds","Mass Cure Serious Wounds","Curse Water","Dancing Lights","Darkness","Darkvision","Daylight","Daze","Daze Monster","Death Knell","Death Ward","Deathwatch","Deep Slumber","Deeper Darkness","Delay Poison","Delayed Blast Fireball","Demand","Desecrate","Destruction","Detect Animals or Plants","Detect Chaos","Detect Evil","Detect Good","Detect Law","Detect Magic","Detect Poison","Detect Scrying","Detect Secret Doors","Detect Snares and Pits","Detect Thoughts","Detect Undead","Dictum","Dimension Door","Dimensional Anchor","Dimensional Lock","Diminish Plants","Discern Lies","Discern Location","Disguise Self","Disintegrate","Dismissal","Dispel Chaos","Dispel Evil","Dispel Good","Dispel Law","Dispel Magic","Greater Dispel Magic","Displacement","Disrupt Undead","Disrupting Weapon","Divination","Divine Favor","Divine Power","Dominate Animal","Dominate Monster","Dominate Person","Doom","Drawmij's Instant Summons","Dream","Eagle's Splendor","Mass Eagle's Splendor","Earthquake","Elemental Swarm","Endure Elements","Energy Drain","Enervation","Enlarge Person","Mass Enlarge Person","Entangle","Enthrall","Entropic Shield","Erase","Ethereal Jaunt","Etherealness","Evard's Black Tentacles","Expeditious Retreat","Explosive Runes","Eyebite","Fabricate","Faerie Fire","False Life","False Vision","Fear","Feather Fall","Feeblemind","Find the Path","Find Traps","Finger of Death","Fire Seeds","Fire Shield","Fire Storm","Fire Trap","Fireball","Flame Arrow","Flame Blade","Flame Strike","Flaming Sphere","Flare","Flesh to Stone","Fly","Fog Cloud","Forbiddance","Forcecage","Foresight","Fox's Cunning","Mass Fox's Cunning","Freedom","Freedom of Movement","Gaseous Form","Gate","Geas/Quest","Lesser Geas","Gentle Repose","Ghost Sound","Ghoul Touch","Giant Vermin","Glibness","Glitterdust","Globe of Invulnerability","Lesser Globe of Invulnerability","Glyph of Warding","Greater Glyph of Warding","Goodberry","Good Hope","Grease","Guards and Wards","Guidance","Gust of Wind","Hallow","Hallucinatory Terrain","Halt Undead","Harm","Haste","Heal","Mass Heal","Heal Mount","Heat Metal","Helping Hand","Heroes' Feast","Heroism","Greater Heroism","Hide from Animals","Hide from Undead","Hold Animal","Hold Monster","Mass Hold Monster","Hold Person","Mass Hold Person","Hold Portal","Holy Aura","Holy Smite","Holy Sword","Holy Word","Horrid Wilting","Hypnotic Pattern","Hypnotism","Ice Storm","Identify","Illusory Script","Illusory Wall","Imbue with Spell Ability","Implosion","Imprisonment","Incendiary Cloud","Inflict Critical Wounds","Mass Inflict Critical Wounds","Inflict Light Wounds","Mass Inflict Light Wounds","Inflict Minor Wounds","Inflict Moderate Wounds","Mass Inflict Moderate Wounds","Inflict Serious Wounds","Mass Inflict Serious Wounds","Insanity","Insect Plague","Invisibility","Greater Invsibility","Mass Invisibility","Invisibility Purge","Invisibility Sphere","Iron Body","Ironwood","Jump","Keen Edge","Knock","Know Direction","Legend Lore","Leomund's Secret Chest","Leomund's Secure Shelter","Leomund's Tiny Hut","Leomund's Trap","Levitate","Light","Lightning Bolt","Limited Wish","Liveoak","Locate Creature","Locate Object","Longstrider","Lullaby","Mage Armor","Mage Hand","Magic Circle against Chaos","Magic Circle against Evil","Magic Circle against Good","Magic Circle against Law","Magic Fang","Greater Magic Fang","Magic Jar","Magic Missile","Magic Mouth","Magic Stone","Magic Vestment","Magic Weapon","Greater Magic Weapon","Major Creation","Major Image","Make Whole","Mark of Justice","Maze","Meld into Stone","Melf's Acid Arrow","Mending","Message","Meteor Swarm","Mind Blank","Mind Fog","Minor Creation","Minor Image","Miracle","Mirage Arcana","Mirror Image","Misdirection","Mislead","Modify Memory","Moment of Prescience","Mordenkainen's Disjunction","Mordenkainen's Faithful Hound","Mordenkainen's Lucubration","Mordenkainen's Magnificent Mansion","Mordenkainen's Private Sanctum","Mordenkainen's Sword","Mount","Move Earth","Neutralize Poison","Nightmare","Nondetection","Nystul's Magic Aura","Obscure Object","Obscuring Mist","Open/Close","Order's Wrath","Otiluke's Freezing Sphere","Otiluke's Resilient Sphere","Otiluke's Telekinetic Sphere","Otto's Irresistable Dance","Overland Flight","Owl's Wisdom","Mass Owl's Wisdom","Passwall","Pass without Trace","Permanency","Permanent Image","Persistent Image","Phantasmal Killer","Phantom Steed","Phase Door","Planar Ally","Greater Planar Ally","Lesser Planar Ally","Planar Binding","Greater Planar Binding","Lesser Planar Binding","Plane Shift","Plant Growth","Poison","Polar Ray","Polymorph","Polymorph Any Object","Power Word Blind","Power Word Kill","Power Word Stun","Prayer","Prestidigitation","Prismatic Sphere","Prismatic Spray","Prismatic Wall","Produce Flame","Programmed Image","Project Image","Protection from Arrows","Protection from Chaos","Protection from Energy","Protection from Evil","Protection from Good","Protection from Law","Protection from Spells","Prying Eyes","Greater Prying Eyes","Purify Food and Drink","Pyrotechnics","Quench","Rage","Rainbow Pattern","Raise Dead","Rary's Mnemonic Enhancer","Rary's Telepathic Bond","Ray of Enfeeblement","Ray of Exhaustion","Ray of Frost","Read Magic","Reduce Animal","Reduce Person","Mass Reduce Person","Refuge","Regenerate","Reincarnate","Remove Blindness/Deafness","Remove Curse","Remove Disease","Remove Fear","Remove Paralysis","Repel Metal or Stone","Repel Vermin","Repel Wood","Repulsion","Resistance","Resist Energy","Restoration","Greater Restoration","Lesser Restoration","Resurrection","Reverse Gravity","Righteous Might","Rope Trick","Rusting Grasp","Sanctuary","Scare","Scintillating Pattern","Scorching Ray","Screen","Scrying","Greater Scrying","Sculpt Sound","Searing Light","Secret Page","See Invisibility","Seeming","Sending","Sepia Snake Sigil","Sequester","Shades","Shadow Conjuration","Greater Shadow Conjuration","Shadow Evocation","Greater Shadow Evocation","Shadow Walk","Shambler","Shapechange","Shatter","Shield","Shield of Faith","Shield of Law","Shield Other","Shillelagh","Shocking Grasp","Shout","Greater Shout","Shrink Item","Silence","Silent Image","Simulacrum","Slay Living","Sleep","Sleet Storm","Slow","Snare","Soften Earth and Stone","Solid Fog","Song of Discord","Soul Bind","Sound Burst","Speak with Animals","Speak with Dead","Speak with Plants","Spectral Hand","Spell Immunity","Greater Spell Immunity","Spell Resistance","Spellstaff","Spell Turning","Spider Climb","Spike Growth","Spike Stones","Spiritual Weapon","Statue","Status","Stinking Cloud","Stone Shape","Stoneskin","Stone Tell","Stone to Flesh","Storm of Vengeance","Suggestion","Mass Suggestion","Summon Instrument","Summon Monster I","Summon Monster II","Summon Monster III","Summon Monster IV","Summon Monster V","Summon Monster VI","Summon Monster VII","Summon Monster VIII","Summon Monster IX","Summon Nature's Ally I","Summon Nature's Ally II","Summon Nature's Ally III","Summon Nature's Ally IV","Summon Nature's Ally V","Summon Nature's Ally VI","Summon Nature's Ally VII","Summon Nature's Ally VIII","Summon Nature's Ally IX","Summon Swarm","Sunbeam","Sunburst","Symbol of Death","Symbol of Fear","Symbol of Insanity","Symbol of Pain","Symbol of Persuasion","Symbol of Sleep","Symbol of Stunning","Symbol of Weakness","Sympathetic Vibration","Sympathy","Tasha's Hideous Laughter","Telekinesis","Teleport","Teleport Object","Greater Teleport","Teleportation Circle","Temporal Stasis","Tenser's Floating Disk","Tesnser's Transformation","Time Stop","Tongues","Touch of Fatigue","Touch of Idiocy","Transmute Metal to Wood","Transmute Mud to Rock","Transmute Rock to Mud","Transport via Plants","Trap the Soul","Tree Shape","Tree Stride","True Resurrection","True Seeing","True Strike","Undeath to Death","Undetectable Alignment","Unhallow","Unholy Aura","Unholy Blight","Unseen Servant","Vampiric Touch","Veil","Ventriloquism","Virtue","Vision","Wail of the Banshee","Wall of Fire","Wall of Force","Wall of Ice","Wall of Iron","Wall of Stone","Wall of Thorns","Warp Wood","Water Breathing","Water Walk","Waves of Exhaustion","Waves of Fatigue","Web","Weird","Whirlwind","Whispering Wind","Wind Walk","Wind Wall","Wish","Wood Shape","Word of Chaos","Word of Recall","Zone of Silence","Zone of Truth"];
+}
+
+function getSpellLevel(charClass){
+	switch (charClass){
+		case "Bard":
+			return [
+				//A
+				-1,-1,-1,-1,1,-1,2,6,-1,2,-1,2,-1,6,-1,1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+				//B 29
+				-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,2,3,2,4,-1,-1,
+				//C 54
+				-1,-1,-1,-1,2,2,6,1,-1,-1,-1,-1,3,6,1,-1,-1,-1,3,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,1,-1,3,1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,3,4,-1,1,5,-1,2,6,3,-1,-1,
+				//D 113
+				0,2,-1,3,0,2,-1,-1,-1,3,-1,2,-1,-1,-1,-1,-1,-1,-1,-1,-1,0,-1,4,1,-1,2,-1,-1,4,-1,-1,-1,-1,-1,1,-1,-1,-1,-1,-1,-1,3,5,3,-1,-1,-1,-1,-1,-1,-1,4,-1,-1,5,
+				//E 169
+				2,6,-1,-1,-1,-1,-1,-1,-1,-1,2,-1,1,-1,-1,-1,1,-1,6,
+				//F 188
+				-1,-1,-1,5,3,1,-1,6,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,0,-1,-1,-1,-1,-1,-1,2,6,-1,4,
+				//G 218
+				3,-1,6,3,-1,0,-1,-1,3,2,-1,-1,-1,-1,-1,3,1,-1,-1,-1,
+				//H 238
+				-1,4,-1,-1,3,-1,-1,-1,-1,-1,6,2,5,-1,-1,-1,4,-1,2,-1,-1,-1,-1,-1,-1,-1,2,1,
+				//I-K 266
+				-1,1,3,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,2,4,-1,-1,3,-1,-1,-1,-1,-1,0,
+				//L 296
+				4,-1,4,3,-1,-1,0,-1,-1,-1,4,2,-1,0,
+				//M 310
+				-1,0,-1,-1,-1,-1,-1,-1,-1,-1,1,-1,-1,-1,-1,-1,3,-1,-1,-1,-1,-1,0,0,-1,-1,5,-1,2,-1,5,2,2,5,4,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+				//N-O 354
+				4,5,-1,1,1,-1,0,-1,-1,-1,-1,6,-1,-1,-1,
+				//P-Q 369
+				-1,-1,-1,6,5,-1,3,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,0,-1,-1,-1,-1,6,6,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,2,-1,
+				//R 412
+				2,4,-1,-1,-1,-1,-1,-1,0,-1,-1,-1,-1,-1,-1,-1,3,-1,1,-1,-1,4,-1,-1,0,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+				//S 446
+				-1,2,-1,-1,-1,3,6,3,-1,3,3,5,-1,3,-1,-1,4,-1,5,-1,5,-1,-1,2,-1,-1,-1,-1,-1,-1,4,6,-1,2,1,-1,-1,1,-1,3,-1,-1,-1,5,-1,2,3,-1,4,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,2,5,0,1,2,3,4,5,6,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,2,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,6,-1,
+				//T-V 547
+				1,-1,-1,-1,-1,-1,-1,-1,-1,-1,2,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,1,-1,-1,-1,1,-1,6,1,-1,-1,
+				//W-Z 581
+				-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,2,-1,-1,-1,-1,-1,-1,4,-1
+				// 605
+				];
+			break;
+
+		case "Cleric":
+			return [
+				//A-C
+				-1,-1,2,4,-1,2,-1,-1,-1,-1,-1,-1,3,6,-1,-1,6,8,-1,-1,-1,-1,-1,-1,-1,9,5,2,-1,
+				//B 29
+				-1,1,6,-1,2,6,3,-1,-1,-1,-1,-1,-1,6,7,1,1,-1,-1,3,-1,-1,5,2,6,
+				//C 54
+				-1,-1,-1,-1,2,-1,-1,1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,8,-1,-1,-1,1,5,-1,-1,5,-1,1,-1,-1,-1,2,-1,3,-1,3,-1,-1,4,7,-1,3,8,6,0,-1,-1,4,8,1,5,0,2,6,3,7,1,
+				//D 113
+				-1,2,-1,3,-1,-1,2,4,1,-1,3,2,-1,-1,2,7,-1,1,1,1,1,0,0,-1,-1,-1,-1,1,7,-1,4,8,-1,4,8,-1,-1,4,5,5,5,5,3,6,-1,-1,5,4,1,4,-1,-1,-1,1,-1,-1,
+				//E 169
+				2,6,8,-1,1,9,-1,-1,-1,-1,2,1,-1,7,9,-1,-1,-1,-1,
+				//F 188
+				-1,-1,-1,-1,-1,-1,-1,6,2,-1,-1,-1,8,-1,-1,-1,-1,5,-1,-1,-1,-1,-1,6,-1,-1,-1,-1,-1,4,
+				//G 218
+				-1,9,6,-1,2,-1,-1,4,-1,-1,-1,-1,3,6,-1,-1,-1,-1,0,-1,
+				//H 238
+				5,-1,-1,6,-1,6,9,-1,-1,3,6,-1,-1,-1,1,-1,-1,-1,2,-1,-1,8,-1,-1,7,-1,-1,-1,
+				//I-K 266
+				-1,-1,-1,-1,4,9,-1,-1,4,8,1,5,0,2,6,3,7,-1,5,-1,-1,-1,3,-1,-1,-1,-1,-1,-1,-1,
+				//L 296
+				-1,-1,-1,-1,-1,-1,0,-1,-1,-1,-1,3,-1,-1,
+				//M 310
+				-1,-1,3,3,3,3,-1,-1,-1,-1,-1,1,3,1,4,-1,-1,2,5,-1,3,-1,0,-1,-1,-1,-1,-1,-1,9,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+				//N-O 354
+				4,-1,-1,-1,3,1,-1,-1,-1,-1,-1,-1,-1,2,6,
+				//P-Q 369
+				-1,-1,-1,-1,-1,-1,-1,-1,6,8,4,-1,-1,-1,5,-1,4,-1,-1,-1,-1,-1,-1,3,-1,-1,-1,-1,-1,-1,-1,-1,1,3,1,1,1,-1,-1,-1,0,-1,-1,
+				//R 412
+				-1,-1,5,-1,-1,-1,-1,-1,0,-1,-1,-1,7,7,-1,3,3,3,1,2,-1,4,-1,7,0,2,4,7,2,7,-1,5,-1,-1,
+				//S 446
+				1,-1,-1,-1,-1,5,7,-1,3,-1,-1,-1,4,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,2,-1,1,8,2,-1,-1,-1,-1,-1,2,-1,-1,5,-1,-1,-1,-1,-1,-1,-1,9,2,-1,3,-1,-1,4,8,5,-1,-1,-1,-1,-1,2,-1,2,-1,3,-1,-1,-1,9,-1,-1,-1,1,2,3,4,5,6,7,8,9,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,8,6,8,5,6,5,7,7,-1,-1,
+				//T-V 547
+				-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,4,-1,-1,-1,-1,-1,-1,-1,-1,-1,9,5,-1,6,2,5,8,-1,-1,-1,-1,-1,0,-1,
+				//W-Z 581
+				-1,-1,-1,-1,-1,5,-1,-1,3,3,-1,-1,-1,-1,-1,-1,6,3,-1,-1,7,6,-1,2
+				// 605
+				];
+			break;
+		case "Druid":
+			return [
+				//A-C
+				-1,-1,-1,4,-1,-1,-1,-1,5,2,8,2,-1,-1,7,-1,6,-1,9,4,-1,-1,-1,-1,-1,-1,5,-1,5,5,-1,-1,2,2,6,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,4,-1,-1,-1,-1,2,6,-1,3,5,1,-1,2,6,-1,-1,7,-1,1,-1,-1,-1,2,-1,-1,-1,-1,-1,-1,-1,-1,-1,4,-1,-1,5,-1,-1,-1,-1,-1,-1,3,-1,-1,8,-1,4,7,5,-1,-1,-1,0,7,-1,5,9,1,6,0,3,7,4,8,-1,
+				//D 113
+				-1,-1,-1,3,-1,-1,-1,5,-1,-1,-1,2,-1,-1,-1,-1,1,-1,-1,-1,-1,0,0,-1,-1,1,-1,-1,-1,-1,-1,-1,3,-1,-1,-1,-1,-1,-1,-1,-1,-1,4,6,-1,-1,-1,-1,-1,-1,3,-1,-1,-1,-1,-1,
+				//E 169
+				-1,-1,8,9,1,-1,-1,-1,-1,1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+				//F 188
+				-1,1,-1,-1,-1,-1,-1,6,-1,8,6,-1,7,2,-1,-1,2,4,2,0,-1,-1,2,-1,-1,9,-1,-1,-1,4,
+				//G 218
+				-1,-1,-1,-1,-1,-1,-1,4,-1,-1,-1,-1,-1,-1,1,-1,-1,-1,0,2,
+				//H 238
+				5,-1,-1,-1,-1,7,-1,-1,2,-1,-1,-1,-1,1,-1,2,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+				//I-K 266
+				4,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,5,-1,-1,-1,-1,-1,-1,6,1,-1,-1,0,
+				//L 296
+				-1,-1,-1,-1,-1,-1,0,-1,-1,6,-1,-1,1,-1,
+				//M 310
+				-1,-1,-1,-1,-1,-1,1,3,-1,-1,-1,1,-1,-1,-1,-1,-1,-1,-1,-1,3,-1,0,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,6,
+				//N-O 354
+				3,-1,-1,-1,-1,1,-1,-1,-1,-1,-1,-1,-1,2,6,
+				//P-Q 369
+				-1,1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,3,3,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,1,-1,-1,-1,-1,3,-1,-1,-1,-1,-1,-1,0,-1,3,
+				//R 412
+				-1,-1,-1,-1,-1,-1,-1,-1,0,2,-1,-1,-1,9,4,-1,-1,3,-1,-1,8,4,6,-1,0,2,-1,-1,2,-1,8,-1,-1,4,
+				//S 446
+				-1,-1,-1,-1,-1,4,7,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,9,9,-1,-1,-1,-1,-1,1,-1,-1,-1,-1,-1,-1,-1,-1,-1,3,-1,3,2,-1,-1,-1,-1,1,-1,3,-1,-1,-1,-1,6,-1,2,3,4,-1,-1,-1,-1,3,5,6,-1,9,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,1,2,3,4,5,6,7,8,9,2,7,8,-1,-1,-1,-1,-1,-1,-1,-1,-1,9,
+				//T-V 547
+				-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,7,5,5,6,-1,2,5,-1,7,-1,-1,-1,5,-1,-1,-1,-1,-1,-1,0,-1,
+				//W-Z 581
+				-1,5,-1,-1,-1,6,5,2,3,-1,-1,-1,-1,-1,8,-1,7,3,-1,2,-1,8,-1,-1
+				// 605
+				];
+			break;
+		case "Paladin":
+			return [
+				//A-C
+				-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,1,1,1,-1,-1,-1,-1,4,2,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,1,-1,-1,-1,-1,1,-1,-1,3,-1,4,-1,-1,
+				//D 113
+				-1,-1,-1,3,-1,-1,-1,4,-1,-1,-1,2,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,1,-1,-1,-1,-1,1,-1,-1,-1,-1,-1,3,-1,-1,-1,-1,4,4,-1,-1,3,-1,-1,-1,-1,-1,1,-1,-1,-1,-1,-1,-1,-1,
+				//E 169
+				2,-1,-1,-1,1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+				//F 188
+				-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+				//G 218
+				-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+				//H 238
+				-1,-1,-1,-1,-1,-1,-1,3,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,4,-1,-1,-1,-1,
+				//I-K 266
+				-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+				//L 296
+				-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+				//M 310
+				-1,-1,3,3,-1,-1,-1,-1,-1,-1,-1,-1,-1,1,3,-1,-1,-1,4,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+				//N-O 354
+				4,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,2,-1,
+				//P-Q 369
+				-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,3,-1,-1,-1,-1,-1,-1,-1,-1,1,-1,1,-1,-1,-1,-1,-1,-1,-1,-1,
+				//R 412
+				-1,-1,-1,-1,-1,-1,-1,-1,1,-1,-1,-1,-1,-1,-1,3,3,-1,-1,2,-1,-1,-1,-1,1,2,4,-1,1,-1,-1,-1,-1,-1,
+				//S 446
+				-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,2,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+				//T-V 547
+				-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,2,-1,-1,-1,-1,-1,-1,-1,1,-1,
+				//W-Z 581
+				-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,2
+				// 605
+				];
+			break;
+		case "Ranger":
+			return [
+				//A-C
+				-1,-1,-1,-1,1,-1,-1,-1,4,1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,2,2,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,1,-1,2,-1,-1,-1,-1,-1,1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,3,-1,-1,4,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,2,-1,-1,3,-1,4,-1,-1,
+				//D 113
+				-1,-1,3,-1,-1,-1,-1,-1,-1,-1,-1,1,-1,-1,-1,-1,1,-1,-1,-1,-1,-1,1,-1,-1,1,-1,-1,-1,-1,-1,-1,3,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+				//E 169
+				-1,-1,-1,-1,1,-1,-1,-1,-1,1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+				//F 18
+				-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,4,
+				//G 218
+				-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+				//H 238
+				-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,1,-1,2,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+				//I-K 266
+				-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,1,-1,-1,-1,
+				//L 296
+				-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,1,-1,
+				//M 310
+				-1,-1,-1,-1,-1,-1,1,3,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+				//N-O 354
+				3,-1,4,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,2,-1,
+				//P-Q 369
+				-1,1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,3,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,2,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+				//R 412
+				-1,-1,-1,-1,-1,-1,-1,-1,1,3,-1,-1,-1,-1,-1,-1,-1,3,-1,-1,-1,3,-1,-1,-1,1,-1,-1,-1,-1,-1,-1,-1,-1,
+				//S 446
+				-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,2,-1,-1,-1,-1,-1,1,-1,2,-1,-1,-1,-1,-1,-1,-1,2,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,1,2,3,4,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+				//T-V 547
+				-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,3,4,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+				//W-Z 581
+				-1,-1,-1,-1,-1,-1,-1,-1,-1,3,-1,-1,-1,-1,-1,-1,-1,2,-1,-1,-1,-1,-1,-1
+				// 605
+				];
+			break;
+		case "Sorcerer":
+			return [
+				//A-C
+				6,0,-1,-1,1,-1,2,6,5,-1,-1,-1,4,-1,-1,1,-1,6,8,-1,4,2,0,3,7,9,-1,-1,-1,5,-1,7,-1,2,6,4,8,9,6,7,5,8,-1,-1,-1,-1,-1,5,2,3,2,5,2,6,1,-1,-1,-1,-1,2,6,1,6,-1,-1,-1,4,8,1,-1,1,6,3,-1,8,5,1,-1,-1,-1,2,-1,-1,1,5,4,-1,-1,5,4,6,2,-1,7,6,7,-1,-1,8,6,-1,-1,4,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+				//D 113
+				0,2,2,3,0,2,-1,-1,-1,3,-1,-1,7,8,-1,-1,-1,-1,-1,-1,-1,0,0,4,1,-1,2,1,-1,4,4,8,-1,-1,8,1,6,5,-1,-1,-1,-1,3,6,3,0,-1,-1,-1,-1,-1,9,5,-1,7,5,
+				//E 169
+				2,6,-1,-1,1,9,4,1,4,-1,-1,-1,1,7,9,4,1,3,6,
+				//F 188
+				5,-1,2,5,4,1,5,-1,-1,7,-1,4,-1,4,3,3,-1,-1,2,0,6,3,2,-1,7,9,2,6,9,-1,
+				//G 218
+				3,9,6,4,3,0,2,-1,-1,2,6,4,-1,-1,-1,-1,1,6,-1,2,
+				//H 238
+				-1,4,3,-1,3,-1,-1,-1,-1,-1,-1,3,6,-1,-1,-1,5,9,3,7,1,-1,-1,-1,-1,8,2,1,
+				//I-K 266
+				4,1,3,4,-1,-1,9,8,-1,-1,-1,-1,-1,-1,-1,-1,-1,7,-1,2,4,7,-1,3,8,-1,1,3,2,-1,
+				//L 296
+				6,5,4,3,2,2,0,3,7,-1,4,2,-1,-1,
+				//M 310
+				1,0,3,3,3,3,-1,-1,5,1,2,-1,-1,1,3,5,3,-1,-1,8,-1,2,0,0,9,8,5,4,2,-1,5,2,2,6,-1,8,9,5,-1,7,5,7,1,6,
+				//N-O 354
+				-1,5,3,1,2,1,0,-1,6,4,8,8,5,2,6,
+				//P-Q 369
+				5,-1,5,6,5,4,3,7,-1,-1,-1,6,8,5,7,-1,-1,8,4,8,7,9,8,-1,0,9,7,8,-1,6,7,2,1,3,1,1,1,8,5,8,-1,2,-1,
+				//R 412
+				3,4,-1,-1,5,1,3,0,0,-1,1,4,9,-1,-1,-1,4,-1,-1,-1,-1,-1,-1,6,0,2,-1,-1,-1,-1,7,-1,2,-1,
+				//S 446
+				-1,2,8,2,8,4,7,-1,-1,3,2,5,5,3,7,9,4,7,5,8,6,-1,9,2,1,-1,-1,-1,-1,1,4,8,3,-1,1,7,-1,1,3,3,-1,-1,4,-1,9,-1,-1,-1,-1,2,-1,-1,-1,-1,7,2,-1,-1,-1,7,-1,3,4,4,-1,6,-1,3,6,-1,1,2,3,4,5,6,7,8,9,-1,-1,-1,-1,-1,-1,-1,-1,-1,2,-1,8,8,6,8,5,6,5,7,7,-1,8,
+				//T-V 547
+				2,5,5,7,7,9,8,1,6,9,3,0,2,-1,5,5,-1,8,-1,-1,-1,6,1,6,-1,-1,-1,-1,1,3,6,1,-1,7,
+				//W-Z 581
+				9,4,5,4,6,5,-1,-1,3,-1,7,5,2,9,-1,2,-1,3,9,-1,-1,-1,-1,-1
+				// 605
+				];
+			break;
+		case "Wizard":
+			return [
+				//A-C
+				6,0,-1,-1,1,-1,2,6,5,-1,-1,-1,4,-1,-1,1,-1,6,8,-1,4,2,0,3,7,9,-1,-1,-1,5,-1,7,-1,2,6,4,8,9,6,7,5,8,-1,-1,-1,-1,-1,5,2,3,2,5,2,6,1,-1,-1,-1,-1,2,6,1,6,-1,-1,-1,4,8,1,-1,1,6,3,-1,8,5,1,-1,-1,-1,2,-1,-1,1,5,4,-1,-1,5,4,6,2,-1,7,6,7,-1,-1,8,6,-1,-1,4,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+				//D 113
+				0,2,2,3,0,2,-1,-1,-1,3,-1,-1,7,8,-1,-1,-1,-1,-1,-1,-1,0,0,4,1,-1,2,1,-1,4,4,8,-1,-1,8,1,6,5,-1,-1,-1,-1,3,6,3,0,-1,-1,-1,-1,-1,9,5,-1,7,5,
+				//E 169
+				2,6,-1,-1,1,9,4,1,4,-1,-1,-1,1,7,9,4,1,3,6,
+				//F 188
+				5,-1,2,5,4,1,5,-1,-1,7,-1,4,-1,4,3,3,-1,-1,2,0,6,3,2,-1,7,9,2,6,9,-1,
+				//G 218
+				3,9,6,4,3,0,2,-1,-1,2,6,4,-1,-1,-1,-1,1,6,-1,2,
+				//H 238
+				-1,4,3,-1,3,-1,-1,-1,-1,-1,-1,3,6,-1,-1,-1,5,9,3,7,1,-1,-1,-1,-1,8,2,1,
+				//I-K 266
+				4,1,3,4,-1,-1,9,8,-1,-1,-1,-1,-1,-1,-1,-1,-1,7,-1,2,4,7,-1,3,8,-1,1,3,2,-1,
+				//L 296
+				6,5,4,3,2,2,0,3,7,-1,4,2,-1,-1,
+				//M 310
+				1,0,3,3,3,3,-1,-1,5,1,2,-1,-1,1,3,5,3,-1,-1,8,-1,2,0,0,9,8,5,4,2,-1,5,2,2,6,-1,8,9,5,6,7,5,7,1,6,
+				//N-O 354
+				-1,5,3,1,2,1,0,-1,6,4,8,8,5,2,6,
+				//P-Q 369
+				5,-1,5,6,5,4,3,7,-1,-1,-1,6,8,5,7,-1,-1,8,4,8,7,9,8,-1,0,9,7,8,-1,6,7,2,1,3,1,1,1,8,5,8,-1,2,-1,
+				//R 412
+				3,4,-1,4,5,1,3,0,0,-1,1,4,9,-1,-1,-1,4,-1,-1,-1,-1,-1,-1,6,0,2,-1,-1,-1,-1,7,-1,2,-1,
+				//S 446
+				-1,2,8,2,8,4,7,-1,-1,3,2,5,5,3,7,9,4,7,5,8,6,-1,9,2,1,-1,-1,-1,-1,1,4,8,3,-1,1,7,-1,1,3,3,-1,-1,4,-1,9,-1,-1,-1,-1,2,-1,-1,-1,-1,7,2,-1,-1,-1,7,-1,3,4,4,-1,6,-1,3,6,-1,1,2,3,4,5,6,7,8,9,-1,-1,-1,-1,-1,-1,-1,-1,-1,2,-1,8,8,6,8,5,6,5,7,7,-1,8,
+				//T-V 547
+				2,5,5,7,7,9,8,1,6,9,3,0,2,-1,5,5,-1,8,-1,-1,-1,6,1,6,-1,-1,-1,-1,1,3,6,1,-1,7,
+				//W-Z 581
+				9,4,5,4,6,5,-1,-1,3,-1,7,5,2,9,-1,2,-1,3,9,-1,-1,-1,-1,-1
+				// 605
+				];
+			break;
+	}
+}
+
+function getSpellsKnown(level,charClass){
+	switch (charClass){
+		case "Bard":
+			spellsKnown = [
+				[4,0,0,0,0,0,0],
+				[5,2,0,0,0,0,0],
+				[6,3,0,0,0,0,0],
+				[6,3,2,0,0,0,0],
+				[6,4,3,0,0,0,0],
+				[6,4,3,0,0,0,0],
+				[6,4,4,2,0,0,0],
+				[6,4,4,3,0,0,0],
+				[6,4,4,3,0,0,0],
+				[6,4,4,4,2,0,0],
+				[6,4,4,4,3,0,0],
+				[6,4,4,4,3,0,0],
+				[6,4,4,4,4,2,0],
+				[6,4,4,4,4,3,0],
+				[6,4,4,4,4,3,0],
+				[6,5,4,4,4,4,2],
+				[6,5,5,4,4,4,3],
+				[6,5,5,5,4,4,3],
+				[6,5,5,5,5,4,4],
+				[6,5,5,5,5,5,4]
+			];
+			break;
+		case "Sorcerer":
+			spellsKnown = [
+				[4,2,0,0,0,0,0,0,0,0],
+				[5,2,0,0,0,0,0,0,0,0],
+				[5,3,0,0,0,0,0,0,0,0],
+				[6,3,1,0,0,0,0,0,0,0],
+				[6,4,2,0,0,0,0,0,0,0],
+				[7,4,2,1,0,0,0,0,0,0],
+				[7,5,3,2,0,0,0,0,0,0],
+				[8,5,3,2,1,0,0,0,0,0],
+				[8,5,4,3,2,0,0,0,0,0],
+				[9,5,4,3,2,1,0,0,0,0],
+				[9,5,5,4,3,2,0,0,0,0],
+				[9,5,5,4,3,2,1,0,0,0],
+				[9,5,5,4,4,3,2,0,0,0],
+				[9,5,5,4,4,3,2,1,0,0],
+				[9,5,5,4,4,4,3,2,0,0],
+				[9,5,5,4,4,4,3,2,1,0],
+				[9,5,5,4,4,4,3,3,2,0],
+				[9,5,5,4,4,4,3,3,2,1],
+				[9,5,5,4,4,4,3,3,3,2],
+				[9,5,5,4,4,4,3,3,3,3]
+			];
+			break;
+		default:
+			return [];
+	}
+	return spellsKnown[level-1];
+}
+
+function getSpellsPerDay(level,charClass){
+	switch(charClass){
+		case "Bard":
+			spellsPerDay = [
+				[2,-1,-1,-1,-1,-1,-1],
+				[3,0,-1,-1,-1,-1,-1],
+				[3,1,-1,-1,-1,-1,-1],
+				[3,2,0,-1,-1,-1,-1],
+				[3,3,1,-1,-1,-1,-1],
+				[3,3,2,-1,-1,-1,-1],
+				[3,3,2,0,-1,-1,-1],
+				[3,3,3,1,-1,-1,-1],
+				[3,3,3,2,-1,-1,-1],
+				[3,3,3,2,0,-1,-1],
+				[3,3,3,3,1,-1,-1],
+				[3,3,3,3,2,-1,-1],
+				[3,3,3,3,2,0,-1],
+				[4,3,3,3,3,1,-1],
+				[4,4,3,3,3,2,-1],
+				[4,4,4,3,3,2,0],
+				[4,4,4,4,3,3,1],
+				[4,4,4,4,4,3,2],
+				[4,4,4,4,4,4,3],
+				[4,4,4,4,4,4,4]
+			];
+			break;
+		case "Cleric":
+			spellsPerDay = [
+				[3,1,-1,-1,-1,-1,-1,-1,-1,-1],
+				[4,2,-1,-1,-1,-1,-1,-1,-1,-1],
+				[4,2,1,-1,-1,-1,-1,-1,-1,-1],
+				[5,3,2,-1,-1,-1,-1,-1,-1,-1],
+				[5,3,2,1,-1,-1,-1,-1,-1,-1],
+				[5,3,3,1,-1,-1,-1,-1,-1,-1],
+				[6,4,3,2,1,-1,-1,-1,-1,-1],
+				[6,4,3,3,2,-1,-1,-1,-1,-1],
+				[6,4,4,3,2,1,-1,-1,-1,-1],
+				[6,4,4,3,3,2,-1,-1,-1,-1],
+				[6,5,4,4,3,1,1,-1,-1,-1],
+				[6,5,4,4,3,3,2,-1,-1,-1],
+				[6,5,5,4,4,3,2,1,-1,-1],
+				[6,5,5,4,4,3,3,2,-1,-1],
+				[6,5,5,5,4,4,3,2,1,-1],
+				[6,5,5,5,4,4,3,3,2,-1],
+				[6,5,5,5,5,4,4,3,2,1],
+				[6,5,5,5,5,4,4,3,3,2],
+				[6,5,5,5,5,5,4,4,3,3],
+				[6,5,5,5,5,5,4,4,4,4]
+			];
+			break;
+
+		case "Druid":
+			spellsPerDay = [
+				[3,1,-1,-1,-1,-1,-1,-1,-1,-1],
+				[4,2,-1,-1,-1,-1,-1,-1,-1,-1],
+				[4,2,1,-1,-1,-1,-1,-1,-1,-1],
+				[5,3,2,-1,-1,-1,-1,-1,-1,-1],
+				[5,3,2,1,-1,-1,-1,-1,-1,-1],
+				[5,3,3,1,-1,-1,-1,-1,-1,-1],
+				[6,4,3,2,1,-1,-1,-1,-1,-1],
+				[6,4,3,3,2,-1,-1,-1,-1,-1],
+				[6,4,4,3,2,1,-1,-1,-1,-1],
+				[6,4,4,3,3,2,-1,-1,-1,-1],
+				[6,5,4,4,3,1,1,-1,-1,-1],
+				[6,5,4,4,3,3,2,-1,-1,-1],
+				[6,5,5,4,4,3,2,1,-1,-1],
+				[6,5,5,4,4,3,3,2,-1,-1],
+				[6,5,5,5,4,4,3,2,1,-1],
+				[6,5,5,5,4,4,3,3,2,-1],
+				[6,5,5,5,5,4,4,3,2,1],
+				[6,5,5,5,5,4,4,3,3,2],
+				[6,5,5,5,5,5,4,4,3,3],
+				[6,5,5,5,5,5,4,4,4,4]
+			];
+			break;
+
+		case "Paladin":
+			spellsPerDay = [
+				[-1,-1,-1,-1,-1],
+				[-1,-1,-1,-1,-1],
+				[-1,-1,-1,-1,-1],
+				[-1,0,-1,-1,-1],
+				[-1,0,-1,-1,-1],
+				[-1,1,-1,-1,-1],
+				[-1,1,-1,-1,-1],
+				[-1,1,0,-1,-1],
+				[-1,1,0,-1,-1],
+				[-1,1,1,-1,-1],
+				[-1,1,1,0,-1],
+				[-1,1,1,1,-1],
+				[-1,1,1,1,-1],
+				[-1,2,1,1,0],
+				[-1,2,1,1,1],
+				[-1,2,2,1,1],
+				[-1,2,2,2,1],
+				[-1,3,2,2,1],
+				[-1,3,3,3,2],
+				[-1,3,3,3,3]
+			];
+			break;
+
+		case "Ranger":
+			spellsPerDay = [
+				[-1,-1,-1,-1,-1],
+				[-1,-1,-1,-1,-1],
+				[-1,-1,-1,-1,-1],
+				[-1,0,-1,-1,-1],
+				[-1,0,-1,-1,-1],
+				[-1,1,-1,-1,-1],
+				[-1,1,-1,-1,-1],
+				[-1,1,0,-1,-1],
+				[-1,1,0,-1,-1],
+				[-1,1,1,-1,-1],
+				[-1,1,1,0,-1],
+				[-1,1,1,1,-1],
+				[-1,1,1,1,-1],
+				[-1,2,1,1,0],
+				[-1,2,1,1,1],
+				[-1,2,2,1,1],
+				[-1,2,2,2,1],
+				[-1,3,2,2,1],
+				[-1,3,3,3,2],
+				[-1,3,3,3,3]
+			];
+			break;
+
+		case "Sorcerer":
+			spellsPerDay = [
+				[5,3,-1,-1,-1,-1,-1,-1,-1,-1],
+				[6,4,-1,-1,-1,-1,-1,-1,-1,-1],
+				[6,5,-1,-1,-1,-1,-1,-1,-1,-1],
+				[6,6,3,-1,-1,-1,-1,-1,-1,-1],
+				[6,6,4,-1,-1,-1,-1,-1,-1,-1],
+				[6,6,5,3,-1,-1,-1,-1,-1,-1],
+				[6,6,6,4,-1,-1,-1,-1,-1,-1],
+				[6,6,6,5,3,-1,-1,-1,-1,-1],
+				[6,6,6,6,4,-1,-1,-1,-1,-1],
+				[6,6,6,6,5,3,-1,-1,-1,-1],
+				[6,6,6,6,6,4,-1,-1,-1,-1],
+				[6,6,6,6,6,5,3,-1,-1,-1],
+				[6,6,6,6,6,6,4,-1,-1,-1],
+				[6,6,6,6,6,6,5,3,-1,-1],
+				[6,6,6,6,6,6,6,4,-1,-1],
+				[6,6,6,6,6,6,6,5,3,-1],
+				[6,6,6,6,6,6,6,6,4,-1],
+				[6,6,6,6,6,6,6,6,5,3],
+				[6,6,6,6,6,6,6,6,6,4],
+				[6,6,6,6,6,6,6,6,6,6]
+			];
+			break;
+
+		case "Wizard":
+			spellsPerDay = [
+				[3,1,-1,-1,-1,-1,-1,-1,-1,-1],
+				[4,2,-1,-1,-1,-1,-1,-1,-1,-1],
+				[4,2,1,-1,-1,-1,-1,-1,-1,-1],
+				[4,3,2,-1,-1,-1,-1,-1,-1,-1],
+				[4,3,2,1,-1,-1,-1,-1,-1,-1],
+				[4,3,3,2,-1,-1,-1,-1,-1,-1],
+				[4,4,3,2,1,-1,-1,-1,-1,-1],
+				[4,4,3,3,2,-1,-1,-1,-1,-1],
+				[4,4,4,3,2,1,-1,-1,-1,-1],
+				[4,4,4,3,3,2,-1,-1,-1,-1],
+				[4,4,4,4,3,2,1,-1,-1,-1],
+				[4,4,4,4,3,3,2,-1,-1,-1],
+				[4,4,4,4,4,3,2,1,-1,-1],
+				[4,4,4,4,4,3,3,2,-1,-1],
+				[4,4,4,4,4,4,3,2,1,-1],
+				[4,4,4,4,4,4,3,3,2,-1],
+				[4,4,4,4,4,4,4,3,2,1],
+				[4,4,4,4,4,4,4,4,3,2],
+				[4,4,4,4,4,4,4,4,3,3],
+				[4,4,4,4,4,4,4,4,4,4]
+			];
+			break;
+
+		default:
+			return [];
+	}
+	return spellsPerDay[level-1];
 }

@@ -3,7 +3,7 @@
 <head>
 <script type="text/javascript" src="/mvc/app/controllers/createCharJs/charSheet.js"></script>
 </head>
-<body onload=loadCharSheet('<?=$data['class']?>','<?=$data['race']?>',<?=$data['level']?>,<?=$data['strength']?>,<?=$data['dexterity']?>,<?=$data['constitution']?>,<?=$data['intelligence']?>,<?=$data['wisdom']?>,<?=$data['charisma']?>,'<?=$data['skillModArray']?>','<?=$data['ranksArray']?>','<?=$data['keyAbilModArray']?>','<?=$data['bonusArray']?>','<?=$data['chosenFeats']?>')>
+<body onload=loadCharSheet('<?=$data['class']?>','<?=$data['race']?>',<?=$data['level']?>,<?=$data['strength']?>,<?=$data['dexterity']?>,<?=$data['constitution']?>,<?=$data['intelligence']?>,<?=$data['wisdom']?>,<?=$data['charisma']?>,'<?=$data['skillModArray']?>','<?=$data['ranksArray']?>','<?=$data['keyAbilModArray']?>','<?=$data['bonusArray']?>','<?=$data['chosenFeats']?>','<?=$data['knownSpells']?>','<?=$data['preparedSpells']?>')>
 <h1>Character Sheet</h1>
 <hr>
 <ul>
@@ -81,7 +81,7 @@
 		<table>
 			<thead>
 				<tr>
-					<th>Weapon</th>
+					<th></th>
 					<th>Attack Bonus</th>
 					<th>Damage</th>
 					<th>Critical</th>
@@ -95,7 +95,7 @@
 		<table>
 			<thead>
 				<tr>
-					<th>Armor</th>
+					<th></th>
 					<th>Armor Bonus</th>
 					<th>Max Dex</th>
 					<th>Armor Check Penalty</th>
@@ -113,6 +113,13 @@
 	<h3>Special Abilities</h3>
 	<span id="specialAbilities"><?=$data['racialSpecials']?><?=$data['classSpecials']?></span>
 </ul>
+<hr>
+<div id="spells" style="display: none;">
+	<h3>Spells</h3>
+	<div id="spellList"></div>
+	<hr>
+</div>
+
 
 <form action="../home/index" method="POST">
 	<input type="hidden" name="username" value='<?=$data['username']?>' >

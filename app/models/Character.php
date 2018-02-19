@@ -318,6 +318,24 @@ class Character{
         }
 	}
 
+	public function getKnownSpells(){
+		$stmt = $this->conn->prepare("SELECT knownSpells FROM Characters WHERE ID = :ID");
+		$stmt->bindParam(':ID', $this->id);
+		$stmt->execute();
+	    foreach(new RecursiveArrayIterator($stmt->fetchAll()) as $k=>$v) { 
+	        return $v['knownSpells'];
+        }
+	}
+
+	public function getPreparedSpells(){
+		$stmt = $this->conn->prepare("SELECT preparedSpells FROM Characters WHERE ID = :ID");
+		$stmt->bindParam(':ID', $this->id);
+		$stmt->execute();
+	    foreach(new RecursiveArrayIterator($stmt->fetchAll()) as $k=>$v) { 
+	        return $v['preparedSpells'];
+        }
+	}
+
 	public function setCreationStep($val){
 		$stmt = $this->conn->prepare("UPDATE Characters SET creationStep = :val WHERE ID = :ID");
 		$stmt->bindParam(':val', $val);
@@ -527,6 +545,21 @@ class Character{
 		$stmt->bindParam(':ID', $this->id);
 		$stmt->execute();
 	}
+
+	public function setKnownSpells($val){
+		$stmt = $this->conn->prepare("UPDATE Characters SET knownSpells = :val WHERE ID = :ID");
+		$stmt->bindParam(':val', $val);
+		$stmt->bindParam(':ID', $this->id);
+		$stmt->execute();
+	}
+
+	public function setPreparedSpells($val){
+		$stmt = $this->conn->prepare("UPDATE Characters SET preparedSpells = :val WHERE ID = :ID");
+		$stmt->bindParam(':val', $val);
+		$stmt->bindParam(':ID', $this->id);
+		$stmt->execute();
+	}
+
 
 	public function getClassAbil(){
 		$charClass = $this->getClass();

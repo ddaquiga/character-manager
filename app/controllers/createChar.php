@@ -248,6 +248,55 @@ class createChar extends Controller{
 		]);
 	}
 
+	public function spells(){
+		$this->character = $this->model("Character");
+		$this->character->connect();
+		$this->character->setID($_POST['id']);
+		$this->character->setCreationStep('spells');
+		if (isset($_POST['outfit'])){
+			$this->character->setOutfit(json_encode($_POST['outfit']));
+			$this->character->setWeapons(json_encode($_POST['weapons']));
+			$this->character->setArmor(json_encode($_POST['armor']));
+		}
+
+		$this->view('createChar/spells',[
+			'username' => $this->character->getUser(),
+			'id' => $this->character->getID(),
+			'name' => $this->character->getName(),
+			'race' => $this->character->getRace(),
+			'class' => $this->character->getClass(),
+			'level' => $this->character->getLevel(),
+			'strength' => $this->character->getStrength(),
+			'dexterity' => $this->character->getDexterity(),
+			'constitution' => $this->character->getConstitution(),
+			'intelligence' => $this->character->getIntelligence(),
+			'wisdom' => $this->character->getWisdom(),
+			'charisma' => $this->character->getCharisma(),
+			'hitPoints' => $this->character->getHitPoints(),
+			'skillModArray' => $this->character->getSkillModArray(),
+			'ranksArray' => $this->character->getRanksArray(),
+			'keyAbilModArray' => $this->character->getKeyAbilModArray(),
+			'bonusArray' => $this->character->getBonusArray(),
+			'chosenFeats' => $this->character->getChosenFeats(),
+			'lvc' => $this->character->getLVC(),
+			'gve' => $this->character->getGVE(),
+			'diety' => $this->character->getDiety(),
+			'gender' => $this->character->getGender(),
+			'height' => $this->character->getHeight(),
+			'weight' => $this->character->getWeight(),
+			'age' => $this->character->getAge(),
+			'skin' => $this->character->getSkin(),
+			'hair' => $this->character->getHair(),
+			'eyes' => $this->character->getEyes(),
+			'outfit' => $this->character->getOutfit(),
+			'weapons' => $this->character->getWeapons(),
+			'armor' => $this->character->getArmor(),
+			'racialSpecials' => $this->character->getRacialSpecials(),
+			'classSpecials' => $this->character->getClassSpecials()
+		]);
+
+	}
+
 	public function charSheet(){
 		$this->character = $this->model("Character");
 		$this->character->connect();
@@ -258,6 +307,11 @@ class createChar extends Controller{
 			$this->character->setWeapons(json_encode($_POST['weapons']));
 			$this->character->setArmor(json_encode($_POST['armor']));
 		}
+		if (isset($_POST['chosenKnown'])){
+			$this->character->setKnownSpells(json_encode($_POST['chosenKnown']));
+			$this->character->setPreparedSpells(json_encode($_POST['chosenPrepared']));
+		}
+
 		
 		$this->view('createChar/charSheet',[
 			'username' => $this->character->getUser(),
@@ -292,7 +346,9 @@ class createChar extends Controller{
 			'weapons' => $this->character->getWeapons(),
 			'armor' => $this->character->getArmor(),
 			'racialSpecials' => $this->character->getRacialSpecials(),
-			'classSpecials' => $this->character->getClassSpecials()
+			'classSpecials' => $this->character->getClassSpecials(),
+			'knownSpells' => $this->character->getKnownSpells(),
+			'preparedSpells' => $this->character->getPreparedSpells()
 		]);
 	}
 }
