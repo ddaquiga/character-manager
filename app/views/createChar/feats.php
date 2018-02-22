@@ -3,7 +3,7 @@
 <head>
 <script type="text/javascript" src="/mvc/app/controllers/createCharJs/feats.js"></script>
 </head>
-<body onload=loadFeats('<?=$data['class']?>','<?=$data['race']?>',[<?=$data['str']?>,<?=$data['dex']?>,<?=$data['con']?>,<?=$data['int']?>,<?=$data['wis']?>,<?=$data['cha']?>],<?=$data['level']?>,<?=$data['hiddenRide']?>)>
+<body onload=loadFeats('<?=$data['class']?>','<?=$data['race']?>',[<?=$data['str']?>,<?=$data['dex']?>,<?=$data['con']?>,<?=$data['int']?>,<?=$data['wis']?>,<?=$data['cha']?>],<?=$data['level']?>)>
 <h1>Feat Selection</h1>
 <h3>Bonus Feats</h3>
 <ul id="bonusFeats"></ul>
@@ -19,17 +19,17 @@
 	<div id="fighterBonus" style="display: none;">
 		<h3>Choose a Bonus Fighter Feat</h3>
 		<div id="fighterFeats"></div>
-		<button type="button" id="fighterFeatSubmit" onclick=submitFighterBonus('<?=$data['class']?>',[<?=$data['str']?>,<?=$data['dex']?>,<?=$data['con']?>,<?=$data['int']?>,<?=$data['wis']?>,<?=$data['cha']?>],<?=$data['level']?>,<?=$data['hiddenRide']?>)>Apply</button>
+		<button type="button" id="fighterFeatSubmit" onclick=submitFighterBonus('<?=$data['class']?>',[<?=$data['str']?>,<?=$data['dex']?>,<?=$data['con']?>,<?=$data['int']?>,<?=$data['wis']?>,<?=$data['cha']?>],<?=$data['level']?>)>Apply</button>
 		<hr>
 	</div>
 	<div id="humanBonus" style="display: none;">
 		<h3>Choose a Bonus Human Feat</h3>
 		<div id="humanFeats"></div>
-		<button type="button" id="humanFeatSubmit" onclick=submitHumanBonus('<?=$data['class']?>',[<?=$data['str']?>,<?=$data['dex']?>,<?=$data['con']?>,<?=$data['int']?>,<?=$data['wis']?>,<?=$data['cha']?>],<?=$data['level']?>,<?=$data['hiddenRide']?>)>Submit</button>
+		<button type="button" id="humanFeatSubmit" onclick=submitHumanBonus('<?=$data['class']?>',[<?=$data['str']?>,<?=$data['dex']?>,<?=$data['con']?>,<?=$data['int']?>,<?=$data['wis']?>,<?=$data['cha']?>],<?=$data['level']?>)>Submit</button>
 		<hr>
 	</div>
 	<div id="normalFeats">
-		<form action="description" method="POST">
+		<form action="equipment" method="POST">
 			<input type="hidden" name="id" value=<?=$data['id']?>>
 			<input type="hidden" name="chosenFeats" id="chosenFeats">
 			<input type="hidden" name="prereqsMet" id="prereqsMet">

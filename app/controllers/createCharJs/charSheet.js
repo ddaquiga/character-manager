@@ -2,7 +2,7 @@ var script = document.createElement('script');
 script.src = '/mvc/app/controllers/createCharJs/createChar.js';
 document.head.appendChild(script);
 
-function loadCharSheet(charClass,race,level,strength,dexterity,constitution,intelligence,wisdom,charisma,skillMods,ranks,keyAbilMods,bonus,chosenFeats,knownSpells,preparedSpells){
+function loadCharSheet(charClass,race,level,strength,dexterity,constitution,intelligence,wisdom,charisma,skillMods,ranks,keyAbilMods,bonus,chosenFeats,knownSpells,preparedSpells,domains,schoolSpec,bannedSchools){
 
 	sizeMod = 0;
 	if (race == "Gnome" || race == "Halfling"){
@@ -25,9 +25,13 @@ function loadCharSheet(charClass,race,level,strength,dexterity,constitution,inte
 	document.getElementById("wisMod").innerHTML = wisMod
 	document.getElementById("chaMod").innerHTML = chaMod;
 
-	document.getElementById("fortitude").innerHTML = getFortitudeBase(charClass,level) + conMod;
-	document.getElementById("reflex").innerHTML = getReflexBase(charClass,level) + dexMod;
-	document.getElementById("will").innerHTML = getWillBase(charClass,level) + wisMod;
+	if (race == "Halfling")
+		saveBonus = 1;
+	else
+		saveBonus = 0;
+	document.getElementById("fortitude").innerHTML = getFortitudeBase(charClass,level) + conMod + saveBonus;
+	document.getElementById("reflex").innerHTML = getReflexBase(charClass,level) + dexMod + saveBonus;
+	document.getElementById("will").innerHTML = getWillBase(charClass,level) + wisMod + saveBonus;
 
 	document.getElementById("maxRanks").innerHTML = level + 3;
 	document.getElementById("maxRanksCC").innerHTML = (level + 3)/2;
@@ -200,6 +204,16 @@ function loadCharSheet(charClass,race,level,strength,dexterity,constitution,inte
 			document.getElementById("feats").innerHTML += "<li>" + featName[i] + "</li>";
 	}
 
+	racialSpecials = getRacialSpecials(race,charisma);
+	classSpecials = getClassSpecials(charClass,level);
+
+	for (i=0;i<racialSpecials.length;i++){
+		document.getElementById("specialAbilities").innerHTML += "<li>" + racialSpecials[i] + "</li>";
+	}
+	for (i=0;i<classSpecials.length;i++){
+		document.getElementById("specialAbilities").innerHTML += "<li>" + classSpecials[i] + "</li>";
+	}
+
 	if (knownSpells != "" || preparedSpells != ""){
 		spellId = getSpellId();
 		spellName = getSpellName();
@@ -261,6 +275,7 @@ function loadCharSheet(charClass,race,level,strength,dexterity,constitution,inte
 				break;
 			case "Cleric":
 				keyAbil = wisMod;
+				document.getElementById("clericDomains").style.display = "";
 				break;
 			case "Druid":
 				keyAbil = wisMod;
@@ -276,14 +291,20 @@ function loadCharSheet(charClass,race,level,strength,dexterity,constitution,inte
 				break;
 			case "Wizard":
 				keyAbil = intMod;
+				if (schoolSpec != "")
+					document.getElementById("wizardSpec").style.display = "";
 				break;
 		}
-
+		bonusSpells = getKeyAbilityMod(keyAbil);
 
 		for (i=0;i<maxSpellLevel + 1;i++){
+			spellCount = spellsPerDay[i] + bonusSpells[i];
+			bonusSpell = "";
+			if ((charClass == "Cleric" && i > 0 && domains.length > 0) || (charClass == "Wizard" && schoolSpec != ""))
+				bonusSpell = " + 1";
 			if (knownSpellsArray.length != 0 || preparedSpellsArray.length != 0){
-				spellDisplay += "<p><b>" + i + " Level</b><br>Difficulty Class " + (10 + keyAbil + i) + "<br>" + spellsPerDay[i] + " Spell";
-				if (spellsPerDay[i] > 1)
+				spellDisplay += "<p><b>" + i + " Level</b><br>Difficulty Class " + (10 + keyAbil + i) + "<br>" + spellCount + bonusSpell + " Spell";
+				if (spellCount > 1)
 					spellDisplay += "s";
 				spellDisplay += " per Day</p>";
 				if (knownSpellsArray.length != 0){
@@ -299,6 +320,7 @@ function loadCharSheet(charClass,race,level,strength,dexterity,constitution,inte
 		document.getElementById("spellList").innerHTML = spellDisplay;
 	}
 }
+
 
 function getFortitudeBase(charClass,level){
 	good = [2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12];

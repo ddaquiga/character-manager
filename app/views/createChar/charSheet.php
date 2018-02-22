@@ -3,7 +3,7 @@
 <head>
 <script type="text/javascript" src="/mvc/app/controllers/createCharJs/charSheet.js"></script>
 </head>
-<body onload=loadCharSheet('<?=$data['class']?>','<?=$data['race']?>',<?=$data['level']?>,<?=$data['strength']?>,<?=$data['dexterity']?>,<?=$data['constitution']?>,<?=$data['intelligence']?>,<?=$data['wisdom']?>,<?=$data['charisma']?>,'<?=$data['skillModArray']?>','<?=$data['ranksArray']?>','<?=$data['keyAbilModArray']?>','<?=$data['bonusArray']?>','<?=$data['chosenFeats']?>','<?=$data['knownSpells']?>','<?=$data['preparedSpells']?>')>
+<body onload=loadCharSheet('<?=$data['class']?>','<?=$data['race']?>',<?=$data['level']?>,<?=$data['strength']?>,<?=$data['dexterity']?>,<?=$data['constitution']?>,<?=$data['intelligence']?>,<?=$data['wisdom']?>,<?=$data['charisma']?>,'<?=$data['skillModArray']?>','<?=$data['ranksArray']?>','<?=$data['keyAbilModArray']?>','<?=$data['bonusArray']?>','<?=$data['chosenFeats']?>','<?=$data['knownSpells']?>','<?=$data['preparedSpells']?>','<?=$data['domains']?>','<?=$data['schoolSpec']?>','<?=$data['bannedSchools']?>')>
 <h1>Character Sheet</h1>
 <hr>
 <ul>
@@ -111,11 +111,18 @@
 <hr>
 <ul>
 	<h3>Special Abilities</h3>
-	<span id="specialAbilities"><?=$data['racialSpecials']?><?=$data['classSpecials']?></span>
+	<span id="specialAbilities"></span>
 </ul>
 <hr>
 <div id="spells" style="display: none;">
 	<h3>Spells</h3>
+	<div id="clericDomains" style="display: none;">
+		<p><b>Cleric Domains</b>: <?=$data['domains']?></p>
+	</div>
+	<div id="wizardSpec" style="display: none;">
+		<p><b>School of Specialization</b>: <?=$data['schoolSpec']?></p>
+		<p><b>Banned Schools</b>: <?=$data['bannedSchools']?></p>
+	</div>
 	<div id="spellList"></div>
 	<hr>
 </div>

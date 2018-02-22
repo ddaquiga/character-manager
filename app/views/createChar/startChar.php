@@ -10,7 +10,7 @@
 <h1>Creating a New Level 1 Character</h1>
 <h1 id="test"></h1>
 
-<form action="rollAbilities" method="POST">
+<form action="description" method="POST">
 	<input type="hidden" name="id" value="<?=$data['id']?>">
 	<input type="hidden" name="level" value=1>
 	<label>Choose a Class</label><br>

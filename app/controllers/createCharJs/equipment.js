@@ -13,17 +13,14 @@ function loadEquipment(str, charClass,chosenFeats){
 
 		case "Bard":
 			startingGold = 100;
-			document.getElementById("form").action = "spells";
 			break;
 			
 		case "Cleric":
 			startingGold = 125;
-			document.getElementById("form").action = "spells";
 			break;
 			
 		case "Druid":
 			startingGold = 50;
-			document.getElementById("form").action = "spells";
 			break;
 			
 		case "Fighter":
@@ -48,12 +45,10 @@ function loadEquipment(str, charClass,chosenFeats){
 			
 		case "Sorcerer":
 			startingGold = 75;
-			document.getElementById("form").action = "spells";
 			break;
 			
 		case "Wizard":
 			startingGold = 75;
-			document.getElementById("form").action = "spells";
 			break;
 	}
 	

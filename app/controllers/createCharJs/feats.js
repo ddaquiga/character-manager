@@ -2,12 +2,12 @@ var script = document.createElement('script');
 script.src = '/mvc/app/controllers/createCharJs/createChar.js';
 document.head.appendChild(script);
 
-function loadFeats(charClass, race,abilArray, level, rideRank){
+function loadFeats(charClass, race,abilArray, level){
 	featId = getFeatId();
 	featName = getFeatName();
 
 	var chosenFeats = bonusFeats(charClass,race);
-	var prereqsMet = updatePrereqs(chosenFeats, charClass, abilArray, level, rideRank);
+	var prereqsMet = updatePrereqs(chosenFeats, charClass, abilArray, level);
 	displayFeats(prereqsMet, chosenFeats);
 	document.getElementById("chosenFeats").value = chosenFeats;
 	document.getElementById("prereqsMet").value = prereqsMet;
@@ -156,7 +156,7 @@ function bonusFeats(charClass,race){
 
 }
 
-function updatePrereqs(chosenFeats, charClass, abilArray, level, rideRank){
+function updatePrereqs(chosenFeats, charClass, abilArray, level){
 	var str = abilArray[0];
 	var dex = abilArray[1];
 	var con = abilArray[2];
@@ -272,9 +272,6 @@ function updatePrereqs(chosenFeats, charClass, abilArray, level, rideRank){
 
 	if (level < 6)
 		prereqsMet[featName.indexOf("Leadership")] = false;
-	
-	if (rideRank < 1)
-		prereqsMet[featName.indexOf("Mounted Combat")] = false;
 
 	if (!chosenFeats[featName.indexOf("Mounted Combat")]){
 		prereqsMet[featName.indexOf("Mounted Archery")] = false;
@@ -493,7 +490,7 @@ function submitMonkBonus(){
 		loadHumanFeat();
 }
 
-function submitFighterBonus(charClass,abilArray, level, rideRank, race){
+function submitFighterBonus(charClass,abilArray, level, race){
 	var feats=["blindFight","combatExpertise","impDisarm","impFeint","impTrip","whirlwindAttack","combatReflexes","dodge","mobility","springAttack","impCritical","impUnarmedStrike","impGrapple","deflectArrows","snatchArrows","stunningFist","mountedCombat","mountedArchery","rideByAttack","spiritedCharge","trample","pointBlankShot","farShot","preciseShot","rapidShot","manyshot","shotOnTheRun","impPreciseShot","powerAttack","cleave","greatCleave","impBullRush","impOverrun","impSunder","quickDraw","rapidReload","impShieldBash","twoWeaponFighting","twoWeaponDefense","impTwoWeaponFighting","weaponFinesse","weaponFocus","weaponSpecialization","greaterWeaponFocus","greaterWeaponSpecialization"];
 
 	var chosenFeats = document.getElementById("chosenFeats").value.split(",");
@@ -522,7 +519,7 @@ function submitFighterBonus(charClass,abilArray, level, rideRank, race){
 
 	document.getElementById("chosenFeats").value = chosenFeats;
 
-	prereqsMet = updatePrereqs(chosenFeats, charClass, abilArray, level, rideRank);
+	prereqsMet = updatePrereqs(chosenFeats, charClass, abilArray, level);
 	displayFeats(prereqsMet,chosenFeats);
 
 	document.getElementById("chosenFeats").value = chosenFeats;
@@ -532,7 +529,7 @@ function submitFighterBonus(charClass,abilArray, level, rideRank, race){
 		loadHumanFeat();
 }
 
-function submitHumanBonus(charClass, abilArray, level, rideRank){
+function submitHumanBonus(charClass, abilArray, level){
 	var chosenFeats = document.getElementById("chosenFeats").value.split(",");
 	for (i=0;i<chosenFeats.length;i++){
 		chosenFeats[i] = (chosenFeats[i] == "true");
@@ -558,7 +555,7 @@ function submitHumanBonus(charClass, abilArray, level, rideRank){
 
 	document.getElementById("chosenFeats").value = chosenFeats;
 
-	prereqsMet = updatePrereqs(chosenFeats, charClass, abilArray, level, rideRank);
+	prereqsMet = updatePrereqs(chosenFeats, charClass, abilArray, level);
 
 	document.getElementById("prereqsMet").value = prereqsMet;
 	displayFeats(prereqsMet,chosenFeats);

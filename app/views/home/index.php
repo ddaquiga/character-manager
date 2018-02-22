@@ -20,10 +20,8 @@
 </div>
 <div id="logged" style="display: none;">
 <h3>Welcome <?=$data['username']?></h3>
-<form action="/mvc/public/createChar/startChar" method="POST">
-	<input type="hidden" name="username" value="<?=$data['username']?>">
-	<input type="submit" value="Create New Character">
-</form>
+<hr>
+<?=$data['newCharacterButton']?>
 <hr>
 <h3>Character List</h3>
 <?=$data['characterButtons']?>

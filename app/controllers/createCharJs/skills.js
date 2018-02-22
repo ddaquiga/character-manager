@@ -5,6 +5,9 @@ document.head.appendChild(script);
 function loadSkills(abils,charClass,race,level,totalPoints){
 	document.getElementById("maxRanks").innerHTML = level + 3;
 	document.getElementById("maxRanksCC").innerHTML = (level + 3)/2;
+
+	if (charClass == "Bard" || charClass == "Cleric" || charClass == "Druid" || charClass == "Sorcerer" || charClass == "Wizard")
+		document.getElementById("form").action = "spells";
 	if (totalPoints <= 0){
 		document.getElementById("unfinished").style.display = "none";
 		document.getElementById("finished").style.display = "";
@@ -113,7 +116,6 @@ function updateSkillMod(skill){
 	}
 	else
 		document.getElementById(skill + "Mod").value = Math.floor(abilMod + ranks + bonus);
-	document.getElementById("hiddenRide").value = parseFloat(document.getElementById(skill + "Rank").value)
 
 }
 

@@ -3,43 +3,46 @@
 <head>
 <script type="text/javascript" src="/mvc/app/controllers/createCharJs/rollAbilities.js"></script>
 </head>
-<body onload=setRacialMod()>
+<body onload=loadRollAbilities('<?=$data['race']?>','<?=$data['class']?>')>
 
 
 <h1>Assigning Abilities</h1>
 
-<form action="skills" method="POST">
-	<h3>Roll Abilities (6 x (4d6 - lowest))</h3>
+<form action="feats" method="POST">
+	<h3>Roll Abilities</h3>
+	<p><b>Standard Method</b> (Roll 6 x 4d6 and ignore the lowest dice)</p>
 	<button type="button" id="rollButton" onclick=roll()>Roll</button>
 	<p id="rolls"></p>
+	<br>
+	<p><b>Elite Array</b><br>15,14,13,12,10,8</p>
+	<br>
+	<p><b>Standard Point Buy</b>:<p>
+	<button type="button" id="pointBuy" onclick=togglePointBuy()>Activate</button>
 	<hr>
 
-	<h3>Class Statistics</h3>
-	<p><?=$data['classAbil']?></p>
+	<h3>Class Ability Recommendation</h3>
+	<p id="classAbil"></p>
 	<hr>
 	
 	<input type="hidden" name="id" value="<?=$data['id']?>">
 
-	<h3>Enter Manually (Without Racial Adjustments)</h3>
-	<label id="str">Strength</label>
-	<input type="text" name="str" required><span id="strMod"> <?=$data['strMod']?></span><br>
+	<div id="standardHeader"><h3>Enter Manually</h3></div>
+	<div id="pointBuyHeader" style="display: none;"><h3>Spend Points</h3>(Without Racial Adjustments)<br><b>Points Left</b>: <span id="pointsLeft">25</span></div>
+	<br>
+	<table>
+		<thead>
+			<tr>
+				<th>Ability</th>
+				<th>Score</th>
+				<th>Racial Adjustment</th>
+				<th id="pointCost" style="display: none;">Point Cost</th>
+				<th id="pointButtons" style="display: none;"></th>
+			</tr>
+		</thead>
+		<tbody id="abilities"></tbody>
+	</table>
 
-	<label id="dex">Dexterity</label>
-	<input type="text" name="dex" required><span id="dexMod"> <?=$data['dexMod']?></span><br>
-
-	<label id="con">Constitution</label>
-	<input type="text" name="con" required><span id="conMod"> <?=$data['conMod']?></span><br>
-
-	<label id="int">Intelligence</label>
-	<input type="text" name="int" required><span id="intMod"> <?=$data['intMod']?></span><br>
-
-	<label id="wis">Wisdom</label>
-	<input type="text" name="wis" required><span id="wisMod"> <?=$data['wisMod']?></span><br>
-
-	<label id="cha">Charisma</label>
-	<input type="text" name="cha" required><span id="chaMod"> <?=$data['chaMod']?></span><br>
-
-	<input type="submit" value="Submit">
+	<input id="submit" type="submit" value="Submit">
 
 </form>
 <hr>

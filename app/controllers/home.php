@@ -31,9 +31,13 @@ class Home extends Controller{
 		$characterClasses = $this->login->getUserCharacterClasses($username);
 		$characterLevels = $this->login->getUserCharacterLevels($username);
 		$characterCreationStep = $this->login->getCreationSteps($username);
+		$newCharacterButton = "<h3>Create New Character</h3><form action='/mvc/public/createChar/startChar' method='POST'><input type='hidden' name='username' value='" . $username . "' ><input type='submit' value='Start New Character' ></form>";
 		$characterButtons = "";
 		for ($i=0;$i<sizeof($characterIds);$i++){
-			$characterButtons = $characterButtons . "<form action='/mvc/public/createChar/" . $characterCreationStep[$i] . "' method='POST'><input type='hidden' name='id' value='" . $characterIds[$i] . "'><input type='submit' value='" . $characterNames[$i] . " - " . $characterRaces[$i] . " " . $characterClasses[$i] . " "  . $characterLevels[$i] . " current step: " . $characterCreationStep[$i] . "'></form><form action='/mvc/public/home/deleteConfirmation' method='POST'><input type='hidden' name='username' value='" . $username . "'><input type='hidden' name='id' value='" . $characterIds[$i] . "'><input type='hidden' name='characterName' value='" . $characterNames[$i] . "'><input type='submit' value='Delete ". $characterNames[$i] . "'></form>";
+			if ($characterCreationStep[$i] == "charSheet")
+				$characterButtons = $characterButtons . "<form action='/mvc/public/createChar/charSheet' method='POST'><input type='hidden' name='id' value='" . $characterIds[$i] . "'><input type='submit' value='" . $characterNames[$i] . " - " . $characterRaces[$i] . " " . $characterClasses[$i] . "'></form><form action='/mvc/public/home/deleteConfirmation' method='POST'><input type='hidden' name='username' value='" . $username . "'><input type='hidden' name='id' value='" . $characterIds[$i] . "'><input type='hidden' name='characterName' value='" . $characterNames[$i] . "'><input type='submit' value='Delete ". $characterNames[$i] . "'></form>";
+			else
+				$newCharacterButton ="<h3>Continue Creating New Character</h3><form action='/mvc/public/createChar/" . $characterCreationStep[$i] . "' method='POST'><input type='hidden' name='id' value='" . $characterIds[$i] . "'><input type='submit' value='" . $characterNames[$i] . " - " . $characterRaces[$i] . " " . $characterClasses[$i] . " "  . $characterLevels[$i] . " current step: " . $characterCreationStep[$i] . "'></form><form action='/mvc/public/home/deleteConfirmation' method='POST'><input type='hidden' name='username' value='" . $username . "'><input type='hidden' name='id' value='" . $characterIds[$i] . "'><input type='hidden' name='characterName' value='" . $characterNames[$i] . "'><input type='submit' value='Delete ". $characterNames[$i] . "'></form>";
 		}
 
 
@@ -42,6 +46,7 @@ class Home extends Controller{
 			'password' => $password,
 			'loggedIn' => $loggedIn,
 			'loginMessage' => $loginMessage,
+			'newCharacterButton' => $newCharacterButton,
 			'characterButtons' => $characterButtons
 		]);
 	}

@@ -17,7 +17,7 @@
 	<li>Armor: <span id="currentArmor"></span></li>
 </ul>
 
-<form id="form" action="charSheet" method="POST">
+<form action="skills" method="POST">
 	<input type="hidden" name="id" value=<?=$data['id']?>>
 	<fieldset>
 		<h3>Choose a Free Outfit</h3>

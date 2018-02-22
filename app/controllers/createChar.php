@@ -8,14 +8,16 @@ class createChar extends Controller{
 		$this->character->connect();
 		$this->character->newChar($_POST['username']);
 		$this->character->setCreationStep('startChar');
+		
 		$this->view('createChar/startChar', ['id' => $this->character->getId()]);
 	}
 
-	public function rollAbilities(){
+	public function description(){
 		$this->character = $this->model("Character");
 		$this->character->connect();
 		$this->character->setID($_POST['id']);
-		$this->character->setCreationStep('rollAbilities');
+		$this->character->setCreationStep('description');
+		
 		if (isset($_POST['name']))
 			$this->character->setName($_POST['name']);
 		if (isset($_POST['class']))
@@ -27,28 +29,76 @@ class createChar extends Controller{
 
 
 
-		$this->view('createChar/rollAbilities',['id' => $this->character->getId(),
+
+
+		$this->view('createChar/description',[
+			'id' => $this->character->getId(),
 			'name' => $this->character->getName(),
 			'class' => $this->character->getClass(),
 			'race' => $this->character->getRace(),
 			'level' => $this->character->getLevel(),
-			'classAbil' => $this->character->getClassAbil(),
-			'racialSpecials' => $this->character->getRacialSpecials(),
-			'classSpecials' => $this->character->getClassSpecials(),
-			'strMod' => $this->character->racialAbilMods(0),
-			'dexMod' => $this->character->racialAbilMods(1),
-			'conMod' => $this->character->racialAbilMods(2),
-			'intMod' => $this->character->racialAbilMods(3),
-			'wisMod' => $this->character->racialAbilMods(4),
-			'chaMod' => $this->character->racialAbilMods(5)
-		]);
+			'str' => $this->character->getStrength(),
+			'dex' => $this->character->getDexterity(),
+			'con' => $this->character->getConstitution(),
+			'int' => $this->character->getIntelligence(),
+			'wis' => $this->character->getWisdom(),
+			'cha' => $this->character->getCharisma()
+			]);
+
 	}
 
-	public function skills(){
+	public function rollAbilities(){
 		$this->character = $this->model("Character");
 		$this->character->connect();
 		$this->character->setID($_POST['id']);
-		$this->character->setCreationStep('skills');
+		$this->character->setCreationStep('rollAbilities');
+
+		if (isset($_POST['lvc'])){
+			$this->character->setLVC($_POST['lvc']);
+			$this->character->setGVE($_POST['gve']);
+			$this->character->setDiety($_POST['diety']);
+			$this->character->setDomains($_POST['domains']);
+			$this->character->setSchoolSpecialization($_POST['schoolSpecialization']);
+			$this->character->setBannedSchools($_POST['bannedSchools']);
+			$this->character->setGender($_POST['gender']);
+			$this->character->setHeight($_POST['height']);
+			$this->character->setWeight($_POST['weight']);
+			$this->character->setAge($_POST['age']);
+			$this->character->setSkin($_POST['skin']);
+			$this->character->setHair($_POST['hair']);
+			$this->character->setEyes($_POST['eyes']);
+		}
+
+
+		$this->view('createChar/rollAbilities',['id' => $this->character->getId(),
+			'name' => $this->character->getName(),
+			'class' => $this->character->getClass(),
+			'race' => $this->character->getRace(),
+			'level' => $this->character->getLevel()
+		]);
+	}
+
+	public function feats(){
+		$this->character = $this->model("Character");
+		$this->character->connect();
+		$this->character->setID($_POST['id']);
+		$this->character->setCreationStep('feats');
+
+
+
+		$class = $this->character->getClass();
+
+		if ($class == "Sorcerer" || $class == "Wizard")
+			$hd = 4;
+		else if ($class == "Bard" || $class == "Rogue")
+			$hd = 6;
+		else if ($class == "Fighter" || $class == "Paladin")
+			$hd = 10;
+		else if ($class == "Barbarian")
+			$hd = 12;
+		else
+			$hd = 8;
+		$this->character->setHitPoints($hd + floor(($this->character->getConstitution()-10)/2));
 
 		if (isset($_POST['str'])){
 		$strength = $_POST['str'] + $this->character->racialAbilMods(0);
@@ -67,84 +117,11 @@ class createChar extends Controller{
 
 		}
 
-		$class = $this->character->getClass();
-
-		if ($class == "Sorcerer" || $class == "Wizard")
-			$hd = 4;
-		else if ($class == "Bard" || $class == "Rogue")
-			$hd = 6;
-		else if ($class == "Fighter" || $class == "Paladin")
-			$hd = 10;
-		else if ($class == "Barbarian")
-			$hd = 12;
-		else
-			$hd = 8;
-		$this->character->setHitPoints($hd + floor(($this->character->getConstitution()-10)/2));
-
-		$totalPoints = 4 * ($this->character->getClassSkillPoints() + floor(($this->character->getIntelligence() - 10)/2));
-		if ($this->character->getRace() == "Human")
-			$totalPoints += 4;
-
-
-
-		$this->view('createChar/skills',[
-			'id' => $this->character->getId(),
-			'name' => $this->character->getName(),
-			'class' => $this->character->getClass(),
-			'race' => $this->character->getRace(),
-			'racialSpecials' => $this->character->getRacialSpecials(),
-			'classSpecials' => $this->character->getClassSpecials(),
-			'level' => $this->character->getLevel(),
-			'str' => $this->character->getStrength(),
-			'dex' => $this->character->getDexterity(),
-			'con' => $this->character->getConstitution(),
-			'int' => $this->character->getIntelligence(),
-			'wis' => $this->character->getWisdom(),
-			'cha' => $this->character->getCharisma(),
-			'totalPoints' => $totalPoints
-		]);
-	}
-
-	public function feats(){
-		$this->character = $this->model("Character");
-		$this->character->connect();
-		$this->character->setID($_POST['id']);
-		$this->character->setCreationStep('feats');
-
-		$skillId = array("appraise","balance","bluff","climb","concentration","craft","decipherScript","diplomacy","disableDevice","disguise","escapeArtist","forgery","gatherInformation","handleAnimal","heal","hide","intimidate","jump","arcana","architecture","dungeoneering","geography","history","local","nature","nobility","religion","planes","listen","moveSilently","openLock","perform","profession","ride","search","senseMotive","sleightOfHand","speakLanguage","spellcraft","spot","survival","swim","tumble","useMagicDevice","useRope");
-
-		if (isset($_POST['appraise'])){
-			$skillModArray = array();
-			$ranksArray = array();
-			$keyAbilModArray = array();
-			$bonusArray = array();
-
-			foreach ($skillId as $i){
-				array_push($skillModArray,$_POST[$i]);
-				array_push($ranksArray,$_POST[$i . "Rank"]);
-				array_push($keyAbilModArray,$_POST[$i . "AbilMod"]);
-				array_push($bonusArray,$_POST[$i . "Bonus"]);
-			}
-
-			$this->character->setSkillModArray(json_encode($skillModArray));
-			$this->character->setRanksArray(json_encode($ranksArray));
-			$this->character->setKeyAbilModArray(json_encode($keyAbilModArray));
-			$this->character->setBonusArray(json_encode($bonusArray));
-			$rideRank = $_POST["rideRank"];
-		}
-		else{
-			$ranks = $this->character->getRanksArray();
-			$rideIndex = array_search("ride",$skillId);
-			$rideRank = $ranks[$rideIndex];
-		}
-
 		$this->view('createChar/feats',[
 			'id' => $this->character->getId(),
 			'name' => $this->character->getName(),
 			'class' => $this->character->getClass(),
 			'race' => $this->character->getRace(),
-			'racialSpecials' => $this->character->getRacialSpecials(),
-			'classSpecials' => $this->character->getClassSpecials(),
 			'level' => $this->character->getLevel(),
 			'str' => $this->character->getStrength(),
 			'dex' => $this->character->getDexterity(),
@@ -152,19 +129,14 @@ class createChar extends Controller{
 			'int' => $this->character->getIntelligence(),
 			'wis' => $this->character->getWisdom(),
 			'cha' => $this->character->getCharisma(),
-			'skillModArray' => json_decode($this->character->getSkillModArray()),
-			'ranksArray' => json_decode($this->character->getRanksArray()),
-			'keyAbilModArray' => json_decode($this->character->getKeyAbilModArray()),
-			'bonusArray' => json_decode($this->character->getBonusArray()),
-			'hiddenRide' => $rideRank
 		]);
 	}
 
-	public function description(){
+	public function equipment(){
 		$this->character = $this->model("Character");
 		$this->character->connect();
 		$this->character->setID($_POST['id']);
-		$this->character->setCreationStep('description');
+		$this->character->setCreationStep('equipment');
 
 
 		if (isset($_POST['chosenFeats'])){
@@ -182,51 +154,42 @@ class createChar extends Controller{
 			$this->character->setChosenFeats(json_encode($chosenFeats));
 		}
 
-		$this->view('createChar/description',[
-			'id' => $this->character->getId(),
-			'name' => $this->character->getName(),
-			'class' => $this->character->getClass(),
-			'race' => $this->character->getRace(),
-			'racialSpecials' => $this->character->getRacialSpecials(),
-			'classSpecials' => $this->character->getClassSpecials(),
-			'level' => $this->character->getLevel(),
-			'str' => $this->character->getStrength(),
-			'dex' => $this->character->getDexterity(),
-			'con' => $this->character->getConstitution(),
-			'int' => $this->character->getIntelligence(),
-			'wis' => $this->character->getWisdom(),
-			'cha' => $this->character->getCharisma(),
-			'chosenFeats' => json_decode($this->character->getChosenFeats())
-			]);
-
-	}
-
-	public function equipment(){
-		$this->character = $this->model("Character");
-		$this->character->connect();
-		$this->character->setID($_POST['id']);
-		$this->character->setCreationStep('equipment');
-
-		if (isset($_POST['lvc'])){
-			$this->character->setLVC($_POST['lvc']);
-			$this->character->setGVE($_POST['gve']);
-			$this->character->setDiety($_POST['diety']);
-			$this->character->setGender($_POST['gender']);
-			$this->character->setHeight($_POST['height']);
-			$this->character->setWeight($_POST['weight']);
-			$this->character->setAge($_POST['age']);
-			$this->character->setSkin($_POST['skin']);
-			$this->character->setHair($_POST['hair']);
-			$this->character->setEyes($_POST['eyes']);
-		}
-
 		$this->view('createChar/equipment',[
 			'id' => $this->character->getId(),
 			'name' => $this->character->getName(),
 			'class' => $this->character->getClass(),
 			'race' => $this->character->getRace(),
-			'racialSpecials' => $this->character->getRacialSpecials(),
-			'classSpecials' => $this->character->getClassSpecials(),
+			'level' => $this->character->getLevel(),
+			'str' => $this->character->getStrength(),
+			'chosenFeats' => $this->character->getChosenFeats(),
+			'diety' => $this->character->getDiety(),
+			'domains' => $this->character->getDomains()
+		]);
+	}
+
+	public function skills(){
+		$this->character = $this->model("Character");
+		$this->character->connect();
+		$this->character->setID($_POST['id']);
+		$this->character->setCreationStep('skills');
+		
+		if (isset($_POST['outfit'])){
+			$this->character->setOutfit(json_encode($_POST['outfit']));
+			$this->character->setWeapons(json_encode($_POST['weapons']));
+			$this->character->setArmor(json_encode($_POST['armor']));
+		}
+
+		$totalPoints = 4 * ($this->character->getClassSkillPoints() + floor(($this->character->getIntelligence() - 10)/2));
+		if ($this->character->getRace() == "Human")
+			$totalPoints += 4;
+
+
+
+		$this->view('createChar/skills',[
+			'id' => $this->character->getId(),
+			'name' => $this->character->getName(),
+			'class' => $this->character->getClass(),
+			'race' => $this->character->getRace(),
 			'level' => $this->character->getLevel(),
 			'str' => $this->character->getStrength(),
 			'dex' => $this->character->getDexterity(),
@@ -234,17 +197,7 @@ class createChar extends Controller{
 			'int' => $this->character->getIntelligence(),
 			'wis' => $this->character->getWisdom(),
 			'cha' => $this->character->getCharisma(),
-			'chosenFeats' => $this->character->getChosenFeats(),
-			'lvc' => $this->character->getLVC(),
-			'gve' => $this->character->getGVE(),
-			'diety' => $this->character->getDiety(),
-			'gender' => $this->character->getGender(),
-			'height' => $this->character->getHeight(),
-			'weight' => $this->character->getWeight(),
-			'age' => $this->character->getAge(),
-			'skin'  => $this->character->getSkin(),
-			'hair' => $this->character->getHair(),
-			'eyes' => $this->character->getEyes()
+			'totalPoints' => $totalPoints
 		]);
 	}
 
@@ -253,10 +206,26 @@ class createChar extends Controller{
 		$this->character->connect();
 		$this->character->setID($_POST['id']);
 		$this->character->setCreationStep('spells');
-		if (isset($_POST['outfit'])){
-			$this->character->setOutfit(json_encode($_POST['outfit']));
-			$this->character->setWeapons(json_encode($_POST['weapons']));
-			$this->character->setArmor(json_encode($_POST['armor']));
+
+		if (isset($_POST['appraise'])){
+			$skillId = array("appraise","balance","bluff","climb","concentration","craft","decipherScript","diplomacy","disableDevice","disguise","escapeArtist","forgery","gatherInformation","handleAnimal","heal","hide","intimidate","jump","arcana","architecture","dungeoneering","geography","history","local","nature","nobility","religion","planes","listen","moveSilently","openLock","perform","profession","ride","search","senseMotive","sleightOfHand","speakLanguage","spellcraft","spot","survival","swim","tumble","useMagicDevice","useRope");
+		
+			$skillModArray = array();
+			$ranksArray = array();
+			$keyAbilModArray = array();
+			$bonusArray = array();
+
+			foreach ($skillId as $i){
+				array_push($skillModArray,$_POST[$i]);
+				array_push($ranksArray,$_POST[$i . "Rank"]);
+				array_push($keyAbilModArray,$_POST[$i . "AbilMod"]);
+				array_push($bonusArray,$_POST[$i . "Bonus"]);
+			}
+
+			$this->character->setSkillModArray(json_encode($skillModArray));
+			$this->character->setRanksArray(json_encode($ranksArray));
+			$this->character->setKeyAbilModArray(json_encode($keyAbilModArray));
+			$this->character->setBonusArray(json_encode($bonusArray));
 		}
 
 		$this->view('createChar/spells',[
@@ -266,33 +235,15 @@ class createChar extends Controller{
 			'race' => $this->character->getRace(),
 			'class' => $this->character->getClass(),
 			'level' => $this->character->getLevel(),
-			'strength' => $this->character->getStrength(),
-			'dexterity' => $this->character->getDexterity(),
-			'constitution' => $this->character->getConstitution(),
 			'intelligence' => $this->character->getIntelligence(),
 			'wisdom' => $this->character->getWisdom(),
 			'charisma' => $this->character->getCharisma(),
-			'hitPoints' => $this->character->getHitPoints(),
-			'skillModArray' => $this->character->getSkillModArray(),
-			'ranksArray' => $this->character->getRanksArray(),
-			'keyAbilModArray' => $this->character->getKeyAbilModArray(),
-			'bonusArray' => $this->character->getBonusArray(),
-			'chosenFeats' => $this->character->getChosenFeats(),
 			'lvc' => $this->character->getLVC(),
 			'gve' => $this->character->getGVE(),
 			'diety' => $this->character->getDiety(),
-			'gender' => $this->character->getGender(),
-			'height' => $this->character->getHeight(),
-			'weight' => $this->character->getWeight(),
-			'age' => $this->character->getAge(),
-			'skin' => $this->character->getSkin(),
-			'hair' => $this->character->getHair(),
-			'eyes' => $this->character->getEyes(),
-			'outfit' => $this->character->getOutfit(),
-			'weapons' => $this->character->getWeapons(),
-			'armor' => $this->character->getArmor(),
-			'racialSpecials' => $this->character->getRacialSpecials(),
-			'classSpecials' => $this->character->getClassSpecials()
+			'domains' => $this->character->getDomains(),
+			'schoolSpec' => $this->character->getSchoolSpecialization(),
+			'bannedSchools' =>$this->character->getBannedSchools()
 		]);
 
 	}
@@ -302,11 +253,28 @@ class createChar extends Controller{
 		$this->character->connect();
 		$this->character->setID($_POST['id']);
 		$this->character->setCreationStep('charSheet');
-		if (isset($_POST['outfit'])){
-			$this->character->setOutfit(json_encode($_POST['outfit']));
-			$this->character->setWeapons(json_encode($_POST['weapons']));
-			$this->character->setArmor(json_encode($_POST['armor']));
+
+		if (isset($_POST['appraise'])){
+			$skillId = array("appraise","balance","bluff","climb","concentration","craft","decipherScript","diplomacy","disableDevice","disguise","escapeArtist","forgery","gatherInformation","handleAnimal","heal","hide","intimidate","jump","arcana","architecture","dungeoneering","geography","history","local","nature","nobility","religion","planes","listen","moveSilently","openLock","perform","profession","ride","search","senseMotive","sleightOfHand","speakLanguage","spellcraft","spot","survival","swim","tumble","useMagicDevice","useRope");
+		
+			$skillModArray = array();
+			$ranksArray = array();
+			$keyAbilModArray = array();
+			$bonusArray = array();
+
+			foreach ($skillId as $i){
+				array_push($skillModArray,$_POST[$i]);
+				array_push($ranksArray,$_POST[$i . "Rank"]);
+				array_push($keyAbilModArray,$_POST[$i . "AbilMod"]);
+				array_push($bonusArray,$_POST[$i . "Bonus"]);
+			}
+
+			$this->character->setSkillModArray(json_encode($skillModArray));
+			$this->character->setRanksArray(json_encode($ranksArray));
+			$this->character->setKeyAbilModArray(json_encode($keyAbilModArray));
+			$this->character->setBonusArray(json_encode($bonusArray));
 		}
+
 		if (isset($_POST['chosenKnown'])){
 			$this->character->setKnownSpells(json_encode($_POST['chosenKnown']));
 			$this->character->setPreparedSpells(json_encode($_POST['chosenPrepared']));
@@ -335,6 +303,9 @@ class createChar extends Controller{
 			'lvc' => $this->character->getLVC(),
 			'gve' => $this->character->getGVE(),
 			'diety' => $this->character->getDiety(),
+			'domains' => $this->character->getDomains(),
+			'schoolSpec' => $this->character->getSchoolSpecialization(),
+			'bannedSchools' =>$this->character->getBannedSchools(),
 			'gender' => $this->character->getGender(),
 			'height' => $this->character->getHeight(),
 			'weight' => $this->character->getWeight(),
@@ -345,8 +316,6 @@ class createChar extends Controller{
 			'outfit' => $this->character->getOutfit(),
 			'weapons' => $this->character->getWeapons(),
 			'armor' => $this->character->getArmor(),
-			'racialSpecials' => $this->character->getRacialSpecials(),
-			'classSpecials' => $this->character->getClassSpecials(),
 			'knownSpells' => $this->character->getKnownSpells(),
 			'preparedSpells' => $this->character->getPreparedSpells()
 		]);

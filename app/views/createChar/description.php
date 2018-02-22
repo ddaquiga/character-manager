@@ -7,7 +7,7 @@
 
 
 <h1>Description</h1>
-<form action="equipment" method="POST">
+<form action="rollAbilities" method="POST">
 	<input type="hidden" name="id" value=<?=$data['id']?>>
 	<h3>Choose an Alignment</h3>
 	<p id="alignmentRule"></p>
@@ -41,6 +41,35 @@
 		<input type="hidden" id="domainPost" name="domains">
 		<hr>
 	</div>
+	<div id="schoolSpecDiv" style="display: none;">
+		<h3>Choose a School of Magic to Specialize in:</h3>
+		<label>None</label>
+		<input id="specNone" type="radio" name="schoolSpecialization" value="" checked onclick=loadBannedSchools('')><br>
+		<label>Abjuration</label>
+		<input id="specAbjuration" type="radio" name="schoolSpecialization" value="Abjuration" onclick=loadBannedSchools('Abjuration')><br>
+		<label>Conjuration</label>
+		<input id="specConjuration" type="radio" name="schoolSpecialization" value="Conjuration" onclick=loadBannedSchools('Conjuration')><br>
+		<label>Divination</label>
+		<input id="specDivination" type="radio" name="schoolSpecialization" value="Divination" onclick=loadBannedSchools('Divination')><br>
+		<label>Enchantment</label>
+		<input id="specEnchantment" type="radio" name="schoolSpecialization" value="Enchantment" onclick=loadBannedSchools('Enchantment')><br>
+		<label>Evocation</label>
+		<input id="specEvocation" type="radio" name="schoolSpecialization" value="Evocation" onclick=loadBannedSchools('Evocation')><br>
+		<label>Illusion</label>
+		<input id="specIllusion" type="radio" name="schoolSpecialization" value="Illusion" onclick=loadBannedSchools('Illusion')><br>
+		<label>Necromancy</label>
+		<input id="specNecromancy" type="radio" name="schoolSpecialization" value="Necromancy" onclick=loadBannedSchools('Necromancy')><br>
+		<label>Transmutation</label>
+		<input id="specTransmutation" type="radio" name="schoolSpecialization" value="Transmutation" onclick=loadBannedSchools('Transmutation')><br>
+
+		<div id="bannedSchoolDiv" style="display: none;">
+			<h3>Choose Two Schools of Magic to ban:</h3>
+			<div id="bannedSchoolInputs"></div>
+		</div>
+		<input type="hidden" id="bannedSchools" name="bannedSchools">
+		<hr>
+	</div>
+
 	<h3>Vitals</h3>
 	<label>Gender</label>
 	<fieldset>

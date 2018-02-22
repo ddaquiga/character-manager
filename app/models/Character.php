@@ -228,6 +228,33 @@ class Character{
         }
 	}
 
+	public function getDomains(){
+		$stmt = $this->conn->prepare("SELECT domains FROM Characters WHERE ID = :ID");
+		$stmt->bindParam(':ID', $this->id);
+		$stmt->execute();
+	    foreach(new RecursiveArrayIterator($stmt->fetchAll()) as $k=>$v) { 
+	        return $v['domains'];
+        }
+	}
+
+	public function getSchoolSpecialization(){
+		$stmt = $this->conn->prepare("SELECT schoolSpecialization FROM Characters WHERE ID = :ID");
+		$stmt->bindParam(':ID', $this->id);
+		$stmt->execute();
+	    foreach(new RecursiveArrayIterator($stmt->fetchAll()) as $k=>$v) { 
+	        return $v['schoolSpecialization'];
+        }
+	}
+
+	public function getBannedSchools(){
+		$stmt = $this->conn->prepare("SELECT bannedSchools FROM Characters WHERE ID = :ID");
+		$stmt->bindParam(':ID', $this->id);
+		$stmt->execute();
+	    foreach(new RecursiveArrayIterator($stmt->fetchAll()) as $k=>$v) { 
+	        return $v['bannedSchools'];
+        }
+	}
+
 	public function getGender(){
 		$stmt = $this->conn->prepare("SELECT gender FROM Characters WHERE ID = :ID");
 		$stmt->bindParam(':ID', $this->id);
@@ -476,6 +503,27 @@ class Character{
 		$stmt->execute();
 	}
 
+	public function setDomains($val){
+		$stmt = $this->conn->prepare("UPDATE Characters SET domains = :val WHERE ID = :ID");
+		$stmt->bindParam(':val', $val);
+		$stmt->bindParam(':ID', $this->id);
+		$stmt->execute();
+	}
+
+	public function setSchoolSpecialization($val){
+		$stmt = $this->conn->prepare("UPDATE Characters SET schoolSpecialization = :val WHERE ID = :ID");
+		$stmt->bindParam(':val', $val);
+		$stmt->bindParam(':ID', $this->id);
+		$stmt->execute();
+	}
+
+	public function setBannedSchools($val){
+		$stmt = $this->conn->prepare("UPDATE Characters SET bannedSchools = :val WHERE ID = :ID");
+		$stmt->bindParam(':val', $val);
+		$stmt->bindParam(':ID', $this->id);
+		$stmt->execute();
+	}
+
 	public function setGender($val){
 		$stmt = $this->conn->prepare("UPDATE Characters SET gender = :val WHERE ID = :ID");
 		$stmt->bindParam(':val', $val);
@@ -625,76 +673,8 @@ class Character{
 		return $array[$val];
 	}
 
-	public function getRacialSpecials(){
-		$race = $this->getRace();
-		switch ($race){
-			case "Human":
-				return "<ul><li>Medium Size</li><li>30 foot base land speed</li><li>1 extra feat at 1st level</li><li>4 extra skill points at first level and 1 extra skill point at each additional level</li></ul>";
-				break;
-			case "Dwarf":
-				return "<ul><li>+2 Constitution, -2 Charisma</li><li>Medium Size</li><li>20 foot base land speed</li><li>Darkvision</li><li>Stonecutting</li><li>Weapon Familiarity: Dwarven Waraxe and Dwarven Urgosh</li><li>Stability</li><li>+2 bonus on saving throws against poison</li><li>+2 bonus on saving throws against spells and spell-like effects</li><li>+1 bonus to attack rolls against orcs and goblinoids</li><li>+4 dodge bonus to Armor Class against monsters of the giant type</li><li>+2 bonus on Appraise checks that are related to stone or metal items</li><li>+2 bonus on Craft checks related to stone or metal</li></ul>";
-				break;
-			case "Elf":
-				return "<ul><li>+2 Dexterity, -2 Constitution</li><li>Medium Size</li><li>30 foot base land speed</li><li>Immunity to magic sleep effects</li><li>+2 saving throw against enchantment spells or effects</li><li>Low-Light Vision</li><li>Weapon Proficiency: Longsword, Rapier, Longbow (including Composite Longbow), and Shortbow (including Composite Shortbow)</li><li>+2 bonus on Listen Search and Spot checks</li><li>Free Search check when passing within 5ft. of a secret door</li></ul>";
-				break;
-			case "Gnome":
-				$racials = "<ul><li>+2 Constitution, -2 Strength</li><li>Small Size: +1 bonus to Armor Class and Attack rolls, and +4 bonus to Hide Checks</li><li>20 foot base land speed</li><li>Low-light Vision</li><li>Weapon Familiarity: Gnome Hooked Hammer</li><li>+2 bonus against illusions</li><li>+1 to the Difficulty Class for all saving throws against illusion spells cast by gnomes</li><li>+1 bonus on attack rolls against kobolds and goblinoids</li><li>+4 dodge bonus to Armor Class against monsters of the giant type</li><li>+2 bonus on Listen checks</li><li>+2 bonus on Craft(alchemy) checks</li><li>Spell-Like Abilities: 1/day - speak with burrowing mammal (1 minute)";
-				if ($this->getCharisma() >= 10){
-					$racials = $racials . ", dancing lights, ghost sound, prestidigitation</li></ul>";
-				}
-				else $racials =  $racials . "</li></ul>";
-				return $racials;
-				break;
-			case "Half-elf":
-				return "<ul><li>Medium Size</li><li>30 foot base land speed</li><li>Immunity to magic sleep effects</li><li>+2 saving throw against enchantment spells or effects</li><li>Low-Light Vision</li><li>+1 bonus on Listen, Search, and Spot checks</li><li>+2 bonus on Diplomacy and Gather Information checks</li><li>Elven Blood</li></ul>";
-				break;
-			case "Half-orc":
-				return "<ul><li>+2 Strength, -2 Intelligence, -2 Charisma</li><li>Medium Size</li><li>30 foot base land speed</li><li>Darkvision</li><li>Darkvision</li><li>Orc Blood</li></ul>";
-				break;
-			case "Halfling":
-				return "<ul><li>+2 Dexterity, -2 Strength</li><li>Small Size: +1 bonus to Armor Class and Attack rolls, and +4 bonus to Hide Checks</li><li>20 foot base land speed</li><li>+2 bonus on Climb, Jump, and Move Silently checks</li><li>+1 bonus on all saving throws</li><li> +2 morale bonus on saving throws aginst fear</li><li>+1 bonus on attack rolls with thrown weapons and slings</li><li>+2 bonus on Listen checks</li></ul>";
-				break;
-		}
-	}
 
-	public function getClassSpecials(){
-		$class = $this->getClass();
-		switch ($class){
-			case "Barbarian":
-				return "<ul><li>Weapon and Armor Proficiency: A barbarian is proficient with all simple and martial weapons, light armor, medium armor, and shields (except tower shields)</li><li>Fast Movement</li><li>Illiteracy</li><li>Rage 1/day</li></ul>";
-				break;
-			case "Bard":
-				return "<ul><li>Weapon and Armor Proficiency: A bard is proficient with all simple weapons, plus the longsword, rapier, sap, short sword, shortbow, and whip. Bards are proficient with light armor and shields (except tower shields).<br>Because the somatic components required for bard spells are relatively simple, a bard can cast bard spells while wearing light armor without incurring the normal arcane spell failure chance. However, like any other arcane spellcaster, a bard wearing medium or heavy armor or using a shield incurs a chance of arcane spell failure if the spell in question has a somatic component (most do). A multiclass bard still incurs the normal arcane spell failure chance for arcane spells received from other classes.</li><li>Arcane Spells</li><li>Bardic Music</li><li>Bardic Knowledge</li><li>Countersong</li><li>Fascinate</li><li>Inspire Courage +1</li></ul>";
-				break;
-			case "Cleric":
-				return "<ul><li>Weapon and Armor Proficiency: Clerics are proficient with all simple weapons, with all types of armor (light, medium, and heavy), and with shields (except tower shields).<br>Every deity has a favored weapon, and his or her clerics consider it a point of pride to wield that weapon. A cleric who chooses the War domain receives the Weapon Focus feat related to that weapon as a bonus feat. He also receives the appropriate Martial Weapon Proficiency feat as a bonus feat, if the weapon falls into that category.</li><li>Divine Spells</li><li>Spontaneous Casting</li><li>Aura</li><li>Bonus Languages: Celestial, Abyssal, and Infernal</li><li>Turn or Rebuke Undead</li></ul>";
-				break;
-			case "Druid":
-				return "<ul><li>Weapon and Armor Proficiency: Druids are proficient with the following weapons: club, dagger, dart, quarterstaff, scimitar, sickle, shortspear, sling, and spear. They are also proficient with all natural attacks (claw, bite, and so forth) of any form they assume with wild shape.<br>Druids are proficient with light and medium armor but are prohibited from wearing metal armor; thus, they may wear only padded, leather, or hide armor. (A druid may also wear wooden armor that has been altered by the ironwood spell so that it functions as though it were steel.) Druids are proficient with shields (except tower shields) but must use only wooden ones.<br>A druid who wears prohibited armor or carries a prohibited shield is unable to cast druid spells or use any of her supernatural or spelllike class abilities while doing so and for 24 hours thereafter.</li><li>Divine Spells</li><li>Spontaneous Casting</li><li>Bonus Languages: Sylvan and Druidic</li><li>Animal Companion</li><li>Nature Sense</li><li>Wild Empathy</li></ul>";
-				break;
-			case "Fighter":
-				return "<ul><li>Weapon and Armor Proficiency: A fighter is proficient with all simple and martial weapons and with all armor (heavy, medium, and light) and shields (including tower shields).</li><li>Bonus Combat Feat</li></ul>";
-				break;
-			case "Monk":
-				return "<ul><li>Weapon and Armor Proficiency: Monks are proficient with certain basic peasant weapons and some special weapons that are part of monk training. The weapons with which a monk is proficient are club, crossbow (light or heavy), dagger, handaxe, javelin, kama, nunchaku, quarterstaff, sai, shuriken, siangham, and sling. Monks are not proficient with any armor or shields—in fact, many of the monk’s special powers require unfettered movement. When wearing armor, using a shield, or carrying a medium or heavy load, a monk loses her AC bonus, as well as her fast movement and flurry of blows abilities.</li><li>AC Bonus</li><li>Flurry of Blows -2/-2</li><li>Unarmed Damage 1d6</li><li>Bonus Feat</li></ul>";
-				break;
-			case "Paladin":
-				return "<ul><li>Weapon and Armor Proficiency: Paladins are proficient with all simple and martial weapons, with all types of armor (heavy, medium, and light), and with shields (except tower shields).</li><li>Code of Conduct</li><li>Aura of Good</li><li>Detect Evil</li><li>Smite Evil 1/day</li></ul>";
-				break;
-			case "Ranger":
-				return "<ul><li>Weapon and Armor Proficiency: A ranger is proficient with all simple and martial weapons, and with light armor and shields (except tower shields).</li><li>Favored Enemy</li><li>Track</li><li>Wild Empathy</li></ul>";
-				break;
-			case "Rogue":
-				return "<ul><li>Weapon and Armor Proficiency: Rogues are proficient with all simple weapons, plus the hand crossbow, rapier, shortbow, and short sword. Rogues are proficient with light armor, but not with shields.</li><li>Sneak Attack +1d6</li><li>Trapfinding</li></ul>";
-				break;
-			case "Sorcerer":
-				return "<ul><li>Weapon and Armor Proficiency: Sorcerers are proficient with all simple weapons. They are not proficient with any type of armor or shield. Armor of any type interferes with a sorcerer’s arcane gestures, which can cause his spells with somatic components to fail.</li><li>Arcane Spells</li><li>Summon Familiar</li></ul>";
-				break;
-			case "Wizard":
-				return "<ul><li>Weapon and Armor Proficiency: Wizards are proficient with the club, dagger, heavy crossbow, light crossbow, and quarterstaff, but not with any type of armor or shield. Armor of any type interferes with a wizard’s movements, which can cause her spells with somatic components to fail.</li><li>Arcane Spells</li><li>Bonus Language: Draconic</li><li>Summon Familiar</li><li>Scribe Scroll</li></ul>";
-				break;
-		}
-	}
+	
 
 	public function getClassSkillPoints(){
 		$class = $this->getClass();

@@ -3,6 +3,7 @@ script.src = '/mvc/app/controllers/createCharJs/createChar.js';
 document.head.appendChild(script);
 
 function loadDescription(race, charClass){
+
 	switch (race){
 		case "Dwarf":
 			if (Math.random < 0.5){
@@ -104,6 +105,7 @@ function loadDescription(race, charClass){
 			break;
 		case "Wizard":
 			alignmentRule = "Overall, wizards show a slight tendency toward law over chaos because the study of magic rewards those who are disciplined. Illusionists and transmuters, however, are masters of deception and change, respectively. They favor chaos over law.";
+			document.getElementById("schoolSpecDiv").style.display = "";
 			break;
 		default:
 			alignmentRule = "";
@@ -333,8 +335,11 @@ function submitDomain(diety,domain){
 	for (i=0;i<domains.length;i++){
 		button = document.getElementById(domains[i]);
 		if (button != null){
-			if (button.disabled)
-				picked = domains[i];
+			if (button.disabled){
+				if (picked != "")
+					picked += ",";
+				picked += domains[i];
+			}
 		}
 	}
 	document.getElementById(domain).disabled = true;
@@ -347,10 +352,53 @@ function submitDomain(diety,domain){
 					button.style.display = "none";
 				}
 			}
-
 		}
 	}
+	else document.getElementById("domainPost").value = domain;
 
+}
+
+function loadBannedSchools(specSchool){
+	schools = ["Abjuration","Conjuration","Enchantment","Evocation","Illusion","Necromancy","Transmutation"];
+	document.getElementById("bannedSchoolInputs").innerHTML = "";
+	if(specSchool != ""){
+		document.getElementById("bannedSchoolDiv").style.display = "";
+		for (i=0;i<schools.length;i++){
+			if (specSchool != schools[i]){
+				document.getElementById("bannedSchoolInputs").innerHTML += "<button type=button id=" + ("ban" + schools[i]) + " onclick=" + ("submitBannedSchool('" + schools[i] + "')") + " >" + schools[i] +"</button><br>";
+			}
+		}
+	}
+	else
+		document.getElementById("bannedSchoolDiv").style.display = "none";
+}
+
+function submitBannedSchool(school){
+	schools = ["Abjuration","Conjuration","Enchantment","Evocation","Illusion","Necromancy","Transmutation"];
+	picked = "";
+	for (i=0;i<schools.length;i++){
+		button = document.getElementById("ban" + schools[i]);
+		if (button != null){
+			if (button.disabled){
+				if (picked != "")
+					picked += ",";
+				picked += schools[i];
+			}
+		}
+	}
+	document.getElementById("ban" + school).disabled = true;
+	if (picked != ""){
+		document.getElementById("bannedSchools").value = (picked + "," + school);
+		for (i=0;i<schools.length;i++){
+			button = document.getElementById("ban" + schools[i]);
+			if (button != null){
+				if (!button.disabled){
+					button.style.display = "none";
+				}
+			}
+		}
+	}
+	else document.getElementById("bannedSchools").value = school;
 }
 
 function getAlignmentSteps(dietyLVC,dietyGVE,alignmentLVC,alignmentGVE){
@@ -565,6 +613,10 @@ function randSize(race){
 	height += heightRoll;
 	weight += heightRoll * weightRoll;
 
-	document.getElementById("height").value = height;
+	heightInFeet = parseInt(height/12) + "ft.";
+	if (height%12 != 0)
+		heightInFeet += " " + (height%12) + "in.";
+
+	document.getElementById("height").value = heightInFeet;
 	document.getElementById("weight").value = weight;
 }

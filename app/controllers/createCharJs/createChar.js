@@ -34,6 +34,91 @@ function getKeyAbilityMod(modifier){
 	return array;
 }
 
+function getRacialSpecials(race,charisma){
+	switch (race){
+		case "Human":
+			return ["Medium Size","30 foot base land speed","1 extra feat at 1st level","4 extra skill points at first level and 1 extra skill point at each additional level"];
+		case "Dwarf":
+			return ["+2 Constitution, -2 Charisma","Medium Size","20 foot base land speed","Darkvision","Stonecutting","Weapon Familiarity: Dwarven Waraxe and Dwarven Urgosh","Stability","+2 bonus on saving throws against poison","+2 bonus on saving throws against spells and spell-like effects","+1 bonus to attack rolls against orcs and goblinoids","+4 dodge bonus to Armor Class against monsters of the giant type","+2 bonus on Appraise checks that are related to stone or metal items","+2 bonus on Craft checks related to stone or metal"];
+		case "Elf":
+			return ["+2 Dexterity, -2 Constitution","Medium Size","30 foot base land speed","Immunity to magic sleep effects","+2 saving throw against enchantment spells or effects","Low-Light Vision","Weapon Proficiency: Longsword, Rapier, Longbow (including Composite Longbow), and Shortbow (including Composite Shortbow)","+2 bonus on Listen Search and Spot checks","Free Search check when passing within 5ft. of a secret door"];
+		case "Gnome":
+			racials = ["+2 Constitution, -2 Strength","Small Size: +1 bonus to Armor Class and Attack rolls, and +4 bonus to Hide Checks","20 foot base land speed","Low-light Vision","Weapon Familiarity: Gnome Hooked Hammer","+2 bonus against illusions","+1 to the Difficulty Class for all saving throws against illusion spells cast by gnomes","+1 bonus on attack rolls against kobolds and goblinoids","+4 dodge bonus to Armor Class against monsters of the giant type","+2 bonus on Listen checks","+2 bonus on Craft(alchemy) checks"];
+			if (charisma >= 10)
+				racials[racials.length] = "Spell-Like Abilities: 1/day - speak with burrowing mammal (1 minute), dancing lights, ghost sound, prestidigitation";
+			else
+				racials[racials.length] = "Spell-Like Abilities: 1/day - speak with burrowing mammal (1 minute)";
+			return racials;
+		case "Half-elf":
+			return ["Immunity to magic sleep effects","+2 saving throw against enchantment spells or effects","Low-Light Vision","+1 bonus on Listen, Search, and Spot checks","+2 bonus on Diplomacy and Gather Information checks","Elven Blood"];
+		case "Half-orc":
+			return ["+2 Strength, -2 Intelligence, -2 Charisma","Darkvision","Darkvision","Orc Blood"];
+		case "Halfling":
+			return ["+2 Dexterity, -2 Strength","Small Size: +1 bonus to Armor Class and Attack rolls, and +4 bonus to Hide Checks","+2 bonus on Climb, Jump, and Move Silently checks","+1 bonus on all saving throws"," +2 morale bonus on saving throws aginst fear","+1 bonus on attack rolls with thrown weapons and slings","+2 bonus on Listen checks"];
+	}
+}
+
+function getClassSpecials(charClass, level){
+	switch (charClass){
+		case "Barbarian":
+			array = [
+				["Fast Movement","Illiteracy","Rage 1/day"]
+			];
+			break;
+		case "Bard":
+			array = [
+				["Arcane Spells","Bardic Music","Bardic Knowledge","Countersong","Fascinate","Inspire Courage +1"]
+			];
+			break;
+		case "Cleric":
+			array = [
+				["Divine Spells","Spontaneous Casting","Aura","Turn or Rebuke Undead"]
+			];
+			break;
+		case "Druid":
+			array = [
+				["Divine Spells","Spontaneous Casting","Animal Companion","Nature Sense","Wild Empathy"]
+			];
+			break;
+		case "Fighter":
+			array = [
+				[]
+			];
+			break;
+		case "Monk":
+			array = [
+				["Flurry of Blows -2/-2","Unarmed Damage 1d6"]
+			];
+			break;
+		case "Paladin":
+			array = [
+				["Code of Conduct","Aura of Good","Detect Evil","Smite Evil 1/day"]
+			];
+			break;
+		case "Ranger":
+			array = [
+				["Favored Enemy","Track","Wild Empathy"]
+			];
+			break;
+		case "Rogue":
+			array = [
+				["Sneak Attack +1d6","Trapfinding"]
+			];
+			break;
+		case "Sorcerer":
+			array = [
+				["Arcane Spells","Summon Familiar"]
+			];
+			break;
+		case "Wizard":
+			array = [
+				["Arcane Spells","Summon Familiar"]
+			];
+			break;
+	}
+	return array[level - 1];
+}
+
 //skills------------------------------------------------------------------
 
 
@@ -355,7 +440,7 @@ function getArmorWeight(){
 //spells-------------------------------------------------------------------
 
 function getSpellId(){
-	return ["acidFog","acidSplash","aid","airWalk","alarm","alignWeapon","alterSelf","analyzeDweomer","animalGrowth","animalMessenger","animalShapes","animalTrance","animateDead","animateObjects","animatePlants","animateRope","antilifeShell","antimagicField","antipathy","antiplantShell","arcaneEye","arcaneLock","arcaneMark","arcaneSight","greaterArcaneSight","astralProjection","atonement","augury","awaken","balefulPolymorph","bane","banishment","barkskin","bearsEndurance","massBearsEndurance","bestowCurse","bigbysClenchedFist","bigbysCrushingHand","bigbysForcefulHand","bigbysGraspingHand","bigbysInterposingHand","binding","bladeBarrier","blasphemy","bless","blessWater","blessWeapon","blight","blindnessDeafness","blink","blur","breakEnchantment","bullsStrength","massBullsStrength","burningHands","callLightning","callLightningStorm","calmAnimals","calmEmotions","catsGrace","massCatsGrace","causeFear","chainLightning","changestaff","chaosHammer","charmAnimal","charmMonster","massCharmMonster","charmPerson","chillMetal","chillTouch","circleOfDeath","clairaudienceClairvoyance","cloakOfChaos","clone","cloudkill","colorSpray","command","greaterCommand","commandPlants","commandUndead","commune","communeWithNature","comprehendLanguages","coneOfCold","confusion","lesserConfusion","consecrate","contactOtherPlane","contagion","contingency","continualFlame","controlPlants","controlUndead","controlWater","controlWeather","controlWinds","createFoodAndWater","createGreaterUndead","createUndead","createWater","creepingDoom","crushingDespair","cureCriticalWounds","massCureCriticalWounds","cureLightWounds","massCureLightWounds","cureMinorWounds","cureModerateWounds","massCureModerateWounds","cureSeriousWounds","massCureSeriousWounds","curseWater","dancingLights","darkness","darkvision","daylight","daze","dazeMonster","deathKnell","deathWard","deathWatch","deepSlumber","deeperDarkness","delayPoison","delayedBlastFireball","demand","desecrate","destruction","detectAnimalsOrPlants","detectChaos","detectEvil","detectGood","detectLaw","detectMagic","detectPoison","detectScrying","detectSecretDoors","detectSnaresAndPits","detectThoughts","detectUndead","dictum","dimensionDoor","dimensionalAnchor","dimensionalLock","diminishPlants","discernLies","discernLocation","disguiseSelf","disintegrate","dismissal","dispelChaos","dispelEvil","dispelGood","dispelLaw","dispelMagic","greaterDispelMagic","displacement","disruptUndead","disruptingWeapon","divination","divineFavor","divinePower","dominateAnimal","dominateMonster","dominatePerson","doom","drawmijsInstantSummons","dream","eaglesSplendor","massEaglesSplendor","earthquake","elementalSwarm","endureElements","energyDrain","enervation","enlargePerson","massEnlargePerson","entangle","enthrall","entropicShield","erase","etherealJaunt","etherealness","evardsBlackTentacles","expeditiousRetreat","explosiveRunes","eyebite","fabricate","faerieFire","falseLife","falseVision","fear","featherFall","feeblemind","findThePath","findTraps","fingerofDeath","fireSeeds","fireShield","fireStorm","fireTrap","fireball","flameArrow","flameBlade","flameStrike","flamingSphere","flare","fleshToStone","fly","fogCloud","forbiddance","forcecage","foresight","foxsCunning","massFoxsCunning","freedom","freedomOfMovement","gaseousForm","gate","geasQuest","lesserGeas","gentleRepose","ghostSound","ghoulTouch","giantVermin","glibness","glitterdust","globeOfInvulnerability","lesserGlobeOfInvulnerability","glyphOfWarding","greaterGlyphOfWarding","goodberry","goodHope","grease","guardsAndWards","guidance","gustOfWind","hallow","hallucinatoryTerrain","haltUndead","harm","haste","heal","massHeal","healMount","heatMetal","helpingHand","heroesFeast","heroism","greaterHeroism","hidefromAnimals","hidefromUndead","holdAnimal","holdMonster","massHoldMonster","holdPerson","massHoldPerson","holdPortal","holyAura","holySmite","holySword","holyWord","horridWilting","hypnoticPattern","hypnotism","iceStorm","identify","illusoryScript","illusoryWall","imbueWithSpellAbility","implosion","imprisonment","incendiaryCloud","inflictCriticalWounds","massInflictCriticalWounds","inflictLightWounds","massInflictLightWounds","inflictMinorWounds","inflictModerateWounds","massInflictModerateWounds","inflictSeriousWounds","massInflictSeriousWounds","insanity","insectPlague","invisibility","greaterInvsibility","massInvisibility","invisibilityPurge","invisibilitySphere","ironBody","ironwood","jump","keenEdge","knock","knowDirection","legendLore","leomundsSecretChest","leomundsSecureShelter","leomundsTinyHut","leomundsTrap","levitate","light","lightningBolt","limitedWish","liveoak","locateCreature","locateObject","longstrider","lullaby","mageArmor","mageHand","magicCircleAgainstChaos","magicCircleAgainstEvil","magicCircleAgainstGood","magicCircleAgainstLaw","magicFang","greaterMagicFang","magicJar","magicMissile","magicMouth","magicStone","magicVestment","magicWeapon","greaterMagicWeapon","majorCreation","majorImage","makeWhole","markOfJustice","maze","meldIntoStone","melfsAcidArrow","mending","message","meteorSwarm","mindBlank","mindFog","minorCreation","minorImage","miracle","mirageArcana","mirrorImage","misdirection","mislead","modifyMemory","momentOfPrescience","mordenkainensDisjunction","mordenkainensFaithfulHound","mordenkainensLucubration","mordenkainensMagnificentMansion","mordenkainensPrivateSanctum","mordenkainensSword","mount","moveEarth","neutralizePoison","nightmare","nondetection","nystulsMagicAura","ObscureObject","ObscuringMist","OpenClose","OrdersWrath","OtilukesFreezingSphere","OtilukesResilientSphere","OtilukesTelekineticSphere","OttosIrresistableDance","OverlandFlight","OwlsWisdom","MassOwlsWisdom","passwall","passWithoutTrace","permanency","permanentImage","persistentImage","phantasmalKiller","phantomSteed","phaseDoor","planarAlly","greaterPlanarAlly","lesserPlanarAlly","planarBinding","greaterPlanarBinding","lesserPlanarBinding","planeShift","plantGrowth","poison","polarRay","polymorph","polymorphAnyObject","powerWordBlind","powerWordKill","powerWordStun","prayer","prestidigitation","prismaticSphere","prismaticSpray","prismaticWall","produceFlame","programmedImage","projectImage","protectionFromArrows","protectionFromChaos","protectionFromEnergy","protectionFromEvil","protectionFromGood","protectionFromLaw","protectionFromSpells","pryingEyes","greaterPryingEyes","purifyFoodandDrink","pyrotechnics","quench","rage","rainbowPattern","raiseDead","rarysMnemonicEnhancer","rarysTelepathicBond","rayofEnfeeblement","rayofExhaustion","rayofFrost","readMagic","reduceAnimal","reducePerson","massReducePerson","refuge","regenerate","reincarnate","removeBlindnessDeafness","removeCurse","removeDisease","removeFear","removeParalysis","repelMetalOrStone","repelVermin","repelWood","repulsion","resistance","resistEnergy","restoration","greaterRestoration","lesserRestoration","resurrection","reverseGravity","righteousMight","ropeTrick","rustingGrasp","sanctuary","scare","scintillatingPattern","scorchingRay","screen","scrying","greaterScrying","sculptSound","searingLight","secretPage","seeInvisibility","seeming","sending","sepiaSnakeSigil","sequester","shades","shadowConjuration","greaterShadowConjuration","shadowEvocation","greaterShadowEvocation","shadowWalk","shambler","shapechange","shatter","shield","shieldOfFaith","shieldOfLaw","shieldOther","shillelagh","shockingGrasp","shout","greaterShout","shrinkItem","silence","silentImage","simulacrum","slayLiving","sleep","sleetStorm","slow","snare","softenEarthAndStone","solidFog","songOfDiscord","soulBind","soundBurst","speakWithAnimals","speakWithDead","speakWithPlants","spectralHand","spellImmunity","greaterSpellImmunity","spellResistance","spellstaff","spellTurning","spiderClimb","spikeGrowth","spikeStones","spiritualWeapon","statue","status","stinkingCloud","stoneShape","stoneskin","stoneTell","stonetoFlesh","stormOfVengeance","suggestion","massSuggestion","summonInstrument","summonMonsterI","summonMonsterII","summonMonsterIII","summonMonsterIV","summonMonsterV","summonMonsterVI","summonMonsterVII","summonMonsterVIII","summonMonsterIX","summonNaturesAllyI","summonNaturesAllyII","summonNaturesAllyIII","summonNaturesAllyIV","summonNaturesAllyV","summonNaturesAllyVI","summonNaturesAllyVII","summonNaturesAllyVIII","summonNaturesAllyIX","summonSwarm","sunbeam","sunburst","symbolOfDeath","symbolOfFear","symbolOfInsanity","symbolOfPain","symbolOfPersuasion","symbolOfSleep","symbolOfStunning","symbolOfWeakness","sympatheticVibration","sympathy","tashasHideousLaughter","telekinesis","teleport","teleportObject","GreaterTeleport","teleportationCircle","temporalStasis","tensersFloatingDisk","tesnsersTransformation","timeStop","tongues","touchOfFatigue","touchOfIdiocy","transmuteMetalToWood","transmuteMudToRock","transmuteRockToMud","transportViaPlants","trapTheSoul","treeShape","treeStride","trueResurrection","trueSeeing","trueStrike","undeathToDeath","undetectableAlignment","unhallow","unholyAura","unholyBlight","unseenServant","vampiricTouch","veil","ventriloquism","virtue","vision","wailOfTheBanshee","wallOfFire","wallOfForce","wallOfIce","wallOfIron","wallOfStone","wallOfThorns","warpWood","waterBreathing","waterWalk","wavesOfExhaustion","wavesOfFatigue","web","weird","whirlwind","whisperingWind","windWalk","windWall","wish","woodShape","wordOfChaos","wordOfRecall","zoneOfSilence","zoneOfTruth"];
+	return ["acidFog","acidSplash","aid","airWalk","alarm","alignWeapon","alterSelf","analyzeDweomer","animalGrowth","animalMessenger","animalShapes","animalTrance","animateDead","animateObjects","animatePlants","animateRope","antilifeShell","antimagicField","antipathy","antiplantShell","arcaneEye","arcaneLock","arcaneMark","arcaneSight","greaterArcaneSight","astralProjection","atonement","augury","awaken","balefulPolymorph","bane","banishment","barkskin","bearsEndurance","massBearsEndurance","bestowCurse","bigbysClenchedFist","bigbysCrushingHand","bigbysForcefulHand","bigbysGraspingHand","bigbysInterposingHand","binding","bladeBarrier","blasphemy","bless","blessWater","blessWeapon","blight","blindnessDeafness","blink","blur","breakEnchantment","bullsStrength","massBullsStrength","burningHands","callLightning","callLightningStorm","calmAnimals","calmEmotions","catsGrace","massCatsGrace","causeFear","chainLightning","changestaff","chaosHammer","charmAnimal","charmMonster","massCharmMonster","charmPerson","chillMetal","chillTouch","circleOfDeath","clairaudienceClairvoyance","cloakOfChaos","clone","cloudkill","colorSpray","command","greaterCommand","commandPlants","commandUndead","commune","communeWithNature","comprehendLanguages","coneOfCold","confusion","lesserConfusion","consecrate","contactOtherPlane","contagion","contingency","continualFlame","controlPlants","controlUndead","controlWater","controlWeather","controlWinds","createFoodAndWater","createGreaterUndead","createUndead","createWater","creepingDoom","crushingDespair","cureCriticalWounds","massCureCriticalWounds","cureLightWounds","massCureLightWounds","cureMinorWounds","cureModerateWounds","massCureModerateWounds","cureSeriousWounds","massCureSeriousWounds","curseWater","dancingLights","darkness","darkvision","daylight","daze","dazeMonster","deathKnell","deathWard","deathWatch","deepSlumber","deeperDarkness","delayPoison","delayedBlastFireball","demand","desecrate","destruction","detectAnimalsOrPlants","detectChaos","detectEvil","detectGood","detectLaw","detectMagic","detectPoison","detectScrying","detectSecretDoors","detectSnaresAndPits","detectThoughts","detectUndead","dictum","dimensionDoor","dimensionalAnchor","dimensionalLock","diminishPlants","discernLies","discernLocation","disguiseSelf","disintegrate","dismissal","dispelChaos","dispelEvil","dispelGood","dispelLaw","dispelMagic","greaterDispelMagic","displacement","disruptUndead","disruptingWeapon","divination","divineFavor","divinePower","dominateAnimal","dominateMonster","dominatePerson","doom","drawmijsInstantSummons","dream","eaglesSplendor","massEaglesSplendor","earthquake","elementalSwarm","endureElements","energyDrain","enervation","enlargePerson","massEnlargePerson","entangle","enthrall","entropicShield","erase","etherealJaunt","etherealness","evardsBlackTentacles","expeditiousRetreat","explosiveRunes","eyebite","fabricate","faerieFire","falseLife","falseVision","fear","featherFall","feeblemind","findThePath","findTraps","fingerofDeath","fireSeeds","fireShield","fireStorm","fireTrap","fireball","flameArrow","flameBlade","flameStrike","flamingSphere","flare","fleshToStone","fly","fogCloud","forbiddance","forcecage","foresight","foxsCunning","massFoxsCunning","freedom","freedomOfMovement","gaseousForm","gate","geasQuest","lesserGeas","gentleRepose","ghostSound","ghoulTouch","giantVermin","glibness","glitterdust","globeOfInvulnerability","lesserGlobeOfInvulnerability","glyphOfWarding","greaterGlyphOfWarding","goodberry","goodHope","grease","guardsAndWards","guidance","gustOfWind","hallow","hallucinatoryTerrain","haltUndead","harm","haste","heal","massHeal","healMount","heatMetal","helpingHand","heroesFeast","heroism","greaterHeroism","hidefromAnimals","hidefromUndead","holdAnimal","holdMonster","massHoldMonster","holdPerson","massHoldPerson","holdPortal","holyAura","holySmite","holySword","holyWord","horridWilting","hypnoticPattern","hypnotism","iceStorm","identify","illusoryScript","illusoryWall","imbueWithSpellAbility","implosion","imprisonment","incendiaryCloud","inflictCriticalWounds","massInflictCriticalWounds","inflictLightWounds","massInflictLightWounds","inflictMinorWounds","inflictModerateWounds","massInflictModerateWounds","inflictSeriousWounds","massInflictSeriousWounds","insanity","insectPlague","invisibility","greaterInvsibility","massInvisibility","invisibilityPurge","invisibilitySphere","ironBody","ironwood","jump","keenEdge","knock","knowDirection","legendLore","leomundsSecretChest","leomundsSecureShelter","leomundsTinyHut","leomundsTrap","levitate","light","lightningBolt","limitedWish","liveoak","locateCreature","locateObject","longstrider","lullaby","mageArmor","mageHand","magicCircleAgainstChaos","magicCircleAgainstEvil","magicCircleAgainstGood","magicCircleAgainstLaw","magicFang","greaterMagicFang","magicJar","magicMissile","magicMouth","magicStone","magicVestment","magicWeapon","greaterMagicWeapon","majorCreation","majorImage","makeWhole","markOfJustice","maze","meldIntoStone","melfsAcidArrow","mending","message","meteorSwarm","mindBlank","mindFog","minorCreation","minorImage","miracle","mirageArcana","mirrorImage","misdirection","mislead","modifyMemory","momentOfPrescience","mordenkainensDisjunction","mordenkainensFaithfulHound","mordenkainensLucubration","mordenkainensMagnificentMansion","mordenkainensPrivateSanctum","mordenkainensSword","mount","moveEarth","neutralizePoison","nightmare","nondetection","nystulsMagicAura","obscureObject","obscuringMist","openClose","ordersWrath","otilukesFreezingSphere","otilukesResilientSphere","otilukesTelekineticSphere","ottosIrresistableDance","overlandFlight","owlsWisdom","MassOwlsWisdom","passwall","passWithoutTrace","permanency","permanentImage","persistentImage","phantasmalKiller","phantomSteed","phaseDoor","planarAlly","greaterPlanarAlly","lesserPlanarAlly","planarBinding","greaterPlanarBinding","lesserPlanarBinding","planeShift","plantGrowth","poison","polarRay","polymorph","polymorphAnyObject","powerWordBlind","powerWordKill","powerWordStun","prayer","prestidigitation","prismaticSphere","prismaticSpray","prismaticWall","produceFlame","programmedImage","projectImage","protectionFromArrows","protectionFromChaos","protectionFromEnergy","protectionFromEvil","protectionFromGood","protectionFromLaw","protectionFromSpells","pryingEyes","greaterPryingEyes","purifyFoodandDrink","pyrotechnics","quench","rage","rainbowPattern","raiseDead","rarysMnemonicEnhancer","rarysTelepathicBond","rayofEnfeeblement","rayofExhaustion","rayofFrost","readMagic","reduceAnimal","reducePerson","massReducePerson","refuge","regenerate","reincarnate","removeBlindnessDeafness","removeCurse","removeDisease","removeFear","removeParalysis","repelMetalOrStone","repelVermin","repelWood","repulsion","resistance","resistEnergy","restoration","greaterRestoration","lesserRestoration","resurrection","reverseGravity","righteousMight","ropeTrick","rustingGrasp","sanctuary","scare","scintillatingPattern","scorchingRay","screen","scrying","greaterScrying","sculptSound","searingLight","secretPage","seeInvisibility","seeming","sending","sepiaSnakeSigil","sequester","shades","shadowConjuration","greaterShadowConjuration","shadowEvocation","greaterShadowEvocation","shadowWalk","shambler","shapechange","shatter","shield","shieldOfFaith","shieldOfLaw","shieldOther","shillelagh","shockingGrasp","shout","greaterShout","shrinkItem","silence","silentImage","simulacrum","slayLiving","sleep","sleetStorm","slow","snare","softenEarthAndStone","solidFog","songOfDiscord","soulBind","soundBurst","speakWithAnimals","speakWithDead","speakWithPlants","spectralHand","spellImmunity","greaterSpellImmunity","spellResistance","spellstaff","spellTurning","spiderClimb","spikeGrowth","spikeStones","spiritualWeapon","statue","status","stinkingCloud","stoneShape","stoneskin","stoneTell","stonetoFlesh","stormOfVengeance","suggestion","massSuggestion","summonInstrument","summonMonsterI","summonMonsterII","summonMonsterIII","summonMonsterIV","summonMonsterV","summonMonsterVI","summonMonsterVII","summonMonsterVIII","summonMonsterIX","summonNaturesAllyI","summonNaturesAllyII","summonNaturesAllyIII","summonNaturesAllyIV","summonNaturesAllyV","summonNaturesAllyVI","summonNaturesAllyVII","summonNaturesAllyVIII","summonNaturesAllyIX","summonSwarm","sunbeam","sunburst","symbolOfDeath","symbolOfFear","symbolOfInsanity","symbolOfPain","symbolOfPersuasion","symbolOfSleep","symbolOfStunning","symbolOfWeakness","sympatheticVibration","sympathy","tashasHideousLaughter","telekinesis","teleport","teleportObject","greaterTeleport","teleportationCircle","temporalStasis","tensersFloatingDisk","tesnsersTransformation","timeStop","tongues","touchOfFatigue","touchOfIdiocy","transmuteMetalToWood","transmuteMudToRock","transmuteRockToMud","transportViaPlants","trapTheSoul","treeShape","treeStride","trueResurrection","trueSeeing","trueStrike","undeathToDeath","undetectableAlignment","unhallow","unholyAura","unholyBlight","unseenServant","vampiricTouch","veil","ventriloquism","virtue","vision","wailOfTheBanshee","wallOfFire","wallOfForce","wallOfIce","wallOfIron","wallOfStone","wallOfThorns","warpWood","waterBreathing","waterWalk","wavesOfExhaustion","wavesOfFatigue","web","weird","whirlwind","whisperingWind","windWalk","windWall","wish","woodShape","wordOfChaos","wordOfRecall","zoneOfSilence","zoneOfTruth"];
 }
 
 function getSpellName(){
@@ -369,9 +454,9 @@ function getSpellLevel(charClass){
 				//A
 				-1,-1,-1,-1,1,-1,2,6,-1,2,-1,2,-1,6,-1,1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
 				//B 29
-				-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,2,3,2,4,-1,-1,
-				//C 54
-				-1,-1,-1,-1,2,2,6,1,-1,-1,-1,-1,3,6,1,-1,-1,-1,3,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,1,-1,3,1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,3,4,-1,1,5,-1,2,6,3,-1,-1,
+				-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,2,3,2,4,-1,-1,-1,
+				//C 55
+				-1,-1,-1,2,2,6,1,-1,-1,-1,-1,3,6,1,-1,-1,-1,3,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,1,-1,3,1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,3,4,-1,1,5,-1,2,6,3,-1,-1,
 				//D 113
 				0,2,-1,3,0,2,-1,-1,-1,3,-1,2,-1,-1,-1,-1,-1,-1,-1,-1,-1,0,-1,4,1,-1,2,-1,-1,4,-1,-1,-1,-1,-1,1,-1,-1,-1,-1,-1,-1,3,5,3,-1,-1,-1,-1,-1,-1,-1,4,-1,-1,5,
 				//E 169
@@ -409,9 +494,9 @@ function getSpellLevel(charClass){
 				//A-C
 				-1,-1,2,4,-1,2,-1,-1,-1,-1,-1,-1,3,6,-1,-1,6,8,-1,-1,-1,-1,-1,-1,-1,9,5,2,-1,
 				//B 29
-				-1,1,6,-1,2,6,3,-1,-1,-1,-1,-1,-1,6,7,1,1,-1,-1,3,-1,-1,5,2,6,
-				//C 54
-				-1,-1,-1,-1,2,-1,-1,1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,8,-1,-1,-1,1,5,-1,-1,5,-1,1,-1,-1,-1,2,-1,3,-1,3,-1,-1,4,7,-1,3,8,6,0,-1,-1,4,8,1,5,0,2,6,3,7,1,
+				-1,1,6,-1,2,6,3,-1,-1,-1,-1,-1,-1,6,7,1,1,-1,-1,3,-1,-1,5,2,6,-1,
+				//C 55
+				-1,-1,-1,2,-1,-1,1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,8,-1,-1,-1,1,5,-1,-1,5,-1,1,-1,-1,-1,2,-1,3,-1,3,-1,-1,4,7,-1,3,8,6,0,-1,-1,4,8,1,5,0,2,6,3,7,1,
 				//D 113
 				-1,2,-1,3,-1,-1,2,4,1,-1,3,2,-1,-1,2,7,-1,1,1,1,1,0,0,-1,-1,-1,-1,1,7,-1,4,8,-1,4,8,-1,-1,4,5,5,5,5,3,6,-1,-1,5,4,1,4,-1,-1,-1,1,-1,-1,
 				//E 169
@@ -857,4 +942,222 @@ function getSpellsPerDay(level,charClass){
 			return [];
 	}
 	return spellsPerDay[level-1];
+}
+
+function getSpellSchool(){
+	return [
+		//A
+		"Conjuration","Conjuration","Enchantment","Transmutation","Abjuration","Transmutation","Transmutation","Divination","Transmutation","Enchantment","Transmutation","Enchantment","Necromancy","Transmutation","Transmutation","Transmutation","Abjuration","Abjuration","Enchantment","Abjuration","Divination","Abjuration","Universal","Divination","Divination","Necromancy","Abjuration","Divination","Transmutation"
+		//B 29
+		,"Transmutation","Enchantment","Abjuration","Transmutation","Transmutation","Transmutation","Necromancy","Evocation","Evocation","Evocation","Evocation","Evocation","Enchantment","Evocation","Evocation","Enchantment","Transmutation","Transmutation","Necromancy","Necromancy","Transmutation","Illusion","Abjuration","Transmutation","Transmutation","Evocation"
+		//C 55
+		,"Evocation","Evocation","Enchantment","Enchantment","Transmutation","Transmutation","Necromancy","Evocation","Transmutation","Evocation","Enchantment","Enchantment","Enchantment","Enchantment","Transmutation","Necromancy","Necromancy","Divination","Abjuration","Necromancy","Conjuration","Illusion","Enchantment","Enchantment","Transmutation","Necromancy","Divination","Divination","Divination","Evocation","Enchantment","Enchantment","Evocation","Divination","Necromancy","Evocation","Evocation","Transmutation","Necromancy","Transmutation","Transmutation","Transmutation","Conjuration","Necromancy","Necromancy","Conjuration","Conjuration","Enchantment","Conjuration","Conjuration","Conjuration","Conjuration","Conjuration","Conjuration","Conjuration","Conjuration","Conjuration","Necromancy"
+		//D 113
+		,"Evocation","Evocation","Transmutation","Evocation","Enchantment","Enchantment","Necromancy","Necromancy","Necromancy","Enchantment","Evocation","Conjuration","Evocation","Enchantment","Evocation","Necromancy","Divination","Divination","Divination","Divination","Divination","Divination","Divination","Divination","Divination","Divination","Divination","Divination","Evocation","Conjuration","Abjuration","Abjuration","Transmutation","Divination","Divination","Illusion","Transmutation","Abjuration","Abjuration","Abjuration","Abjuration","Abjuration","Abjuration","Abjuration","Illusion","Necromancy","Transmutation","Divination","Evocation","Evocation","Enchantment","Enchantment","Enchantment","Necromancy","Conjuration","Illusion"
+		//E 169
+		,"Transmutation","Transmutation","Evocation","Conjuration","Abjuration","Necromancy","Necromancy","Transmutation","Transmutation","Transmutation","Enchantment","Abjuration","Transmutation","Transmutation","Transmutation","Conjuration","Transmutation","Abjuration","Necromancy"
+		//F 188
+		,"Transmutation","Evocation","Necromancy","Illusion","Necromancy","Transmutation","Enchantment","Divination","Divination","Necromancy","Conjuration","Evocation","Evocation","Abjuration","Evocation","Transmutation","Evocation","Evocation","Evocation","Evocation","Transmutation","Transmutation","Conjuration","Abjuration","Evocation","Divination","Transmutation","Transmutation","Abjuration","Abjuration"
+		//G 218
+		,"Transmutation","Conjuration","Enchantment","Enchantment","Necromancy","Illusion","Necromancy","Transmutation","Transmutation","Conjuration","Abjuration","Abjuration","Abjuration","Abjuration","Transmutation","Enchantment","Conjuration","Abjuration","Divination","Evocation"
+		//H 238
+		,"Evocation","Illusion","Necromancy","Necromancy","Transmutation","Conjuration","Conjuration","Conjuration","Transmutation","Evocation","Conjuration","Enchantment","Enchantment","Abjuration","Abjuration","Enchantment","Enchantment","Enchantment","Enchantment","Enchantment","Abjuration","Abjuration","Evocation","Evocation","Evocation","Necromancy","Illusion","Enchantment"
+		//I-K 266
+		,"Evocation","Divination","Illusion","Illusion","Evocation","Evocation","Abjuration","Conjuration","Necromancy","Necromancy","Necromancy","Necromancy","Necromancy","Necromancy","Necromancy","Necromancy","Necromancy","Enchantment","Conjuration","Illusion","Illusion","Illusion","Evocation","Illusion","Transmutation","Transmutation","Transmutation","Transmutation","Transmutation","Divination"
+		//L 296
+		,"Divination","Conjuration","Conjuration","Evocation","Illusion","Transmutation","Evocation","Evocation","Universal","Transmutation","Divination","Divination","Transmutation","Enchantment"
+		//M 310
+		,"Conjuration","Transmutation","Abjuration","Abjuration","Abjuration","Abjuration","Transmutation","Transmutation","Necromancy","Evocation","Illusion","Transmutation","Transmutation","Transmutation","Transmutation","Conjuration","Illusion","Transmutation","Necromancy","Conjuration","Transmutation","Conjuration","Transmutation","Transmutation","Evocation","Abjuration","Enchantment","Conjuration","Illusion","Evocation","Illusion","Illusion","Illusion","Illusion","Enchantment","Divination","Abjuration","Conjuration","Transmutation","Conjuration","Abjuration","Evocation","Conjuration","Transmutation"
+		//N-O 354
+		,"Conjuration","Illusion","Abjuration","Illusion","Abjuration","Conjuration","Transmutation","Evocation","Evocation","Evocation","Evocation","Enchantment","Transmutation","Transmutation","Transmutation"
+		//P-Q 369
+		,"Transmutation","Transmutation","Universal","Illusion","Illusion","Illusion","Conjuration","Conjuration","Conjuration","Conjuration","Conjuration","Conjuration","Conjuration","Conjuration","Conjuration","Transmutation","Necromancy","Evocation","Transmutation","Transmutation","Enchantment","Enchantment","Enchantment","Enchantment","Universal","Abjuration","Evocation","Abjuration","Evocation","Illusion","Illusion","Abjuration","Abjuration","Abjuration","Abjuration","Abjuration","Abjuration","Abjuration","Divination","Divination","Transmutation","Transmutation","Transmutation"
+		//R 412
+		,"Enchantment","Illusion","Conjuration","Transmutation","Divination","Necromancy","Necromancy","Evocation","Divination","Transmutation","Transmutation","Transmutation","Conjuration","Conjuration","Transmutation","Conjuration","Abjuration","Conjuration","Abjuration","Conjuration","Abjuration","Abjuration","Transmutation","Abjuration","Abjuration","Abjuration","Conjuration","Conjuration","Conjuration","Conjuration","Transmutation","Transmutation","Transmutation","Transmutation"
+		//S 446
+		,"Abjuration","Necromancy","Illusion","Evocation","Illusion","Divination","Divination","Transmutation","Evocation","Transmutation","Divination","Illusion","Evocation","Conjuration","Abjuration","Illusion","Illusion","Illusion","Illusion","Illusion","Illusion","Conjuration","Transmutation","Evocation","Abjuration","Abjuration","Abjuration","Abjuration","Transmutation","Evocation","Evocation","Evocation","Transmutation","Illusion","Illusion","Illusion","Necromancy","Enchantment","Conjuration","Transmutation","Transmutation","Transmutation","Conjuration","Enchantment","Necromancy","Evocation","Divination","Necromancy","Divination","Necromancy","Abjuration","Abjuration","Abjuration","Transmutation","Abjuration","Transmutation","Transmutation","Transmutation","Evocation","Transmutation","Divination","Conjuration","Transmutation","Abjuration","Divination","Transmutation","Conjuration","Enchantment","Enchantment","Conjuration","Conjuration","Conjuration","Conjuration","Conjuration","Conjuration","Conjuration","Conjuration","Conjuration","Conjuration","Conjuration","Conjuration","Conjuration","Conjuration","Conjuration","Conjuration","Conjuration","Conjuration","Conjuration","Conjuration","Evocation","Evocation","Necromancy","Necromancy","Enchantment","Necromancy","Enchantment","Enchantment","Enchantment","Necromancy","Evocation","Enchantment"
+		//T-V 547
+		,"Enchantment","Transmutation","Conjuration","Conjuration","Conjuration","Conjuration","Transmutation","Evocation","Transmutation","Transmutation","Divination","Necromancy","Enchantment","Transmutation","Transmutation","Transmutation","Conjuration","Conjuration","Transmutation","Conjuration","Conjuration","Divination","Divination","Necromancy","Abjuration","Evocation","Abjuration","Evocation","Conjuration","Necromancy","Illusion","Illusion","Transmutation","Divination"
+		//W-Z 581
+		,"Necromancy","Evocation","Evocation","Evocation","Conjuration","Conjuration","Conjuration","Transmutation","Transmutation","Transmutation","Necromancy","Necromancy","Conjuration","Illusion","Evocation","Transmutation","Transmutation","Evocation","Universal","Transmutation","Evocation","Conjuration","Illusion","Enchantment"
+		// 605
+	];
+}
+
+function getSpellSubschool(){
+	return [
+		//A
+		"Creation","Creation","Compulsion","","","","","","","Compulsion","","Compulsion","","","","","","","Compulsion","","Scrying","","","","","","","",""
+		//B 29
+		,"","Compulsion","","","","","","","","","","Compulsion","","","Compulsion","","","","","","Glamer","","","","",""
+		//C 55
+		,"","","Compulsion","Compulsion","","","","","","","Charm","Charm","Charm","Charm","","","","Scrying","","","Creation","Pattern","Compulsion","Compulsion","","","","","","","Compulsion","Compulsion","","","","","","","","","","","Creation","","","Creation","Summoning","Compulsion","Healing","Healing","Healing","Healing","Healing","Healing","Healing","Healing","Healing",""
+		//D 113
+		,"","","","","Compulsion","Compulsion","","","","Compulsion","","Healing","","Compulsion","","","","","","","","","","","","","","","","Telportation","","","","","","Glamer","","","","","","","","","Glamer","","","","","","Compulsion","Compulsion","Compulsion","","Summoning","Phantasm"
+		//E 169
+		,"","","","Summoning","","","","","","","Charm","","","","","Creation","","",""
+		//F 188
+		,"","","","Glamer","","","Compulsion","","","","Creation","","","","","","","","","","","","Creation","","","","","","",""
+		//G 218
+		,"","Creation or Calling","Compulsion","Compulsion","","Figment","","","","Creation","","","","","","Compulsion","Creation","","",""
+		//H 238
+		,"","Glamer","","","","Healing","Healing","Healing","","","","Compulsion","Compulsion","","","Compulsion","Compulsion","Compulsion","Compulsion","Compulsion","","","","","","","Pattern","Compulsion"
+		//I-K 266
+		,"","","Phantasm","Figment","","","","Creation","","","","","","","","","","Compulsion","Summoning","Glamer","Glamer","Glamer","","Glamer","","","","","",""
+		//L 296
+		,"","Summoning","Creation","","Glamer","","","","","","","","","Compulsion"
+		//M 310
+		,"Creation","","","","","","","","","","Glamer","","","","","Creation","Figment","","","Teleportation","","Creation","","","","","Compulsion","Creation","Figment","","Glamer","Figment","Glamer","Figment,Glamer","Compulsion","","","Creation","","Creation","","","Summoning",""
+		//N-O 354
+		,"Healing","Phantasm","","Glamer","","Creation","","","","","","Compulsion","","",""
+		//P-Q 369
+		,"","","","Figment","Figment","Phantasm","Creation","Creation","Calling","Calling","Calling","Calling","Calling","Calling","Teleportation","","","","","","Compulsion","Compulsion","Compulsion","Compulsion","","","","","","Figment","Shadow","","","","","","","","","","","",""
+		//R 412
+		,"Compulsion","Pattern","Healing","","","","","","","","","","Teleportation","Healing","","Healing","","Healing","","Healing","","","","","","","Healing","Healing","Healing","Healing","","","",""
+		//S 446
+		,"","","Pattern","","Glamer","Scrying","Scrying","","","","","Glamer","","Creation","","Shadow","Shadow","Shadow","Shadow","Shadow","Shadow","Creation","","","","","","","","","","","","Glamer","Figment","Shadow","","Compulsion","Creation","","","","Creation","Compulsion","","","","","","","","","","","","","","","","","","Creation","","","","","Summoning","Compulsion","Compulsion","Summoning","Summoning","Summoning","Summoning","Summoning","Summoning","Summoning","Summoning","Summoning","Summoning","Summoning","Summoning","Summoning","Summoning","Summoning","Summoning","Summoning","Summoning","Summoning","Summoning","","","","","Compulsion","","Charm","Compulsion","Compulsion","","","Compulsion"
+		//T-V 547
+		,"Compulsion","","Teleportation","Teleportation","Teleportation","Teleportation","","","","","","","Compulsion","","","","Teleportation","Summoning","","Teleportation","Healing","","","","","","","","Creation","","Glamer","Figment","",""
+		//W-Z 581
+		,"","","","","Creation","Creation","Creation","","","","","","Creation","Phantasm","","","","","","","","Teleportation","Glamer","Compulsion"
+		// 605
+	];
+}
+
+function getSpellDescriptor(){
+	return [
+		//A
+		["Acid"],["Acid"],["Mind-Affecting"],["Air"],[],[],[],[],[],["Mind-Affecting"],[],["Mind-Affecting","Sonic"],["Evil"],[],[],[],[],[],["Mind-Affecting"],[],[],[],[],[],[],[],[],[],[]
+		//B 29
+		,[],["Fear","Mind-Affecting"],[],[],[],[],[],["Force"],["Force"],["Force"],["Force"],["Force"],["Mind-Affecting"],["Force"],["Evil","Sonic"],["Mind-Affecting"],["Good"],[],[],[],[],[],[],[],[],["Fire"]
+		//C 55
+		,["Electricity"],["Electricity"],["Mind-Affecting"],["Mind-Affecting"],[],[],["Fear","Mind-Affecting"],["Electricity"],[],["Chaotic"],["Mind-Affecting"],["Mind-Affecting"],["Mind-Affecting"],["Mind-Affecting"],["Cold"],[],["Death"],[],["Chaotic"],[],[],["Mind-Affecting"],["Language-Dependent","Mind-Affecting"],["Language-Dependent","Mind-Affecting"],[],[],[],[],[],["Cold"],["Mind-Affecting"],["Mind-Affecting"],["Good"],[],["Evil"],[],["Light"],[],[],["Water"],[],["Air"],[],["Evil"],["Evil"],["Water"],[],["Mind-Affecting"],[],[],[],[],[],[],[],[],[],["Evil"]
+		//D 113
+		,["Light"],["Darkness"],[],["Light"],["Mind-Affecting"],["Mind-Affecting"],["Death","Evil"],[],["Evil"],["Mind-Affecting"],["Darkness"],[],["Fire"],["Mind-Affecting"],["Evil"],["Death"],[],[],[],[],[],[],[],[],[],[],["Mind-Affecting"],[],["Lawful","Sonic"],[],[],[],[],[],[],[],[],[],["Lawful"],["Good"],["Evil"],["Chaotic"],[],[],[],[],[],[],[],[],["Mind-Affecting"],["Mind-Affecting"],["Mind-Affecting"],["Fear","Mind-Affecting"],[],["Mind-Affecting"]
+		//E 169
+		,[],[],["Earth"],[],[],[],[],[],[],[],["Language-Dependent","Mind-Affecting","Sonic"],[],[],[],[],[],[],["Force"],["Evil"]
+		//F 188
+		,[],["Light"],[],[],["Fear","Mind-Affecting"],[],["Mind-Affecting"],[],[],["Death"],["Fire"],["Fire or Cold"],["Fire"],["Fire"],["Fire"],["Fire"],["Fire"],["Fire"],["Fire"],["Light"],[],[],[],[],["Force"],[],[],[],[],[]
+		//G 218
+		,[],[],["Language-Dependent","Mind-Affecting"],["Language-Dependent","Mind-Affecting"],[],[],[],[],[],[],[],[],[],[],[],["Mind-Affecting"],[],[],[],["Air"]
+		//H 238
+		,["Good"],[],[],[],[],[],[],[],["Fire"],[],["Creation"],["Mind-Affecting"],["Mind-Affecting"],[],[],["Mind-Affecting"],["Mind-Affecting"],["Mind-Affecting"],["Mind-Affecting"],["Mind-Affecting"],[],["Good"],["Good"],["Good"],["Good,Sonic"],[],["Mind-Affecting"],["Mind-Affecting"]
+		//I-K 266
+		,["Cold"],[],["Mind-Affecting"],[],[],[],[],["Fire"],[],[],[],[],[],[],[],[],[],["Mind-Affecting"],[],[],[],[],[],[],[],[],[],[],[],[]
+		//L 296
+		,[],[],[],["Force"],[],[],["Light"],["Electricity"],[],[],[],[],[],["Mind-Affecting"]
+		//M 310
+		,["Force"],[],["Lawful"],["Good"],["Evil"],["Chaotic"],[],[],[],["Force"],[],[],[],[],[],[],[],[],[],[],["Earth"],["Acid"],[],["Language-Dependent"],["Fire"],[],["Mind-Affecting"],[],[],[],[],[],[],[],["Mind-Affecting"],[],[],[],[],[],[],["Force"],[],["Earth"]
+		//N-O 354
+		,[],["Mind-Affecting","Evil"],[],[],[],[],[],["Lawful"],["Cold"],["Force"],["Force"],["Mind-Affecting"],[],[],[]
+		//P-Q 369
+		,[],[],[],[],[],["Fear","Mind-Affecting"],[],[],[],[],[],[],[],[],[],[],[],["Cold"],[],[],["Mind-Affecting"],["Death","Mind-Affecting"],["Mind-Affecting"],["Mind-Affecting"],[],[],[],[],["Fire"],[],[],[],["Lawful"],[],["Good"],["Evil"],["Chaotic"],[],[],[],[],[],[]
+		//R 412
+		,["Mind-Affecting"],["Mind-Affecting"],[],[],[],[],[],["Cold"],[],[],[],[],[],[],[],[],[],[],[],[],["Earth"],[],[],[],[],[],[],[],[],[],[],[],[],[]
+		//S 446
+		,[],["Fear","Mind-Affecting"],["Mind-Affecting"],["Fire"],[],[],[],[],[],[],[],[],[],["Force"],[],[],[],[],[],[],[],[],[],["Sonic"],["Force"],[],["Lawful"],[],[],["Electricity"],["Sonic"],["Sonic"],[],[],[],[],["Death"],["Mind-Affecting"],["Cold"],[],[],["Earth"],[],["Mind-Affecting","Sonic"],[],["Sonic"],[],["Language-Dependent"],[],[],[],[],[],[],[],[],[],["Earth"],["Force"],[],[],[],["Earth"],[],[],[],[],["Language-Dependent","Mind-Affecting"],["Language-Dependent","Mind-Affecting"],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],["Light"],["Light"],["Death"],["Fear","Mind-Affecting"],["Mind-Affecting"],["Evil"],["Mind-Affecting"],["Mind-Affecting"],["Mind-Affecting"],[],["Sonic"],["Mind-Affecting"]
+		//T-V 547
+		,["Mind-Affecting"],[],[],[],[],[],[],["Force"],[],[],[],[],["Mind-Affecting"],[],["Earth"],["Earth"],[],[],[],[],[],[],[],[],[],["Evil"],["Evil"],["Evil"],[],[],[],[],[],[]
+		//W-Z 581
+		,["Death","Sonic"],["Fire"],["Force"],["Cold"],[],["Earth"],[],[],[],["Water"],[],[],[],["Fear","Mind-Affecting"],["Air"],["Air"],["Air"],["Air"],[],[],["Chaotic","Sonic"],[],[],["Mind-Affecting"]
+		// 605
+	];
+}
+
+function getDomainSpells(domain){
+	switch (domain){
+		case "Air":
+			return ["obscuringMist","windWall","gaseousForm","airWalk","controlWinds","chainLightning","controlWeather","whirlwind","elementalSwarm"];
+		case "Animal":
+			return ["calmAnimals","holdAnimal","dominateAnimal","summonNaturesAllyIV","communeWithNature","antilifeShell","animalShapes","summonNaturesAllyVIII","shapechange"];
+		case "Chaos":
+			return ["protectionFromLaw","shatter","magicCircleAgainstLaw","chaosHammer","dispelLaw","animateObjects","wordOfChaos","cloakOfChaos","summonMonsterIX"];
+		case "Death":
+			return ["causeFear","deathKnell","animateDead","deathWard","slayLiving","createUndead","destruction","createGreaterUndead","wailOfTheBanshee"];
+		case "Destruction":
+			return ["inflictLightWounds","shatter","contagion","inflictCriticalWounds","massInflictLightWounds","harm","disintegrate","earthquake","implosion"];
+		case "Earth":
+			return ["magicStone","softenEarthAndStone","stoneShape","spikeStones","wallOfStone","stoneskin","earthquake","ironBody","elementalSwarm"];
+		case "Evil":
+			return ["protectionFromGood","desecrate","magicCircleAgainstGood","unholyBlight","dispelGood","createUndead","blasphemy","unholyAura","summonMonsterIX"];
+		case "Fire":
+			return ["burningHands","produceFlame","resistEnergy","wallOfFire","fireShield","fireSeeds","fireStorm","incendiaryCloud","elementalSwarm"];
+		case "Good":
+			return ["protectionFromEvil","aid","magicCircleAgainstEvil","holySmite","dispelEvil","bladeBarrier","holyWord","holyAura","summonMonsterIX"];
+		case "Healing":
+			return ["cureLightWounds","cureModerateWounds","cureSeriousWounds","cureCriticalWounds","massCureLightWounds","heal","regenerate","massCureCriticalWounds","massHeal"];
+		case "Knowledge":
+			return ["detectSecretDoors","detectThoughts","clairaudienceClairvoyance","divination","trueSeeing","findThePath","legendLore","discernLocation","foresight"];
+		case "Law":
+			return ["protectionFromChaos","calmEmotions","magicCircleAgainstChaos","ordersWrath","dispelChaos","holdMonster","dictum","shieldOfLaw","summonMonsterIX"];
+		case "Luck":
+			return ["entropicShield","aid","protectionFromEnergy","freedomOfMovement","breakEnchantment","mislead","spellTurning","momentOfPrescience","miracle"];
+		case "Magic":
+			return ["nystulsMagicAura","indentify","dispelMagic","imbueWithSpellAbility","spellResistance","antimagicField","spellTurning","protectionFromSpells","mordenkainensDisjunction"];
+		case "Plant":
+			return ["entangle","barkskin","plantGrowth","commandPlants","wallOfThorns","repelWood","animatePlants","controlPlants","shambler"];
+		case "Protection":
+			return ["sanctuary","shieldOther","protectionFromEnergy","spellImmunity","spellResistance","antimagicField","repulsion","mindBlank","prismaticSphere"];
+		case "Strength":
+			return ["enlargePerson","bullsStrength","magicVestment","spellImmunity","righteousMight","stoneskin","bigbysGraspingHand","bigbysClenchedFist","bigbysCrushingHand"];
+		case "Sun":
+			return ["endureElements","heatMetal","searingLight","fireShield","flameStrike","fireSeeds","sunbeam","sunburst","prismaticSphere"];
+		case "Travel":
+			return ["longstrider","locateObject","fly","dimensionDoor","teleport","findThePath","greaterTeleport"];
+		case "Trickery":
+			return ["disguiseSelf","invisibility","nondetection","confusion","falseVision","mislead","screen","polymorphAnyObject","timeStop"];
+		case "War":
+			return ["magicWeapon","spiri","magicVestment","divinePower","flameStrike","bladeBarrier","powerWordBlind","powerWordStun","powerWordKill"];
+		case "Water":
+			return ["obscuringMist","fogCloud","waterBreathing","controlWater","iceStorm","coneOfCold","acidFog","horridWilting","elementalSwarm"];
+	}
+}
+
+function getDomainSpecial(domain){
+	switch (domain){
+		case "Air":
+			return "Turn or destroy earth creatures as a good cleric turns undead. Rebuke, command, or bolster air creatures as an evil cleric rebukes undead. Use these abilities a total number of times per day equal to 3 + your Charisma modifier. This granted power is a supernatural ability.";
+		case "Animal":
+			return "You can use speak with animals once per day as a spell-like ability. Add Knowledge (nature) to your list of cleric class skills.";
+		case "Chaos":
+			return "You cast chaos spells at +1 caster level.";
+		case "Death":
+			return "You may use a death touch once per day. Your death touch is a supernatural ability that produces a death effect. You must succeed on a melee touch attack against a living creature (using the rules for touch spells). When you touch, roll 1d6 per cleric level you possess. If the total at least equals the creature’s current hit points, it dies (no save).";
+		case "Destruction":
+			return "You gain the smite power, the supernatural ability to make a single melee attack with a +4 bonus on attack rolls and a bonus on damage rolls equal to your cleric level (if you hit). You must declare the smite before making the attack. This ability is usable once per day.";
+		case "Earth":
+			return "Turn or destroy air creatures as a good cleric turns undead. Rebuke, command, or bolster earth creatures as an evil cleric rebukes undead. Use these abilities a total number of times per day equal to 3 + your Charisma modifier. This granted power is a supernatural ability.";
+		case "Evil":
+			return "You cast evil spells at +1 caster level.";
+		case "Fire":
+			return "Turn or destroy water creatures as a good cleric turns undead. Rebuke, command, or bolster fire creatures as an evil cleric rebukes undead. Use these abilities a total number of times per day equal to 3 + your Charisma modifier. This granted power is a supernatural ability.";
+		case "Good":
+			return "You cast good spells at +1 caster level.";
+		case "Healing":
+			return "You cast healing spells at +1 caster level.";
+		case "Knowledge":
+			return "Add all Knowledge skills to your list of cleric class skills. You cast divination spells at +1 caster level.";
+		case "Law":
+			return "You cast law spells at +1 caster level.";
+		case "Luck":
+			return "You gain the power of good fortune, which is usable once per day. This extraordinary ability allows you to reroll one roll that you have just made before the DM declares whether the roll results in success or failure. You must take the result of the reroll, even if it’s worse than the original roll.";
+		case "Magic":
+			return "Use scrolls, wands, and other devices with spell completion or spell trigger activation as a wizard of one-half your cleric level (at least 1st level). For the purpose of using a scroll or other magic device, if you are also a wizard, actual wizard levels and these effective wizard levels stack.";
+		case "Plant":
+			return "Rebuke or command plant creatures as an evil cleric rebukes or commands undead. Use this ability a total number of times per day equal to 3 + your Charisma modifier. This granted power is a supernatural ability. Add Knowledge (nature) to your list of cleric class skills.";
+		case "Protection":
+			return "You can generate a protective ward as a supernatural ability. Grant someone you touch a resistance bonus equal to your cleric level on his or her next saving throw. Activating this power is a standard action. The protective ward is an abjuration effect with a duration of 1 hour that is usable once per day.";
+		case "Strength":
+			return "You can perform a feat of strength as a supernatural ability. You gain an enhancement bonus to Strength equal to your cleric level. Activating the power is a free action, the power lasts 1 round, and it is usable once per day.";
+		case "Sun":
+			return "Once per day, you can perform a greater turning against undead in place of a regular turning. The greater turning is like a normal turning except that the undead creatures that would be turned are destroyed instead.";
+		case "Travel":
+			return "For a total time per day of 1 round per cleric level you possess, you can act normally regardless of magical effects that impede movement as if you were affected by the spell freedom of movement. This effect occurs automatically as soon as it applies, lasts until it runs out or is no longer needed, and can operate multiple times per day (up to the total daily limit of rounds). This granted power is a supernatural ability. Add Survival to your list of cleric class skills.";
+		case "Trickery":
+			return "Add Bluff, Disguise, and Hide to your list of cleric class skills.";
+		case "War":
+			return "Free Martial Weapon Proficiency with deity’s favored weapon (if necessary) and Weapon Focus with the deity’s favored weapon. The favored weapons of the war deities are as follows; Corellon, longsword; Erythnul, morningstar; Gruumsh, spear (or longspear); Heironeous, longsword; Hextor, flail (light or heavy).";
+		case "Water":
+			return "Turn or destroy fire creatures as a good cleric turns undead. Rebuke, command, or bolster water creatures as an evil cleric rebukes undead. Use these abilities a total number of times per day equal to 3 + your Charisma modifier. This granted power is a supernatural ability.";
+	}
 }

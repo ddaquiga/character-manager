@@ -14,9 +14,8 @@
 <p>Cross-Class Skill Max Ranks: <span id="maxRanksCC"></span></p>
 <p>1 skill point buys either 1 class skill rank or 0.5 cross-class skill ranks.</p>
 <hr>
-<form action="feats" method="POST">
+<form id="form" action="charSheet" method="POST">
 	<input type="hidden" name="id" value=<?=$data['id']?>>
-	<input id="hiddenRide" type="hidden" name="rideRank">
 	<table id="skillEntries">
 		<tr>
 			<th>Class Skill</th>
